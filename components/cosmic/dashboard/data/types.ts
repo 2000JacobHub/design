@@ -94,7 +94,7 @@ export type CampaignFunnelData = {
 
 /* ---------------------------------------------------------- Insights */
 
-export type InsightTag = "销售洞察" | "运营洞察" | "会员洞察";
+export type InsightTag = "销售" | "运营" | "会员";
 
 export type InsightItem = {
   title: string;

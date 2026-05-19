@@ -86,9 +86,9 @@ export const campaignFunnel: CampaignFunnelData = {
 export const aiInsights: AIInsightsData = {
   title: "AI 异常洞察",
   items: [
-    { title: "餐饮品类客单价下降显著", tag: "销售洞察", time: "09:42", description: "较上周下降 12.4%，建议检查活动折扣与菜品结构。" },
-    { title: "周六 14–18 点停车饱和度偏高", tag: "运营洞察", time: "08:35", description: "峰值达 86%，建议加强车位引导与预约推广。" },
-    { title: "会员新增主要来自线上渠道", tag: "会员洞察", time: "07:55", description: "占比 67%，建议增加线下会员招募与引导。" },
+    { title: "餐饮品类客单价下降显著", tag: "销售", time: "09:42", description: "较上周下降 12.4%，建议检查活动折扣与菜品结构。" },
+    { title: "周六 14–18 点停车饱和度偏高", tag: "运营", time: "08:35", description: "峰值达 86%，建议加强车位引导与预约推广。" },
+    { title: "会员新增主要来自线上渠道", tag: "会员", time: "07:55", description: "占比 67%，建议增加线下会员招募与引导。" },
   ],
   footerAction: "查看全部洞察（8）",
 };

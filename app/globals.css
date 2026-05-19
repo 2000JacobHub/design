@@ -288,8 +288,12 @@ input[type="range"]::-moz-range-thumb {
    - `chart-pop` — scale-from-near-zero with slight overshoot, used
      for data point circles. Apply staggered `animationDelay` inline
      to make the dots cascade in along the timeline.
+   - `chart-bar-grow` — left-anchored scaleX sweep for horizontal
+     bars. `width` stays the layout-driven target; the transform
+     animates 0→1 so it's GPU-accelerated and independent of the
+     final width %. Stagger via inline `animationDelay`.
 
-   All three respect `prefers-reduced-motion: reduce` and snap straight
+   All respect `prefers-reduced-motion: reduce` and snap straight
    to the rest state when the user opts out.
    ============================================================ */
 @keyframes chart-draw-line {
@@ -305,6 +309,11 @@ input[type="range"]::-moz-range-thumb {
 @keyframes chart-pop-in {
   from { opacity: 0; transform: scale(0.3); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes chart-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 @utility chart-line-draw {
@@ -342,6 +351,17 @@ input[type="range"]::-moz-range-thumb {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+}
+
+@utility chart-bar-grow {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: chart-bar-grow 720ms var(--ease-out-expo) forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: scaleX(1);
   }
 }
 
