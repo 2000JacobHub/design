@@ -365,6 +365,22 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
+@keyframes funnel-stage-in {
+  from { opacity: 0; transform: scaleX(0); }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+
+@utility funnel-stage {
+  opacity: 0;
+  transform-origin: center center;
+  animation: funnel-stage-in 560ms var(--ease-out-expo) forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 /* ============================================================
    Dashboard main grid — three breakpoint layouts
    - mobile (<768px): single column, stack everything

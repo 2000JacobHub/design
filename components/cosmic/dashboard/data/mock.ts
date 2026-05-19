@@ -68,6 +68,7 @@ export const categorySales: CategorySalesData = {
     { rank: 6, category: "鞋靴箱包", sales: "487.5", salesNum: 487.5, change: "4.6%", trend: "up" },
     { rank: 7, category: "运动户外", sales: "412.8", salesNum: 412.8, change: "2.1%", trend: "down" },
     { rank: 8, category: "童装亲子", sales: "356.4", salesNum: 356.4, change: "3.8%", trend: "up" },
+    { rank: 9, category: "家居生活", sales: "298.7", salesNum: 298.7, change: "1.4%", trend: "down" },
   ],
 };
 

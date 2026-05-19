@@ -29,7 +29,7 @@ export function TodayFocus({ data }: TodayFocusProps) {
           <li key={item.rank} className="flex gap-3">
             <span
               className={[
-                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-sm font-medium",
+                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-sm font-medium font-mono",
                 RANK_BADGE[item.rank] ?? RANK_BADGE[3],
               ].join(" ")}
             >
@@ -43,12 +43,7 @@ export function TodayFocus({ data }: TodayFocusProps) {
                   <button
                     key={a}
                     type="button"
-                    className={[
-                      "h-5 px-1.5 rounded-full text-2xs transition-colors border",
-                      i === 1
-                        ? "bg-stardust-gold/14 border-stardust-gold/45 text-stardust-gold hover:bg-stardust-gold/22"
-                        : "bg-cosmic-black/52 border-soft-white/10 text-soft-white/72 hover:border-soft-white/24 hover:text-soft-white/92",
-                    ].join(" ")}
+                    className="h-5 px-1.5 rounded-full text-2xs transition-colors border bg-cosmic-black/52 border-soft-white/10 text-soft-white/72 hover:bg-stardust-gold/14 hover:border-stardust-gold/45 hover:text-stardust-gold"
                   >
                     {a}
                   </button>
