@@ -6,10 +6,12 @@ export type AIInsightsProps = {
 };
 
 const TAG_CLS: Record<InsightTag, string> = {
-    "销售": ""
   // "销售": "bg-stardust-gold/16 text-stardust-gold border border-stardust-gold/24",
   // "运营": "bg-accent-teal/16 text-accent-teal border border-accent-teal/24",
   // "会员": "bg-accent-violet/22 text-accent-violet border border-accent-violet/24",
+    "销售": "",
+    "运营": "",
+    "会员": "",
 };
 
 export function AIInsights({ data }: AIInsightsProps) {
