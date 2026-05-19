@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 
 type Trend = "up" | "down";
@@ -132,32 +131,42 @@ export default function Dashboard() {
       <DashboardBackdrop />
 
       <header className="relative z-2 flex items-center justify-between gap-4 mb-5">
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10" aria-hidden>
+        <div className="flex items-center gap-4">
+          <div className="relative w-12 h-12 shrink-0" aria-hidden>
             <span className="absolute inset-0 rounded-full border border-stardust-gold/45" />
-            <span className="absolute inset-[7px] rounded-full bg-stardust-gold/24 shadow-gold-soft" />
-            <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-gold-pulse" />
+            <span className="absolute inset-[6px] rounded-full bg-stardust-gold/18 shadow-gold-soft" />
+            <span className="absolute inset-[15px] rounded-full bg-stardust-gold shadow-gold-pulse" />
+            <span className="absolute -right-0.5 -top-0.5 w-1.5 h-1.5 rounded-full bg-accent-teal shadow-teal-dot" />
           </div>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-2xs tracking-[0.22em] text-soft-white/52">COSMIC GRAVITY · MALL OPS</span>
-            <h1 className="m-0 text-3xl font-light text-soft-white/92">购物中心运营态势大屏</h1>
+          <div className="flex flex-col gap-1">
+            <h1 className="m-0 text-2xl leading-none font-medium tracking-[0.06em]">
+              <span className="bg-linear-to-r from-stardust-gold via-stardust-amber to-accent-teal bg-clip-text text-transparent">
+                智慧商场运营大屏
+              </span>
+            </h1>
+            <span className="text-2xs text-soft-white/46 tracking-[0.4em] uppercase">
+              Cosmic · Live Mall Operations
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="cosmic-card inline-flex items-center gap-2 px-3 py-1.5 text-sm text-soft-white/82">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-teal shadow-teal-dot" />
-            实时数据 · 同步正常
+          <div className="inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-accent-teal/8 border border-accent-teal/24">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent-teal opacity-60 animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-teal shadow-teal-dot" />
+            </span>
+            <span className="text-xs text-accent-teal/92 tracking-wide">实时同步正常</span>
           </div>
-          <div className="flex flex-col items-end leading-tight text-soft-white/82">
-            <span className="text-2xl tabular-nums tracking-[0.04em]">{time}</span>
-            <span className="text-2xs text-soft-white/56 tabular-nums">{date} · 周{weekday}</span>
+          <div className="cosmic-card inline-flex items-center gap-3 px-4 py-2">
+            <svg viewBox="0 0 18 18" width="18" height="18" className="text-stardust-gold/72" aria-hidden>
+              <circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M9 4.5 V9 L12 10.8" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+            </svg>
+            <div className="flex flex-col leading-tight items-end">
+              <span className="text-xl tabular-nums tracking-[0.06em] text-soft-white font-light">{time}</span>
+              <span className="text-2xs text-soft-white/56 tabular-nums tracking-wider">{date} · 周{weekday}</span>
+            </div>
           </div>
-          <nav aria-label="主导航" className="flex items-center gap-1.5">
-            <DashNavLink href="/">系统</DashNavLink>
-            <DashNavLink href="/charts">图表</DashNavLink>
-            <DashNavLink href="/forms">表单</DashNavLink>
-            <DashNavLink href="/dashboard" active>大屏</DashNavLink>
-          </nav>
         </div>
       </header>
 
@@ -190,22 +199,6 @@ export default function Dashboard() {
         <article className={panelCls} style={{ gridArea: "plan" }}><AIPlanPanel /></article>
       </section>
     </main>
-  );
-}
-
-function DashNavLink({ href, children, active = false }: { href: string; children: ReactNode; active?: boolean }) {
-  return (
-    <Link
-      href={href}
-      className={[
-        "h-7 px-3 inline-flex items-center justify-center rounded-full text-sm no-underline border",
-        active
-          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-gold-recess"
-          : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",
-      ].join(" ")}
-    >
-      {children}
-    </Link>
   );
 }
 
