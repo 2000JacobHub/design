@@ -1,7 +1,5 @@
 "use client";
 
-import type { VisualKind } from "@/lib/cosmicTokens";
-
 type FeatureCardProps = {
   eyebrow: string;
   title: string;
@@ -78,59 +76,6 @@ function DistanceScene() {
       <span className="distance-orbit distance-orbit-one" />
       <span className="distance-orbit distance-orbit-two" />
       <span className="distance-orbit distance-orbit-three" />
-    </div>
-  );
-}
-
-export function VisualTile({ kind, title }: { kind: VisualKind; title: string }) {
-  return (
-    <figure className="visual-tile">
-      <div className={`visual-canvas visual-${kind}`}>
-        {kind === "black-hole" && <BlackHoleScene />}
-        {kind === "gravity-ring" && <GravityRing />}
-        {kind === "light-glow" && <LightGlow />}
-        {kind === "nebula-dust" && <NebulaDust />}
-        {kind === "glass-surface" && <GlassSurface />}
-      </div>
-      <figcaption>{title}</figcaption>
-    </figure>
-  );
-}
-
-function GravityRing() {
-  return (
-    <div className="gravity-ring-scene" aria-hidden="true">
-      <span className="ring-beam ring-beam-one" />
-      <span className="ring-beam ring-beam-two" />
-      <span className="ring-core" />
-    </div>
-  );
-}
-
-function LightGlow() {
-  return (
-    <div className="light-glow-scene" aria-hidden="true">
-      <span className="crescent" />
-      <span className="light-haze" />
-    </div>
-  );
-}
-
-function NebulaDust() {
-  return (
-    <div className="nebula-scene" aria-hidden="true">
-      <span className="nebula-cloud" />
-      <span className="nebula-spark nebula-spark-one" />
-      <span className="nebula-spark nebula-spark-two" />
-    </div>
-  );
-}
-
-function GlassSurface() {
-  return (
-    <div className="glass-scene" aria-hidden="true">
-      <span className="glass-sheen" />
-      <span className="glass-edge" />
     </div>
   );
 }

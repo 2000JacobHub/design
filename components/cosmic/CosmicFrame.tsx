@@ -11,13 +11,7 @@ function useBoardScale() {
   useEffect(() => {
     const update = () => {
       const inset = 28;
-      setScale(
-        Math.min(
-          (window.innerWidth - inset) / BOARD_SIZE,
-          (window.innerHeight - inset) / BOARD_SIZE,
-          1,
-        ),
-      );
+      setScale((window.innerWidth - inset) / BOARD_SIZE);
     };
 
     update();

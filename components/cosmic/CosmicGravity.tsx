@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { palette, typographyRows, visualTiles } from "@/lib/cosmicTokens";
+import { palette, typographyRows } from "@/lib/cosmicTokens";
 import { ButtonGroup, type CosmicAction, SliderDisplay, TagRow, ToggleGroup } from "./Controls";
 import { CosmicFrame } from "./CosmicFrame";
-import { DistanceCard, FeatureCard, IconStrip, VisualTile } from "./CosmicCards";
+import { DistanceCard, FeatureCard, IconStrip } from "./CosmicCards";
 import { EnergyGauge, NoisePanel, SignalChart } from "./DataDisplays";
 
 function Wordmark() {
@@ -157,15 +157,6 @@ export default function CosmicGravity() {
 
             <div className="section-kicker icon-title">Icon</div>
             <IconStrip />
-          </section>
-
-          <section className="visual-elements">
-            <div className="section-kicker">Visual Elements</div>
-            <div className="visual-grid">
-              {visualTiles.map((tile) => (
-                <VisualTile key={tile.kind} kind={tile.kind} title={tile.title} />
-              ))}
-            </div>
           </section>
     </CosmicFrame>
   );

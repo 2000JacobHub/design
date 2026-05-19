@@ -26,13 +26,32 @@
 
 html,
 body {
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  background: var(--cosmic-black);
+  scrollbar-color: rgba(245, 246, 248, 0.18) transparent;
+  scrollbar-width: thin;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: rgba(245, 246, 248, 0.18);
+  border-radius: 999px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 246, 248, 0.3);
 }
 
 body {
   margin: 0;
-  background: var(--cosmic-black);
   color: var(--text-primary);
   font-family:
     "Space Grotesk",
@@ -54,9 +73,11 @@ a {
 
 .cosmic-root {
   min-height: 100vh;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
   padding: 14px;
   background:
     linear-gradient(90deg, rgba(255, 255, 255, 0.028), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.018)),
@@ -106,8 +127,7 @@ a {
 }
 
 .left-panel,
-.right-panel,
-.visual-elements {
+.right-panel {
   position: absolute;
   z-index: 1;
 }
@@ -621,8 +641,7 @@ a {
 }
 
 .feature-card::before,
-.data-card::before,
-.visual-canvas::before {
+.data-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1159,160 +1178,6 @@ a {
 .icon-fill-dot {
   fill: rgba(245, 246, 248, 0.82);
   stroke: none;
-}
-
-.visual-elements {
-  left: 50px;
-  right: 50px;
-  bottom: 18px;
-}
-
-.visual-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 38px;
-  margin-top: 15px;
-}
-
-.visual-tile {
-  margin: 0;
-}
-
-.visual-canvas {
-  position: relative;
-  height: 96px;
-  overflow: hidden;
-  border: 1px solid rgba(245, 246, 248, 0.1);
-  border-radius: 8px;
-  background: rgba(7, 7, 10, 0.72);
-}
-
-.visual-tile figcaption {
-  margin-top: 12px;
-  color: rgba(245, 246, 248, 0.6);
-  font-size: 12px;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.visual-canvas .blackhole-scene {
-  right: -24px;
-  bottom: -31px;
-  transform: scale(0.83);
-}
-
-.gravity-ring-scene,
-.light-glow-scene,
-.nebula-scene,
-.glass-scene {
-  position: absolute;
-  inset: 0;
-}
-
-.ring-beam {
-  position: absolute;
-  left: 35px;
-  top: 40px;
-  width: 147px;
-  height: 18px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, transparent, rgba(245, 246, 248, 0.85), rgba(110, 129, 198, 0.66), transparent);
-  filter: blur(1px);
-  transform: rotate(-51deg);
-}
-
-.ring-beam-two {
-  left: 54px;
-  top: 52px;
-  width: 134px;
-  opacity: 0.46;
-  transform: rotate(12deg);
-}
-
-.ring-core {
-  position: absolute;
-  left: 76px;
-  top: 54px;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--stardust-gold);
-  box-shadow: 0 0 18px rgba(245, 210, 138, 0.78);
-}
-
-.crescent {
-  position: absolute;
-  right: 46px;
-  top: 12px;
-  width: 76px;
-  height: 76px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 32% 47%, transparent 0 48%, rgba(245, 210, 138, 0.84) 50% 54%, transparent 57%);
-  filter: drop-shadow(0 0 15px rgba(245, 210, 138, 0.35));
-}
-
-.light-haze {
-  position: absolute;
-  left: 25px;
-  bottom: 20px;
-  width: 150px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(90deg, transparent, rgba(245, 210, 138, 0.16), transparent);
-  filter: blur(7px);
-}
-
-.nebula-cloud {
-  position: absolute;
-  left: 54px;
-  top: 17px;
-  width: 115px;
-  height: 64px;
-  border-radius: 45% 55% 50% 45%;
-  background:
-    radial-gradient(circle at 35% 50%, rgba(111, 72, 164, 0.68), transparent 42%),
-    radial-gradient(circle at 70% 35%, rgba(39, 117, 127, 0.46), transparent 40%),
-    rgba(26, 28, 42, 0.18);
-  filter: blur(4px);
-}
-
-.nebula-spark {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(245, 246, 248, 0.78);
-}
-
-.nebula-spark-one {
-  left: 73px;
-  top: 42px;
-}
-
-.nebula-spark-two {
-  left: 145px;
-  top: 27px;
-}
-
-.glass-sheen {
-  position: absolute;
-  left: -18px;
-  top: -28px;
-  width: 172px;
-  height: 120px;
-  border-radius: 40%;
-  background:
-    linear-gradient(135deg, rgba(245, 246, 248, 0.22), transparent 38%),
-    linear-gradient(90deg, rgba(33, 45, 67, 0.38), transparent);
-  filter: blur(3px);
-}
-
-.glass-edge {
-  position: absolute;
-  inset: auto 16px 15px 18px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(245, 246, 248, 0.24), transparent);
 }
 
 .cosmic-nav {
@@ -2173,13 +2038,6 @@ a {
 /* ============================================================
    DASHBOARD ("/dashboard") — full-screen ops command center
    ============================================================ */
-
-html:has(.dashboard-root),
-body:has(.dashboard-root) {
-  height: auto;
-  min-height: 100%;
-  overflow: auto;
-}
 
 .dashboard-root {
   position: relative;

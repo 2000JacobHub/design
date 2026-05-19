@@ -26,13 +26,3 @@ export const typographyRows = [
 ];
 
 export const tags = ["Black Hole", "Jupiter", "Orbit"];
-
-export const visualTiles = [
-  { title: "Black Hole", kind: "black-hole" },
-  { title: "Gravity Ring", kind: "gravity-ring" },
-  { title: "Light Glow", kind: "light-glow" },
-  { title: "Nebula Dust", kind: "nebula-dust" },
-  { title: "Glass Surface", kind: "glass-surface" },
-] as const;
-
-export type VisualKind = (typeof visualTiles)[number]["kind"];
