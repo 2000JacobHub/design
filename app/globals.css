@@ -88,6 +88,13 @@
   --shadow-teal-dot: 0 0 8px rgb(127 185 190 / 0.7);
   --shadow-panel: 0 12px 36px rgb(0 0 0 / 0.34);
   --shadow-card: 0 4px 18px rgb(0 0 0 / 0.28);
+
+  /* Easing curves — project rule (.cursor/skills/ui-design-rules) bans
+     `linear` and `ease-in-out` because their symmetric profile feels
+     mechanical. Default to a decelerating "slow stop" curve for entrance
+     animations and a slight overshoot for pop-ins. */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ============================================================
@@ -268,6 +275,74 @@ input[type="range"]::-moz-range-thumb {
     radial-gradient(1200px 720px at 18% 12%, rgb(245 210 138 / 0.05), transparent 60%),
     radial-gradient(900px 700px at 84% 88%, rgb(127 185 190 / 0.06), transparent 62%),
     linear-gradient(180deg, #03030a 0%, #06060c 50%, #04040a 100%);
+}
+
+/* ============================================================
+   Chart entrance animations
+   - `chart-line-draw` — left-to-right "draw on" for solid SVG lines.
+     Uses `pathLength="1"` so dasharray/offset are normalised and the
+     animation is independent of the actual path length.
+   - `chart-fade-up` — opacity + tiny translateY rise. Used for area
+     fills and for dashed lines (where stroke-dashoffset would clash
+     with the dash pattern).
+   - `chart-pop` — scale-from-near-zero with slight overshoot, used
+     for data point circles. Apply staggered `animationDelay` inline
+     to make the dots cascade in along the timeline.
+
+   All three respect `prefers-reduced-motion: reduce` and snap straight
+   to the rest state when the user opts out.
+   ============================================================ */
+@keyframes chart-draw-line {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes chart-fade-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chart-pop-in {
+  from { opacity: 0; transform: scale(0.3); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@utility chart-line-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: chart-draw-line 900ms var(--ease-out-expo) forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+@utility chart-fade-up {
+  opacity: 0;
+  animation: chart-fade-up 700ms var(--ease-out-expo) forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@utility chart-pop {
+  opacity: 0;
+  /* SVG circles default to using the SVG root's coordinate origin for
+     transform-origin, which would shoot scale-down dots off-screen.
+     `transform-box: fill-box` rebases the origin to the circle's own
+     bounding box so `transform-origin: center` does what you'd expect. */
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: chart-pop-in 360ms var(--ease-out-back) forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ============================================================

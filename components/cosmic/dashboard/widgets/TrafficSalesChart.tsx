@@ -186,9 +186,38 @@ export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
                 </text>
               ))}
 
-              <path d={trafficArea} fill="url(#trafficFill)" />
-              <path d={salesPath} fill="none" stroke="var(--color-accent-teal)" strokeWidth="1.6" strokeDasharray="5 4" />
-              <path d={trafficPath} fill="none" stroke="url(#trafficStroke)" strokeWidth="2" />
+              {/* Entrance choreography (matches `globals.css` keyframes):
+                    0ms     traffic stroke begins drawing left→right
+                    250ms   sales (dashed) line fades in
+                    400ms   traffic area fill rises in
+                    700ms+  data points pop along the timeline,
+                            staggered by index so they cascade
+                  Solid line uses stroke-dashoffset draw-on; dashed line
+                  uses fade-up because dashoffset would clobber its
+                  `5 4` dash pattern. */}
+              <path
+                d={trafficArea}
+                fill="url(#trafficFill)"
+                className="chart-fade-up"
+                style={{ animationDelay: "400ms" }}
+              />
+              <path
+                d={salesPath}
+                fill="none"
+                stroke="var(--color-accent-teal)"
+                strokeWidth="1.6"
+                strokeDasharray="5 4"
+                className="chart-fade-up"
+                style={{ animationDelay: "250ms" }}
+              />
+              <path
+                d={trafficPath}
+                pathLength={1}
+                fill="none"
+                stroke="url(#trafficStroke)"
+                strokeWidth="2"
+                className="chart-line-draw"
+              />
 
               {data.traffic.map((_, i) => (
                 <circle
@@ -198,6 +227,8 @@ export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
                   r="2.4"
                   fill="var(--color-stardust-gold)"
                   opacity="0.85"
+                  className="chart-pop"
+                  style={{ animationDelay: `${700 + i * 60}ms` }}
                 />
               ))}
               {data.sales.map((_, i) => (
@@ -208,6 +239,8 @@ export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
                   r="2.2"
                   fill="var(--color-accent-teal)"
                   opacity="0.85"
+                  className="chart-pop"
+                  style={{ animationDelay: `${760 + i * 60}ms` }}
                 />
               ))}
 

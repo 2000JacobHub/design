@@ -45,17 +45,36 @@ export function Sparkline({ data, trend, width = 72, height = 22 }: SparklinePro
           <stop offset="100%" stopColor={fillStop} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={fillD} fill={`url(#${fillId})`} />
+      {/* Area lags slightly so the eye reads the line first; pop-in dot
+          lands after the stroke sweep finishes. Durations / delays are
+          kept short here because sparklines are tiny — drawn-out timing
+          on a 22px-tall chart looks sluggish. */}
+      <path
+        d={fillD}
+        fill={`url(#${fillId})`}
+        className="chart-fade-up"
+        style={{ animationDuration: "520ms", animationDelay: "200ms" }}
+      />
       <path
         d={d}
+        pathLength={1}
         fill="none"
         stroke={stroke}
         strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.92"
+        className="chart-line-draw"
+        style={{ animationDuration: "640ms" }}
       />
-      <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="1.8" fill={stroke} />
+      <circle
+        cx={pts[pts.length - 1][0]}
+        cy={pts[pts.length - 1][1]}
+        r="1.8"
+        fill={stroke}
+        className="chart-pop"
+        style={{ animationDelay: "560ms" }}
+      />
     </svg>
   );
 }
