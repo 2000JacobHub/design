@@ -25,12 +25,13 @@ export const kpiCards: KpiCardData[] = [
 ];
 
 export const todayFocus: TodayFocusData = {
-  title: "今日该关注的 3 件事",
+  title: "今日该关注",
   tag: "由 AI 生成",
   items: [
     { rank: 1, title: "周末客流增长，但转化率下降 0.6pp", description: "主要受餐饮与服饰品类客单价下降影响，建议优化促销组合与动线引导。", actions: ["看数据依据", "生成方案", "创建任务"] },
     { rank: 2, title: "停车饱和度升至 78%，周末存在拥堵风险", description: "预计周末 14:00–18:00 车位紧张，建议提前发布停车引导与预约策略。", actions: ["看数据依据", "生成方案", "创建任务"] },
     { rank: 3, title: "未完成任务 18 项，其中 5 项已逾期", description: "涉及活动筹备、供应商对账与租户巡场等，建议优先处理逾期事项。", actions: ["看数据依据", "生成方案", "创建任务"] },
+    { rank: 4, title: "未完成任务 18 项，其中 5 项已逾期", description: "涉及活动筹备、供应商对账与租户巡场等，建议优先处理逾期事项。", actions: ["看数据依据", "生成方案", "创建任务"] },
   ],
   footerAction: "查看全部建议（8）",
 };
@@ -64,6 +65,9 @@ export const categorySales: CategorySalesData = {
     { rank: 3, category: "美妆个护", sales: "782.6", salesNum: 782.6, change: "8.3%", trend: "up" },
     { rank: 4, category: "黄金珠宝", sales: "652.1", salesNum: 652.1, change: "6.7%", trend: "up" },
     { rank: 5, category: "数码家电", sales: "541.3", salesNum: 541.3, change: "5.2%", trend: "up" },
+    { rank: 6, category: "鞋靴箱包", sales: "487.5", salesNum: 487.5, change: "4.6%", trend: "up" },
+    { rank: 7, category: "运动户外", sales: "412.8", salesNum: 412.8, change: "2.1%", trend: "down" },
+    { rank: 8, category: "童装亲子", sales: "356.4", salesNum: 356.4, change: "3.8%", trend: "up" },
   ],
 };
 

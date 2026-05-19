@@ -9,9 +9,14 @@ export function AIPlans({ data }: AIPlansProps) {
   return (
     <>
       <PanelHeader title={data.title} meta={data.meta} />
+      {/* `auto-fit` lets the grid pack as many columns of ≥180px as can
+          fit in the panel — that way the layout scales from one column
+          on phones up to as many columns as `data.items.length` on
+          desktop, without the parent having to know how many items
+          this widget is rendering. */}
       <ul
         className="m-0 p-0 list-none grid gap-3"
-        style={{ gridTemplateColumns: `repeat(${data.items.length}, minmax(0, 1fr))` }}
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}
       >
         {data.items.map((p) => (
           <li key={p.title} className="cosmic-card p-4 flex flex-col gap-2 min-h-[148px]">

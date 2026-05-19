@@ -18,7 +18,7 @@ import {
   TrafficSalesChart,
 } from "@/components/cosmic/dashboard/widgets";
 
-const PANEL_CLS = "cosmic-panel flex flex-col gap-3 p-5 min-h-0";
+const PANEL_CLS = "cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0";
 
 /**
  * The main grid is described declaratively. Each `LayoutCell`:
@@ -53,37 +53,33 @@ const mainLayout: LayoutCell[] = [
 
 export default function Dashboard() {
   return (
-    <main className="relative min-h-screen w-full overflow-x-hidden p-5 dashboard-bg">
+    <main className="relative min-h-screen w-full overflow-x-hidden p-3 sm:p-4 lg:p-5 dashboard-bg">
       <DashboardBackdrop />
 
-      <header className="relative z-2 flex items-center justify-between gap-4 mb-5">
+      <header className="relative z-2 flex flex-wrap items-center justify-between gap-3 mb-4 lg:mb-5">
         <div className="flex items-center gap-4">
-          <div className="w-28 h-8 cosmic-card inline-flex items-center cursor-pointer" />
+          <div className="w-24 h-8 cosmic-card inline-flex items-center cursor-pointer" />
         </div>
-        <div className="flex items-center gap-3">
-          <SyncStatus />
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* SyncStatus pill takes ~10rem; hide it below sm to keep the
+              header readable on phones, where the live clock alone is enough. */}
+          <div className="hidden sm:block">
+            <SyncStatus />
+          </div>
           <HeaderClock />
         </div>
       </header>
 
-      <section aria-label="核心指标" className="relative z-2 grid grid-cols-6 gap-3 mb-5">
+      <section
+        aria-label="核心指标"
+        className="relative z-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-4 lg:mb-5"
+      >
         {mock.kpiCards.map((kpi) => (
           <KpiCard key={kpi.title} data={kpi} />
         ))}
       </section>
 
-      <section
-        className="relative z-2 grid gap-4"
-        style={{
-          gridTemplateColumns: "1.2fr 1.5fr 1.15fr",
-          gridTemplateRows: "minmax(360px,auto) minmax(280px,auto) auto",
-          gridTemplateAreas: `
-            "focus traffic insights"
-            "agent sales funnel"
-            "plan plan plan"
-          `,
-        }}
-      >
+      <section className="relative z-2 dashboard-main-grid">
         {mainLayout.map((cell) => (
           <article
             key={cell.area}

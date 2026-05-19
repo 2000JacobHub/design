@@ -9,7 +9,7 @@ export function AgentSummary({ data }: AgentSummaryProps) {
   return (
     <>
       <PanelHeader title={data.title} action={<ActionLink />} />
-      <ul className="m-0 p-0 list-none grid grid-cols-3 gap-2 flex-1">
+      <ul className="m-0 p-0 list-none grid grid-cols-2 sm:grid-cols-3 gap-2 flex-1">
         {data.metrics.map((m) => (
           <li key={m.title} className="cosmic-card flex flex-col gap-1 p-3 min-w-0">
             <span className="text-xs text-soft-white/56 truncate">{m.title}</span>

@@ -269,3 +269,46 @@ input[type="range"]::-moz-range-thumb {
     radial-gradient(900px 700px at 84% 88%, rgb(127 185 190 / 0.06), transparent 62%),
     linear-gradient(180deg, #03030a 0%, #06060c 50%, #04040a 100%);
 }
+
+/* ============================================================
+   Dashboard main grid — three breakpoint layouts
+   - mobile (<768px): single column, stack everything
+   - md (768–1023px): two columns
+   - lg (≥1024px):    three columns (the original desktop layout)
+
+   Defined as `@utility` (not a plain class) so Tailwind v4 keeps it
+   in the build output — bare class definitions outside of Tailwind
+   directives get tree-shaken. Per-breakpoint `grid-template-areas`
+   is far more legible here than as Tailwind arbitrary values.
+   ============================================================ */
+@utility dashboard-main-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "focus"
+    "traffic"
+    "insights"
+    "agent"
+    "sales"
+    "funnel"
+    "plan";
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "focus traffic"
+      "insights agent"
+      "sales funnel"
+      "plan plan";
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1.2fr 1.5fr 1.15fr;
+    grid-template-rows: minmax(360px, auto) minmax(280px, auto) auto;
+    grid-template-areas:
+      "focus traffic insights"
+      "agent sales funnel"
+      "plan plan plan";
+  }
+}
