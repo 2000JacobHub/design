@@ -1,3 +1,4 @@
+import { arrowRight, Icon } from "@/lib/icons";
 import type { AIPlansData } from "@/components/cosmic/dashboard/data/types";
 import { PanelHeader, PlanIconGlyph } from "@/components/cosmic/dashboard/primitives";
 
@@ -32,16 +33,7 @@ export function AIPlans({ data }: AIPlansProps) {
               className="self-start inline-flex items-center gap-1 text-xs text-stardust-gold hover:text-stardust-amber transition-colors"
             >
               {p.action}
-              <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden>
-                <path
-                  d="M2 5 H7.5 M5 2.5 L8 5 L5 7.5"
-                  stroke="currentColor"
-                  strokeWidth="1.3"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <Icon icon={arrowRight} width={12} height={12} aria-hidden />
             </button>
           </li>
         ))}

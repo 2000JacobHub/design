@@ -1,3 +1,4 @@
+import { Icon, trendingDown, trendingUp } from "@/lib/icons";
 import type { Trend } from "@/components/cosmic/dashboard/data/types";
 
 export type TrendChipProps = {
@@ -16,13 +17,7 @@ export function TrendChip({ trend, change }: TrendChipProps) {
           : "text-danger bg-danger/12 border border-danger/24",
       ].join(" ")}
     >
-      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
-        {up ? (
-          <path d="M5 1.5 L9 6 L6.5 6 L6.5 9 L3.5 9 L3.5 6 L1 6 Z" fill="currentColor" />
-        ) : (
-          <path d="M5 8.5 L1 4 L3.5 4 L3.5 1 L6.5 1 L6.5 4 L9 4 Z" fill="currentColor" />
-        )}
-      </svg>
+      <Icon icon={up ? trendingUp : trendingDown} width={12} height={12} aria-hidden />
       {change}
     </span>
   );
