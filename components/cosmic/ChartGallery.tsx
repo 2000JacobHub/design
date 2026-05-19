@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import { CosmicFrame } from "./CosmicFrame";
 
 type ChartMode = "signal" | "energy" | "orbit";
 
@@ -42,10 +41,7 @@ function buildPath(values: number[], width: number, height: number, padding: num
 
   const line = points
     .map((point, index) => {
-      if (index === 0) {
-        return `M${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
-      }
-
+      if (index === 0) return `M${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
       const previous = points[index - 1];
       const controlX = (previous.x + point.x) / 2;
       return `C${controlX.toFixed(1)} ${previous.y.toFixed(1)} ${controlX.toFixed(1)} ${point.y.toFixed(1)} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
@@ -59,6 +55,8 @@ function buildPath(values: number[], width: number, height: number, padding: num
   return { area, line, points };
 }
 
+const kicker = "text-[11px] tracking-[0.16em] text-soft-white/46 uppercase";
+
 export default function ChartGallery() {
   const [mode, setMode] = useState<ChartMode>("signal");
   const [intensity, setIntensity] = useState(72);
@@ -66,100 +64,137 @@ export default function ChartGallery() {
   const [selectedCell, setSelectedCell] = useState("R2-C4");
   const series = useMemo(() => buildSeries(mode, intensity), [intensity, mode]);
   const peak = Math.max(...series);
-  const average = Math.round(series.reduce((total, value) => total + value, 0) / series.length);
+  const average = Math.round(series.reduce((t, v) => t + v, 0) / series.length);
 
   return (
-    <CosmicFrame activePage="charts" ariaLabel="Cosmic chart components">
-      <section className="gallery-page chart-page">
-        <header className="gallery-header">
-          <div>
-            <div className="system-pill">Data Components</div>
-            <h1 className="gallery-title">
-              <span>Cosmic</span>
-              <span>Analytics</span>
-            </h1>
-          </div>
+    <section aria-label="Cosmic chart components" className="flex flex-col gap-6 pt-4">
+      <header className="flex flex-wrap items-start justify-between gap-6">
+        <div className="flex flex-col gap-3">
+          <span className="cosmic-pill self-start">Data Components</span>
+          <h1 className="m-0 leading-none flex flex-col gap-1 text-soft-white/92 font-light">
+            <span className="text-[44px]">Cosmic</span>
+            <span className="text-[44px]">Analytics</span>
+          </h1>
+        </div>
 
-          <div className="gallery-control-deck">
-            <div className="mode-tabs" role="tablist" aria-label="Chart dataset">
-              {(Object.keys(modeLabels) as ChartMode[]).map((item) => (
+        <div className="flex flex-col items-stretch md:items-end gap-3 min-w-[280px]">
+          <div
+            role="tablist"
+            aria-label="Chart dataset"
+            className="inline-flex items-center gap-1 p-1 rounded-full bg-cosmic-black/64 border border-soft-white/10 self-start md:self-end"
+          >
+            {(Object.keys(modeLabels) as ChartMode[]).map((item) => {
+              const active = mode === item;
+              return (
                 <button
-                  aria-selected={mode === item}
-                  className={`mode-tab ${mode === item ? "mode-tab-active" : ""}`}
                   key={item}
+                  aria-selected={active}
                   onClick={() => setMode(item)}
                   role="tab"
                   type="button"
+                  className={[
+                    "h-8 px-5 rounded-full text-[12px] uppercase tracking-[0.14em] transition-colors",
+                    active
+                      ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
+                      : "text-soft-white/64 hover:text-soft-white/92",
+                  ].join(" ")}
                 >
                   {modeLabels[item]}
                 </button>
-              ))}
-            </div>
-            <label
-              className="gallery-range"
-              style={{ "--value": `${intensity}%` } as CSSProperties}
-            >
-              <span>Gravity Load</span>
+              );
+            })}
+          </div>
+          <label
+            className="flex items-center gap-3 min-w-[280px]"
+            style={{ "--value": `${intensity}%` } as CSSProperties}
+          >
+            <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56">Gravity Load</span>
+            <span className="relative flex-1 h-3 flex items-center">
+              <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
+              <span
+                className="absolute left-0 h-[3px] rounded-full bg-[linear-gradient(90deg,#f5f6f8,#f5d28a)]"
+                style={{ width: "var(--value)" }}
+              />
               <input
                 aria-label="Gravity load"
+                className="relative w-full h-3 opacity-0 cursor-pointer"
                 max="100"
                 min="0"
-                onChange={(event) => setIntensity(Number(event.currentTarget.value))}
+                onChange={(e) => setIntensity(Number(e.currentTarget.value))}
                 type="range"
                 value={intensity}
               />
-              <b>{intensity}%</b>
-            </label>
-          </div>
-        </header>
-
-        <div className="chart-metric-row">
-          <MetricCard label="Peak Pulse" value={`${peak}%`} />
-          <MetricCard label="Average" value={`${average}%`} />
-          <MetricCard label="Orbit Index" value={`${Math.round((peak + average) / 2)}.4`} />
+              <span
+                aria-hidden
+                className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.5)] pointer-events-none"
+                style={{ left: "var(--value)" }}
+              />
+            </span>
+            <b className="text-[12px] tabular-nums text-soft-white/82 min-w-[40px] text-right">{intensity}%</b>
+          </label>
         </div>
+      </header>
 
-        <div className="chart-grid-gallery">
-          <AreaChart mode={mode} series={series} />
-          <BarChart activeBar={activeBar} onActiveBarChange={setActiveBar} series={series} />
-          <DonutChart intensity={intensity} mode={mode} />
-          <RadarChart intensity={intensity} series={series} />
-          <HeatmapChart
-            mode={mode}
-            onSelectedCellChange={setSelectedCell}
-            selectedCell={selectedCell}
-          />
-          <FunnelChart intensity={intensity} />
-          <TimelineChart mode={mode} />
-          <ScatterChart series={series} />
-        </div>
-      </section>
-    </CosmicFrame>
+      <div className="grid grid-cols-3 gap-3">
+        <MetricCard label="Peak Pulse" value={`${peak}%`} />
+        <MetricCard label="Average" value={`${average}%`} />
+        <MetricCard label="Orbit Index" value={`${Math.round((peak + average) / 2)}.4`} />
+      </div>
+
+      <div
+        className="grid gap-4"
+        style={{
+          gridTemplateColumns: "1.6fr 1fr 1fr",
+          gridAutoRows: "280px",
+          gridTemplateAreas: `
+            "area area bars"
+            "donut radar heat"
+            "funnel timeline scatter"
+          `,
+        }}
+      >
+        <AreaChart mode={mode} series={series} />
+        <BarChart activeBar={activeBar} onActiveBarChange={setActiveBar} series={series} />
+        <DonutChart intensity={intensity} mode={mode} />
+        <RadarChart intensity={intensity} series={series} />
+        <HeatmapChart
+          mode={mode}
+          onSelectedCellChange={setSelectedCell}
+          selectedCell={selectedCell}
+        />
+        <FunnelChart intensity={intensity} />
+        <TimelineChart mode={mode} />
+        <ScatterChart series={series} />
+      </div>
+    </section>
   );
 }
 
 function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <article className="mini-metric-card">
-      <span>{label}</span>
-      <strong>{value}</strong>
+    <article className="cosmic-card flex items-center justify-between gap-2 px-4 py-3">
+      <span className={kicker}>{label}</span>
+      <strong className="text-[22px] font-light text-soft-white/92 tabular-nums">{value}</strong>
     </article>
   );
 }
 
 function ChartPanel({
+  area,
   children,
-  className = "",
   title,
 }: {
+  area: string;
   children: ReactNode;
-  className?: string;
   title: string;
 }) {
   return (
-    <article className={`gallery-card chart-panel ${className}`}>
-      <div className="section-kicker">{title}</div>
-      {children}
+    <article
+      className="cosmic-panel relative flex flex-col gap-3 p-4 min-h-0 overflow-hidden"
+      style={{ gridArea: area }}
+    >
+      <div className={kicker}>{title}</div>
+      <div className="flex-1 min-h-0 relative">{children}</div>
     </article>
   );
 }
@@ -171,8 +206,13 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
   const path = buildPath(series, width, height, padding);
 
   return (
-    <ChartPanel className="area-panel" title="Orbital Trend">
-      <svg className="area-chart-svg" viewBox={`0 0 ${width} ${height}`} aria-label={`${modeLabels[mode]} trend chart`}>
+    <ChartPanel area="area" title="Orbital Trend">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full h-full"
+        preserveAspectRatio="none"
+        aria-label={`${modeLabels[mode]} trend chart`}
+      >
         <defs>
           <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0" stopColor="#F5D28A" stopOpacity=".34" />
@@ -187,21 +227,28 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
         </defs>
         {[0, 1, 2, 3].map((line) => (
           <line
-            className="chart-grid-line"
             key={line}
             x1={padding}
             x2={width - padding}
             y1={padding + line * 48}
             y2={padding + line * 48}
+            stroke="rgb(245 246 248 / 0.06)"
+            strokeDasharray="3 4"
           />
         ))}
-        <path className="area-fill" d={path.area} />
-        <path className="area-line" d={path.line} />
+        <path d={path.area} fill="url(#areaFill)" />
+        <path d={path.line} fill="none" stroke="url(#areaStroke)" strokeWidth="2" />
         {path.points.map((point, index) => (
-          <circle className="area-dot" cx={point.x} cy={point.y} key={labels[index]} r={index === 8 ? 4.5 : 2.8} />
+          <circle
+            key={labels[index]}
+            cx={point.x}
+            cy={point.y}
+            r={index === 8 ? 4.5 : 2.8}
+            fill={index === 8 ? "#F5D28A" : "rgb(245 246 248 / 0.82)"}
+          />
         ))}
       </svg>
-      <div className="area-chart-labels">
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[10px] uppercase tracking-[0.14em] text-soft-white/46">
         <span>{labels[0]}</span>
         <span>{modeLabels[mode]} Flux</span>
         <span>{labels[labels.length - 1]}</span>
@@ -220,25 +267,39 @@ function BarChart({
   series: number[];
 }) {
   return (
-    <ChartPanel className="bar-panel" title="Solar Bars">
-      <div className="bar-chart" role="list" aria-label="Monthly bar chart">
-        {series.slice(0, 10).map((value, index) => (
-          <button
-            aria-label={`${labels[index]} ${value}%`}
-            className={`bar-column ${activeBar === index ? "bar-column-active" : ""}`}
-            key={labels[index]}
-            onClick={() => onActiveBarChange(index)}
-            role="listitem"
-            style={{ "--height": `${value}%` } as CSSProperties}
-            type="button"
-          >
-            <span />
-          </button>
-        ))}
+    <ChartPanel area="bars" title="Solar Bars">
+      <div
+        className="flex items-end justify-between gap-2 h-full pb-7"
+        role="list"
+        aria-label="Monthly bar chart"
+      >
+        {series.slice(0, 10).map((value, index) => {
+          const active = activeBar === index;
+          return (
+            <button
+              key={labels[index]}
+              aria-label={`${labels[index]} ${value}%`}
+              onClick={() => onActiveBarChange(index)}
+              role="listitem"
+              type="button"
+              className="relative flex-1 h-full flex items-end justify-center group"
+            >
+              <span
+                className={[
+                  "block w-full rounded-t-[6px] transition-all",
+                  active
+                    ? "bg-[linear-gradient(180deg,#f8e0aa,#f5b26a)] shadow-[0_0_18px_rgb(245_178_106/0.45)]"
+                    : "bg-[linear-gradient(180deg,rgb(245_210_138/0.62),rgb(108_94_157/0.42))] group-hover:bg-[linear-gradient(180deg,rgb(245_210_138/0.82),rgb(108_94_157/0.62))]",
+                ].join(" ")}
+                style={{ height: `${value}%` }}
+              />
+            </button>
+          );
+        })}
       </div>
-      <div className="bar-caption">
-        <span>{labels[activeBar]}</span>
-        <strong>{series[activeBar]}%</strong>
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[11px] text-soft-white/64">
+        <span className="uppercase tracking-[0.12em]">{labels[activeBar]}</span>
+        <strong className="text-soft-white/92 tabular-nums">{series[activeBar]}%</strong>
       </div>
     </ChartPanel>
   );
@@ -250,42 +311,47 @@ function DonutChart({ intensity, mode }: { intensity: number; mode: ChartMode })
     { label: "Dust", value: clamp(30 + (mode === "orbit" ? 18 : 7)), color: "#7FB9BE" },
     { label: "Void", value: clamp(24 + (mode === "energy" ? 16 : 6)), color: "#8C78BC" },
   ];
-  const total = segments.reduce((sum, segment) => sum + segment.value, 0);
+  const total = segments.reduce((s, x) => s + x.value, 0);
   let offset = 25;
 
   return (
-    <ChartPanel className="donut-panel" title="Mass Split">
-      <div className="donut-wrap">
-        <svg viewBox="0 0 150 150" aria-label="Mass split donut chart">
-          <circle className="donut-track" cx="75" cy="75" r="52" />
-          {segments.map((segment) => {
-            const dash = (segment.value / total) * 327;
-            const currentOffset = offset;
-            offset -= dash;
-
-            return (
-              <circle
-                className="donut-segment"
-                cx="75"
-                cy="75"
-                key={segment.label}
-                r="52"
-                stroke={segment.color}
-                strokeDasharray={`${dash} ${327 - dash}`}
-                strokeDashoffset={currentOffset}
-              />
-            );
-          })}
-        </svg>
-        <strong>{Math.round(total / 3)}%</strong>
-      </div>
-      <div className="donut-legend">
-        {segments.map((segment) => (
-          <span key={segment.label}>
-            <i style={{ background: segment.color }} />
-            {segment.label}
-          </span>
-        ))}
+    <ChartPanel area="donut" title="Mass Split">
+      <div className="relative h-full flex flex-col items-center justify-center gap-3">
+        <div className="relative w-[120px] h-[120px]">
+          <svg viewBox="0 0 150 150" aria-label="Mass split donut chart" className="w-full h-full -rotate-90">
+            <circle cx="75" cy="75" r="52" fill="none" stroke="rgb(245 246 248 / 0.08)" strokeWidth="12" />
+            {segments.map((seg) => {
+              const dash = (seg.value / total) * 327;
+              const currentOffset = offset;
+              offset -= dash;
+              return (
+                <circle
+                  key={seg.label}
+                  cx="75"
+                  cy="75"
+                  r="52"
+                  fill="none"
+                  stroke={seg.color}
+                  strokeWidth="12"
+                  strokeLinecap="round"
+                  strokeDasharray={`${dash} ${327 - dash}`}
+                  strokeDashoffset={currentOffset}
+                />
+              );
+            })}
+          </svg>
+          <strong className="absolute inset-0 grid place-items-center text-[22px] font-light text-soft-white/92 tabular-nums">
+            {Math.round(total / 3)}%
+          </strong>
+        </div>
+        <div className="flex flex-wrap gap-3 justify-center text-[11px] text-soft-white/72">
+          {segments.map((seg) => (
+            <span key={seg.label} className="inline-flex items-center gap-1.5">
+              <i className="w-2 h-2 rounded-full inline-block" style={{ background: seg.color }} />
+              {seg.label}
+            </span>
+          ))}
+        </div>
       </div>
     </ChartPanel>
   );
@@ -293,7 +359,7 @@ function DonutChart({ intensity, mode }: { intensity: number; mode: ChartMode })
 
 function RadarChart({ intensity, series }: { intensity: number; series: number[] }) {
   const stats = ["Flux", "Mass", "Light", "Noise", "Orbit", "Pull"];
-  const values = stats.map((_, index) => clamp(series[index] + intensity * 0.05));
+  const values = stats.map((_, i) => clamp(series[i] + intensity * 0.05));
   const points = values
     .map((value, index) => {
       const angle = -Math.PI / 2 + (Math.PI * 2 * index) / stats.length;
@@ -303,24 +369,35 @@ function RadarChart({ intensity, series }: { intensity: number; series: number[]
     .join(" ");
 
   return (
-    <ChartPanel className="radar-panel" title="Field Radar">
-      <svg className="radar-svg" viewBox="0 0 150 150" aria-label="Field radar chart">
-        {[28, 48, 68].map((radius) => (
-          <circle className="radar-ring" cx="75" cy="75" key={radius} r={radius} />
+    <ChartPanel area="radar" title="Field Radar">
+      <svg viewBox="0 0 160 160" className="w-full h-full" aria-label="Field radar chart">
+        {[28, 48, 68].map((r) => (
+          <circle key={r} cx="75" cy="75" r={r} fill="none" stroke="rgb(245 246 248 / 0.07)" />
         ))}
-        {stats.map((stat, index) => {
-          const angle = -Math.PI / 2 + (Math.PI * 2 * index) / stats.length;
+        {stats.map((stat, i) => {
+          const angle = -Math.PI / 2 + (Math.PI * 2 * i) / stats.length;
           return (
             <g key={stat}>
-              <line className="radar-axis" x1="75" x2={75 + Math.cos(angle) * 68} y1="75" y2={75 + Math.sin(angle) * 68} />
-              <text className="radar-label" x={75 + Math.cos(angle) * 76} y={78 + Math.sin(angle) * 76}>
+              <line
+                x1="75"
+                x2={75 + Math.cos(angle) * 68}
+                y1="75"
+                y2={75 + Math.sin(angle) * 68}
+                stroke="rgb(245 246 248 / 0.07)"
+              />
+              <text
+                x={75 + Math.cos(angle) * 80}
+                y={78 + Math.sin(angle) * 80}
+                fill="rgb(245 246 248 / 0.54)"
+                fontSize="9"
+                textAnchor="middle"
+              >
                 {stat}
               </text>
             </g>
           );
         })}
-        <polygon className="radar-area" points={points} />
-        <polygon className="radar-stroke" points={points} />
+        <polygon points={points} fill="rgb(245 210 138 / 0.22)" stroke="#F5D28A" strokeWidth="1.4" />
       </svg>
     </ChartPanel>
   );
@@ -336,30 +413,38 @@ function HeatmapChart({
   selectedCell: string;
 }) {
   return (
-    <ChartPanel className="heatmap-panel" title="Nebula Heat">
-      <div className="heatmap-grid" role="grid" aria-label={`${modeLabels[mode]} heatmap`}>
+    <ChartPanel area="heat" title="Nebula Heat">
+      <div
+        className="grid grid-cols-6 gap-1 h-full pb-6"
+        role="grid"
+        aria-label={`${modeLabels[mode]} heatmap`}
+      >
         {Array.from({ length: 30 }, (_, index) => {
           const row = Math.floor(index / 6);
           const column = index % 6;
           const id = `R${row + 1}-C${column + 1}`;
           const value = clamp(24 + row * 12 + column * 7 + (mode === "energy" ? 10 : 0));
-
+          const alpha = value / 100;
+          const active = selectedCell === id;
           return (
             <button
-              aria-label={`${id} ${value}%`}
-              className={`heatmap-cell ${selectedCell === id ? "heatmap-cell-active" : ""}`}
               key={id}
+              aria-label={`${id} ${value}%`}
               onClick={() => onSelectedCellChange(id)}
               role="gridcell"
-              style={{ "--alpha": `${value / 100}` } as CSSProperties}
               type="button"
+              className={[
+                "rounded-[5px] transition-transform",
+                active ? "scale-110 ring-1 ring-stardust-gold/72" : "hover:scale-105",
+              ].join(" ")}
+              style={{ background: `rgba(245, 210, 138, ${alpha.toFixed(2)})` }}
             />
           );
         })}
       </div>
-      <div className="heatmap-caption">
-        <span>{selectedCell}</span>
-        <strong>{modeLabels[mode]}</strong>
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[11px]">
+        <span className="text-soft-white/64 tabular-nums">{selectedCell}</span>
+        <strong className="text-soft-white/92 uppercase tracking-[0.12em]">{modeLabels[mode]}</strong>
       </div>
     </ChartPanel>
   );
@@ -374,13 +459,18 @@ function FunnelChart({ intensity }: { intensity: number }) {
   ] as const;
 
   return (
-    <ChartPanel className="funnel-panel" title="Comet Funnel">
-      <div className="funnel-chart">
+    <ChartPanel area="funnel" title="Comet Funnel">
+      <div className="flex flex-col gap-3">
         {rows.map(([label, value]) => (
-          <div className="funnel-row" key={label}>
-            <span>{label}</span>
-            <i style={{ width: `${value}%` }} />
-            <strong>{Math.round(value)}%</strong>
+          <div key={label} className="grid grid-cols-[64px_1fr_42px] items-center gap-2 text-[11px]">
+            <span className="text-soft-white/64 uppercase tracking-[0.1em]">{label}</span>
+            <span className="h-2 rounded-full bg-soft-white/8 overflow-hidden">
+              <i
+                className="block h-full rounded-full bg-[linear-gradient(90deg,#f5d28a,#7fb9be)]"
+                style={{ width: `${value}%` }}
+              />
+            </span>
+            <strong className="text-soft-white/92 tabular-nums text-right">{Math.round(value)}%</strong>
           </div>
         ))}
       </div>
@@ -397,13 +487,18 @@ function TimelineChart({ mode }: { mode: ChartMode }) {
   ];
 
   return (
-    <ChartPanel className="timeline-panel" title="Event Timeline">
-      <ol className="timeline-list">
+    <ChartPanel area="timeline" title="Event Timeline">
+      <ol className="flex flex-col gap-3 pl-2">
         {items.map(([time, label], index) => (
-          <li key={time}>
-            <span>{time}</span>
-            <i className={index === 1 ? "timeline-hot" : ""} />
-            <strong>{label}</strong>
+          <li key={time} className="grid grid-cols-[44px_10px_1fr] items-center gap-2 text-[11px]">
+            <span className="text-soft-white/56 tabular-nums">{time}</span>
+            <i
+              className={[
+                "w-2 h-2 rounded-full justify-self-center",
+                index === 1 ? "bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.65)]" : "bg-soft-white/40",
+              ].join(" ")}
+            />
+            <strong className="text-soft-white/82 font-medium">{label}</strong>
           </li>
         ))}
       </ol>
@@ -413,30 +508,32 @@ function TimelineChart({ mode }: { mode: ChartMode }) {
 
 function ScatterChart({ series }: { series: number[] }) {
   return (
-    <ChartPanel className="scatter-panel" title="Star Scatter">
-      <svg className="scatter-svg" viewBox="0 0 250 120" aria-label="Star scatter chart">
+    <ChartPanel area="scatter" title="Star Scatter">
+      <svg viewBox="0 0 250 120" className="w-full h-full" aria-label="Star scatter chart">
         {[0, 1, 2].map((line) => (
           <line
-            className="chart-grid-line"
             key={line}
             x1="10"
             x2="240"
             y1={24 + line * 34}
             y2={24 + line * 34}
+            stroke="rgb(245 246 248 / 0.06)"
+            strokeDasharray="3 4"
           />
         ))}
         {series.slice(0, 9).map((value, index) => {
           const x = 18 + index * 27;
           const y = 106 - value;
-          const radius = 3 + (value % 5);
-
+          const r = 3 + (value % 5);
           return (
             <circle
-              className={index === 5 ? "scatter-dot scatter-dot-hot" : "scatter-dot"}
+              key={labels[index]}
               cx={x}
               cy={y}
-              key={labels[index]}
-              r={radius}
+              r={r}
+              fill={index === 5 ? "#F5D28A" : "rgb(245 246 248 / 0.72)"}
+              stroke={index === 5 ? "rgb(245 210 138 / 0.45)" : "none"}
+              strokeWidth={index === 5 ? "4" : "0"}
             />
           );
         })}

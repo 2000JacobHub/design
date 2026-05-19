@@ -1,5 +1,10 @@
 import ChartGallery from "@/components/cosmic/ChartGallery";
+import { PageShell } from "@/components/cosmic/PageShell";
 
 export default function ChartsPage() {
-  return <ChartGallery />;
+  return (
+    <PageShell>
+      <ChartGallery />
+    </PageShell>
+  );
 }

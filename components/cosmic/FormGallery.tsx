@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState, type CSSProperties, type FormEvent } from "react";
-import { CosmicFrame } from "./CosmicFrame";
+import { useMemo, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 
 type FormState = {
   channel: string;
@@ -31,6 +30,12 @@ const initialForm: FormState = {
   stabilized: false,
 };
 
+const kicker = "text-[11px] tracking-[0.16em] text-soft-white/46 uppercase";
+const fieldInput =
+  "h-10 w-full px-3 rounded-[10px] bg-soft-white/4 border border-soft-white/10 text-soft-white/92 text-[13px] " +
+  "placeholder:text-soft-white/30 transition-colors hover:border-soft-white/22 focus:outline-none focus:border-stardust-gold/55 focus:bg-soft-white/8 " +
+  "[color-scheme:dark]";
+
 export default function FormGallery() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [files, setFiles] = useState<string[]>([]);
@@ -38,24 +43,14 @@ export default function FormGallery() {
 
   const errors = useMemo(() => {
     const next: string[] = [];
-
-    if (form.codename.trim().length < 4) {
-      next.push("Codename");
-    }
-
-    if (!form.date) {
-      next.push("Launch Date");
-    }
-
-    if (form.frequency < 20) {
-      next.push("Frequency");
-    }
-
+    if (form.codename.trim().length < 4) next.push("Codename");
+    if (!form.date) next.push("Launch Date");
+    if (form.frequency < 20) next.push("Frequency");
     return next;
   }, [form]);
 
   const setField = <Key extends keyof FormState>(key: Key, value: FormState[Key]) => {
-    setForm((current) => ({ ...current, [key]: value }));
+    setForm((c) => ({ ...c, [key]: value }));
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -64,215 +59,346 @@ export default function FormGallery() {
   };
 
   return (
-    <CosmicFrame activePage="forms" ariaLabel="Cosmic form components">
-      <section className="gallery-page form-page">
-        <header className="gallery-header">
-          <div>
-            <div className="system-pill">Form Components</div>
-            <h1 className="gallery-title">
-              <span>Mission</span>
-              <span>Console</span>
-            </h1>
-          </div>
-          <div className="form-status-card">
-            <span className="section-kicker">Validation</span>
-            <strong>{errors.length === 0 ? "Ready" : `${errors.length} Pending`}</strong>
-            <p>{submitted && errors.length === 0 ? "Transmission staged" : form.channel}</p>
-          </div>
-        </header>
+    <section aria-label="Cosmic form components" className="flex flex-col gap-6 pt-4">
+      <header className="flex flex-wrap items-start justify-between gap-6">
+        <div className="flex flex-col gap-3">
+          <span className="cosmic-pill self-start">Form Components</span>
+          <h1 className="m-0 leading-none flex flex-col gap-1 text-soft-white/92 font-light">
+            <span className="text-[44px]">Mission</span>
+            <span className="text-[44px]">Console</span>
+          </h1>
+        </div>
+        <div className="cosmic-card flex flex-col gap-1 p-4 min-w-[208px]">
+          <span className={kicker}>Validation</span>
+          <strong className="text-[24px] font-light text-soft-white/92">
+            {errors.length === 0 ? "Ready" : `${errors.length} Pending`}
+          </strong>
+          <p className="m-0 text-[12px] text-soft-white/52">
+            {submitted && errors.length === 0 ? "Transmission staged" : form.channel}
+          </p>
+        </div>
+      </header>
 
-        <form className="form-grid-gallery" onSubmit={handleSubmit}>
-          <section className="gallery-card form-panel form-panel-primary">
-            <div className="section-kicker">Identity</div>
-            <div className="field-grid">
-              <label className="cosmic-field">
-                <span>Codename</span>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-3 gap-4"
+        style={{ gridAutoRows: "220px" }}
+      >
+          <FormPanel title="Identity" className="row-span-2">
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Codename">
                 <input
                   aria-invalid={form.codename.trim().length < 4}
-                  onChange={(event) => setField("codename", event.currentTarget.value)}
+                  className={fieldInput}
+                  onChange={(e) => setField("codename", e.currentTarget.value)}
                   type="text"
                   value={form.codename}
                 />
-              </label>
-              <label className="cosmic-field">
-                <span>Search Target</span>
+              </Field>
+              <Field label="Search Target">
                 <input
-                  onChange={(event) => setField("query", event.currentTarget.value)}
+                  className={fieldInput}
+                  onChange={(e) => setField("query", e.currentTarget.value)}
                   type="search"
                   value={form.query}
                 />
-              </label>
-              <label className="cosmic-field">
-                <span>Orbit</span>
+              </Field>
+              <Field label="Orbit">
                 <select
-                  onChange={(event) => setField("orbit", event.currentTarget.value)}
+                  className={`${fieldInput} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 8%22 fill=%22%23f5d28a%22><path d=%22M6 8 0 0h12z%22/></svg>')] bg-no-repeat bg-[right_0.75rem_center] bg-[length:10px_8px] pr-9`}
+                  onChange={(e) => setField("orbit", e.currentTarget.value)}
                   value={form.orbit}
                 >
                   <option value="jupiter">Jupiter</option>
                   <option value="saturn">Saturn</option>
                   <option value="neptune">Neptune</option>
                 </select>
-              </label>
-              <label className="cosmic-field">
-                <span>Launch Date</span>
+              </Field>
+              <Field label="Launch Date">
                 <input
-                  onChange={(event) => setField("date", event.currentTarget.value)}
+                  className={fieldInput}
+                  onChange={(e) => setField("date", e.currentTarget.value)}
                   type="date"
                   value={form.date}
                 />
-              </label>
+              </Field>
             </div>
-          </section>
+          </FormPanel>
 
-          <section className="gallery-card form-panel">
-            <div className="section-kicker">Mode</div>
-            <div className="segmented-control" role="radiogroup" aria-label="Mission mode">
+          <FormPanel title="Mode">
+            <div
+              role="radiogroup"
+              aria-label="Mission mode"
+              className="grid grid-cols-3 gap-1 p-1 bg-cosmic-black/64 border border-soft-white/10 rounded-[10px]"
+            >
               {(["scan", "track", "dock"] as const).map((mode) => (
                 <button
-                  aria-checked={form.mode === mode}
-                  className={form.mode === mode ? "segment-active" : ""}
                   key={mode}
+                  aria-checked={form.mode === mode}
                   onClick={() => setField("mode", mode)}
                   role="radio"
                   type="button"
+                  className={[
+                    "h-9 rounded-[8px] text-[12px] uppercase tracking-[0.14em] transition-colors",
+                    form.mode === mode
+                      ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
+                      : "text-soft-white/64 hover:bg-soft-white/4 hover:text-soft-white/92",
+                  ].join(" ")}
                 >
                   {mode}
                 </button>
               ))}
             </div>
-            <div className="radio-stack">
+            <div className="mt-4 flex flex-col gap-2">
               {(["low", "medium", "high"] as const).map((priority) => (
-                <label className="choice-row" key={priority}>
+                <label key={priority} className="flex items-center gap-3 cursor-pointer">
                   <input
                     checked={form.priority === priority}
                     name="priority"
                     onChange={() => setField("priority", priority)}
                     type="radio"
+                    className="appearance-none w-4 h-4 rounded-full border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:before:content-[''] checked:before:w-2 checked:before:h-2 checked:before:rounded-full checked:before:bg-stardust-gold checked:before:shadow-[0_0_8px_rgb(245_210_138/0.6)]"
                   />
-                  <span>{priority}</span>
+                  <span className="text-[13px] uppercase tracking-[0.08em] text-soft-white/72">{priority}</span>
                 </label>
               ))}
             </div>
-          </section>
+          </FormPanel>
 
-          <section className="gallery-card form-panel">
-            <div className="section-kicker">Switches</div>
-            <div className="switch-stack">
-              <label className="form-switch">
-                <input
-                  checked={form.relay}
-                  onChange={(event) => setField("relay", event.currentTarget.checked)}
-                  type="checkbox"
-                />
-                <span />
-                <b>Relay</b>
-              </label>
-              <label className="form-switch">
-                <input
-                  checked={form.stabilized}
-                  onChange={(event) => setField("stabilized", event.currentTarget.checked)}
-                  type="checkbox"
-                />
-                <span />
-                <b>Stabilized</b>
-              </label>
+          <FormPanel title="Message" className="row-span-2">
+            <Field label="Transmission">
+              <textarea
+                onChange={(e) => setField("message", e.currentTarget.value)}
+                rows={8}
+                value={form.message}
+                className={`${fieldInput} h-auto py-3 resize-none`}
+              />
+            </Field>
+          </FormPanel>
+
+          <FormPanel title="Switches">
+            <div className="flex flex-col gap-3">
+              <SwitchRow
+                checked={form.relay}
+                label="Relay"
+                onChange={(v) => setField("relay", v)}
+              />
+              <SwitchRow
+                checked={form.stabilized}
+                label="Stabilized"
+                onChange={(v) => setField("stabilized", v)}
+              />
             </div>
             <label
-              className="gallery-range form-frequency"
+              className="mt-4 flex items-center gap-3"
               style={{ "--value": `${form.frequency}%` } as CSSProperties}
             >
-              <span>Frequency</span>
-              <input
-                aria-label="Frequency"
-                max="100"
-                min="0"
-                onChange={(event) => setField("frequency", Number(event.currentTarget.value))}
-                type="range"
-                value={form.frequency}
-              />
-              <b>{form.frequency}%</b>
+              <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56 min-w-[78px]">Frequency</span>
+              <span className="relative flex-1 h-3 flex items-center">
+                <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
+                <span
+                  className="absolute left-0 h-[3px] rounded-full bg-[linear-gradient(90deg,#f5f6f8,#f5d28a)]"
+                  style={{ width: "var(--value)" }}
+                />
+                <input
+                  aria-label="Frequency"
+                  className="relative w-full h-3 opacity-0 cursor-pointer"
+                  max="100"
+                  min="0"
+                  onChange={(e) => setField("frequency", Number(e.currentTarget.value))}
+                  type="range"
+                  value={form.frequency}
+                />
+                <span
+                  aria-hidden
+                  className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.5)] pointer-events-none"
+                  style={{ left: "var(--value)" }}
+                />
+              </span>
+              <b className="text-[12px] tabular-nums text-soft-white/82 min-w-[40px] text-right">{form.frequency}%</b>
             </label>
-          </section>
+          </FormPanel>
 
-          <section className="gallery-card form-panel form-panel-message">
-            <div className="section-kicker">Message</div>
-            <label className="cosmic-field cosmic-textarea">
-              <span>Transmission</span>
-              <textarea
-                onChange={(event) => setField("message", event.currentTarget.value)}
-                rows={5}
-                value={form.message}
-              />
-            </label>
-          </section>
-
-          <section className="gallery-card form-panel">
-            <div className="section-kicker">Stepper</div>
-            <div className="stepper-control">
-              <button
-                aria-label="Decrease frequency"
+          <FormPanel title="Stepper">
+            <div className="flex items-center gap-3">
+              <StepperButton
+                ariaLabel="Decrease frequency"
                 onClick={() => setField("frequency", Math.max(0, form.frequency - 5))}
-                type="button"
               >
-                -
-              </button>
-              <strong>{form.frequency}</strong>
-              <button
-                aria-label="Increase frequency"
+                −
+              </StepperButton>
+              <strong className="flex-1 text-center text-[28px] font-light text-soft-white/92 border border-soft-white/10 rounded-[10px] py-2 tabular-nums bg-cosmic-black/40">
+                {form.frequency}
+              </strong>
+              <StepperButton
+                ariaLabel="Increase frequency"
                 onClick={() => setField("frequency", Math.min(100, form.frequency + 5))}
-                type="button"
               >
                 +
-              </button>
+              </StepperButton>
             </div>
-            <label className="choice-row checkbox-row">
+            <label className="mt-4 flex items-center gap-3 cursor-pointer">
               <input
                 checked={form.relay && form.stabilized}
-                onChange={(event) => {
-                  setField("relay", event.currentTarget.checked);
-                  setField("stabilized", event.currentTarget.checked);
+                onChange={(e) => {
+                  setField("relay", e.currentTarget.checked);
+                  setField("stabilized", e.currentTarget.checked);
                 }}
                 type="checkbox"
+                className="appearance-none w-4 h-4 rounded-[5px] border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:bg-stardust-gold/12 checked:before:content-['✓'] checked:before:text-stardust-gold checked:before:text-[10px] checked:before:leading-none"
               />
-              <span>Pair Locks</span>
+              <span className="text-[12px] uppercase tracking-[0.1em] text-soft-white/72">Pair Locks</span>
             </label>
-          </section>
+          </FormPanel>
 
-          <section className="gallery-card form-panel form-panel-upload">
-            <div className="section-kicker">Upload</div>
-            <label className="drop-zone">
+          <FormPanel title="Upload">
+            <label className="block cursor-pointer">
               <input
                 multiple
-                onChange={(event) => {
-                  setFiles(Array.from(event.currentTarget.files ?? []).map((file) => file.name));
-                }}
+                onChange={(e) => setFiles(Array.from(e.currentTarget.files ?? []).map((f) => f.name))}
                 type="file"
+                className="sr-only"
               />
-              <span>Telemetry Packet</span>
-              <strong>{files.length ? `${files.length} file${files.length > 1 ? "s" : ""}` : "Idle"}</strong>
+              <span
+                className={[
+                  "flex flex-col items-center justify-center gap-2",
+                  "h-[120px] rounded-[12px] border border-dashed border-soft-white/22",
+                  "bg-cosmic-black/48 text-center transition-colors",
+                  "hover:border-stardust-gold/45 hover:bg-stardust-gold/4",
+                ].join(" ")}
+              >
+                <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56">Telemetry Packet</span>
+                <strong className="text-[20px] font-light text-soft-white/92">
+                  {files.length ? `${files.length} file${files.length > 1 ? "s" : ""}` : "Idle"}
+                </strong>
+              </span>
             </label>
-            <p>{files[0] ?? "No packet selected"}</p>
-          </section>
+            <p className="mt-3 mb-0 text-[11px] text-soft-white/52">
+              {files[0] ?? "No packet selected"}
+            </p>
+          </FormPanel>
 
-          <section className="gallery-card form-panel form-panel-summary">
-            <div className="section-kicker">Summary</div>
-            <div className="summary-list">
-              <span>
-                Channel <strong>{form.channel}</strong>
-              </span>
-              <span>
-                Mode <strong>{form.mode}</strong>
-              </span>
-              <span>
-                Priority <strong>{form.priority}</strong>
-              </span>
+          <FormPanel title="Summary">
+            <div className="flex flex-col gap-2 text-[12px]">
+              <SummaryRow label="Channel" value={form.channel} />
+              <SummaryRow label="Mode" value={form.mode} />
+              <SummaryRow label="Priority" value={form.priority} />
             </div>
-            <button className="cosmic-submit" type="submit">
+            <button
+              type="submit"
+              className={[
+                "mt-auto h-11 rounded-[10px] text-[13px] tracking-[0.2em] uppercase",
+                "bg-[linear-gradient(180deg,#f8dba0_0%,#e7b66e_100%)] text-cosmic-black",
+                "border border-stardust-gold/72 shadow-[0_0_22px_rgb(245_210_138/0.42)]",
+                "hover:shadow-[0_0_28px_rgb(245_210_138/0.6)] transition-shadow",
+                "focus-visible:outline focus-visible:outline-stardust-gold/72 focus-visible:outline-offset-4",
+              ].join(" ")}
+            >
               Stage Signal
             </button>
-          </section>
-        </form>
-      </section>
-    </CosmicFrame>
+          </FormPanel>
+      </form>
+    </section>
+  );
+}
+
+function FormPanel({
+  children,
+  className = "",
+  title,
+}: {
+  children: ReactNode;
+  className?: string;
+  title: string;
+}) {
+  return (
+    <section className={`cosmic-panel p-5 flex flex-col gap-4 min-h-0 ${className}`}>
+      <div className={kicker}>{title}</div>
+      <div className="flex-1 flex flex-col min-h-0">{children}</div>
+    </section>
+  );
+}
+
+function Field({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <label className="flex flex-col gap-2">
+      <span className="text-[11px] uppercase tracking-[0.12em] text-soft-white/56">{label}</span>
+      {children}
+    </label>
+  );
+}
+
+function SwitchRow({
+  checked,
+  label,
+  onChange,
+}: {
+  checked: boolean;
+  label: string;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <label className="flex items-center gap-3 cursor-pointer">
+      <input
+        checked={checked}
+        onChange={(e) => onChange(e.currentTarget.checked)}
+        type="checkbox"
+        className="sr-only peer"
+      />
+      <span
+        aria-hidden
+        className={[
+          "relative w-[44px] h-[24px] rounded-full transition-colors",
+          "border border-soft-white/18",
+          checked
+            ? "bg-[linear-gradient(90deg,rgb(245_210_138/0.55),rgb(245_210_138/0.18))]"
+            : "bg-soft-white/6",
+        ].join(" ")}
+      >
+        <span
+          className={[
+            "absolute top-1/2 -translate-y-1/2 w-[16px] h-[16px] rounded-full transition-all",
+            checked
+              ? "left-[24px] bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.6)]"
+              : "left-1 bg-soft-white/72",
+          ].join(" ")}
+        />
+      </span>
+      <b className="text-[12px] uppercase tracking-[0.1em] text-soft-white/82 font-medium">{label}</b>
+    </label>
+  );
+}
+
+function StepperButton({
+  ariaLabel,
+  children,
+  onClick,
+}: {
+  ariaLabel: string;
+  children: ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      aria-label={ariaLabel}
+      type="button"
+      onClick={onClick}
+      className={[
+        "w-10 h-10 rounded-full border border-soft-white/18 text-soft-white/82 text-[18px]",
+        "bg-soft-white/4 hover:bg-stardust-gold/14 hover:border-stardust-gold/45 hover:text-stardust-gold transition-colors",
+        "focus-visible:outline focus-visible:outline-stardust-gold/72 focus-visible:outline-offset-4",
+      ].join(" ")}
+    >
+      {children}
+    </button>
+  );
+}
+
+function SummaryRow({ label, value }: { label: string; value: string }) {
+  return (
+    <span className="flex justify-between gap-3">
+      <span className="text-soft-white/56 uppercase tracking-[0.12em]">{label}</span>
+      <strong className="text-soft-white/92 uppercase tracking-[0.06em] truncate text-right">{value}</strong>
+    </span>
   );
 }

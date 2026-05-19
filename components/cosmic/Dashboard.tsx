@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
 
 type Trend = "up" | "down";
 
@@ -15,95 +15,28 @@ type KpiCard = {
 };
 
 const kpiCards: KpiCard[] = [
-  {
-    title: "客流（人次）",
-    value: "128.6万",
-    change: "8.6%",
-    trend: "up",
-    comparison: "较上周",
-    spark: [62, 68, 71, 65, 74, 88, 96],
-  },
-  {
-    title: "销售额（万元）",
-    value: "5,842.6",
-    change: "12.3%",
-    trend: "up",
-    comparison: "较上周",
-    spark: [42, 48, 55, 52, 60, 72, 80],
-  },
-  {
-    title: "转化率",
-    value: "8.74%",
-    change: "0.6pp",
-    trend: "down",
-    comparison: "较上周",
-    spark: [9.5, 9.3, 9.0, 9.1, 8.9, 8.8, 8.74],
-  },
-  {
-    title: "会员新增（人）",
-    value: "3,218",
-    change: "18.7%",
-    trend: "up",
-    comparison: "较上周",
-    spark: [2200, 2400, 2600, 2800, 2950, 3100, 3218],
-  },
-  {
-    title: "活动 ROI",
-    value: "3.21",
-    change: "0.42",
-    trend: "up",
-    comparison: "较上周",
-    spark: [2.5, 2.6, 2.7, 2.8, 2.95, 3.1, 3.21],
-  },
-  {
-    title: "停车饱和度",
-    value: "78%",
-    change: "6pp",
-    trend: "up",
-    comparison: "较上周",
-    spark: [68, 70, 72, 73, 75, 76, 78],
-  },
+  { title: "客流（人次）", value: "128.6万", change: "8.6%", trend: "up", comparison: "较上周", spark: [62, 68, 71, 65, 74, 88, 96] },
+  { title: "销售额（万元）", value: "5,842.6", change: "12.3%", trend: "up", comparison: "较上周", spark: [42, 48, 55, 52, 60, 72, 80] },
+  { title: "转化率", value: "8.74%", change: "0.6pp", trend: "down", comparison: "较上周", spark: [9.5, 9.3, 9.0, 9.1, 8.9, 8.8, 8.74] },
+  { title: "会员新增（人）", value: "3,218", change: "18.7%", trend: "up", comparison: "较上周", spark: [2200, 2400, 2600, 2800, 2950, 3100, 3218] },
+  { title: "活动 ROI", value: "3.21", change: "0.42", trend: "up", comparison: "较上周", spark: [2.5, 2.6, 2.7, 2.8, 2.95, 3.1, 3.21] },
+  { title: "停车饱和度", value: "78%", change: "6pp", trend: "up", comparison: "较上周", spark: [68, 70, 72, 73, 75, 76, 78] },
 ];
 
-type FocusItem = {
-  rank: number;
-  title: string;
-  description: string;
-  actions: string[];
-};
+type FocusItem = { rank: number; title: string; description: string; actions: string[] };
 
 const todayFocus = {
   title: "今日该关注的 3 件事",
   tag: "由 AI 生成",
   items: [
-    {
-      rank: 1,
-      title: "周末客流增长，但转化率下降 0.6pp",
-      description: "主要受餐饮与服饰品类客单价下降影响，建议优化促销组合与动线引导。",
-      actions: ["看数据依据", "生成方案", "创建任务"],
-    },
-    {
-      rank: 2,
-      title: "停车饱和度升至 78%，周末存在拥堵风险",
-      description: "预计周末 14:00–18:00 车位紧张，建议提前发布停车引导与预约策略。",
-      actions: ["看数据依据", "生成方案", "创建任务"],
-    },
-    {
-      rank: 3,
-      title: "未完成任务 18 项，其中 5 项已逾期",
-      description: "涉及活动筹备、供应商对账与租户巡场等，建议优先处理逾期事项。",
-      actions: ["看数据依据", "生成方案", "创建任务"],
-    },
+    { rank: 1, title: "周末客流增长，但转化率下降 0.6pp", description: "主要受餐饮与服饰品类客单价下降影响，建议优化促销组合与动线引导。", actions: ["看数据依据", "生成方案", "创建任务"] },
+    { rank: 2, title: "停车饱和度升至 78%，周末存在拥堵风险", description: "预计周末 14:00–18:00 车位紧张，建议提前发布停车引导与预约策略。", actions: ["看数据依据", "生成方案", "创建任务"] },
+    { rank: 3, title: "未完成任务 18 项，其中 5 项已逾期", description: "涉及活动筹备、供应商对账与租户巡场等，建议优先处理逾期事项。", actions: ["看数据依据", "生成方案", "创建任务"] },
   ] as FocusItem[],
   footerAction: "查看全部建议（8）",
 };
 
-type AgentMetric = {
-  title: string;
-  value: string;
-  unit: string;
-  change: string;
-};
+type AgentMetric = { title: string; value: string; unit: string; change: string };
 
 const agentSummary = {
   title: "Agent 今日工作摘要",
@@ -125,14 +58,7 @@ const trafficSales = {
   summary: "近7天客流同比 ↑ 8.6%，销售额同比 ↑ 12.3%",
 };
 
-type CategoryItem = {
-  rank: number;
-  category: string;
-  sales: string;
-  salesNum: number;
-  change: string;
-  trend: Trend;
-};
+type CategoryItem = { rank: number; category: string; sales: string; salesNum: number; change: string; trend: Trend };
 
 const categoryRanking: CategoryItem[] = [
   { rank: 1, category: "餐饮", sales: "1,562.3", salesNum: 1562.3, change: "16.2%", trend: "up" },
@@ -155,46 +81,19 @@ const funnelData = {
 };
 
 type InsightTag = "销售洞察" | "运营洞察" | "会员洞察";
-
-type InsightItem = {
-  title: string;
-  tag: InsightTag;
-  time: string;
-  description: string;
-};
+type InsightItem = { title: string; tag: InsightTag; time: string; description: string };
 
 const insightsData = {
   items: [
-    {
-      title: "餐饮品类客单价下降显著",
-      tag: "销售洞察",
-      time: "09:42",
-      description: "较上周下降 12.4%，建议检查活动折扣与菜品结构。",
-    },
-    {
-      title: "周六 14–18 点停车饱和度偏高",
-      tag: "运营洞察",
-      time: "08:35",
-      description: "峰值达 86%，建议加强车位引导与预约推广。",
-    },
-    {
-      title: "会员新增主要来自线上渠道",
-      tag: "会员洞察",
-      time: "07:55",
-      description: "占比 67%，建议增加线下会员招募与引导。",
-    },
+    { title: "餐饮品类客单价下降显著", tag: "销售洞察", time: "09:42", description: "较上周下降 12.4%，建议检查活动折扣与菜品结构。" },
+    { title: "周六 14–18 点停车饱和度偏高", tag: "运营洞察", time: "08:35", description: "峰值达 86%，建议加强车位引导与预约推广。" },
+    { title: "会员新增主要来自线上渠道", tag: "会员洞察", time: "07:55", description: "占比 67%，建议增加线下会员招募与引导。" },
   ] as InsightItem[],
   footerAction: "查看全部洞察（8）",
 };
 
 type PlanIcon = "report" | "marketing" | "ppt" | "tenant" | "forecast";
-
-type PlanCard = {
-  title: string;
-  description: string;
-  action: string;
-  icon: PlanIcon;
-};
+type PlanCard = { title: string; description: string; action: string; icon: PlanIcon };
 
 const aiPlans: PlanCard[] = [
   { title: "生成活动复盘报告", description: "自动生成本次活动效果复盘与优化建议", action: "立即生成", icon: "report" },
@@ -206,15 +105,15 @@ const aiPlans: PlanCard[] = [
 
 function useClock() {
   const [now, setNow] = useState<Date | null>(null);
-
   useEffect(() => {
     setNow(new Date());
     const timer = window.setInterval(() => setNow(new Date()), 1000);
     return () => window.clearInterval(timer);
   }, []);
-
   return now;
 }
+
+const panelCls = "cosmic-panel flex flex-col gap-3 p-5 min-h-0";
 
 export default function Dashboard() {
   const now = useClock();
@@ -229,93 +128,92 @@ export default function Dashboard() {
   const weekday = now ? ["日", "一", "二", "三", "四", "五", "六"][now.getDay()] : "-";
 
   return (
-    <main className="dashboard-root">
+    <main className="relative min-h-screen w-full overflow-x-hidden p-5 dashboard-bg">
       <DashboardBackdrop />
 
-      <header className="dash-header">
-        <div className="dash-header-left">
-          <div className="dash-brand-mark" aria-hidden="true">
-            <span />
-            <span />
-            <span />
+      <header className="relative z-[2] flex items-center justify-between gap-4 mb-5">
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-10" aria-hidden>
+            <span className="absolute inset-0 rounded-full border border-stardust-gold/45" />
+            <span className="absolute inset-[7px] rounded-full bg-stardust-gold/24 shadow-[0_0_18px_rgb(245_210_138/0.5)]" />
+            <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-[0_0_12px_rgb(245_210_138/0.7)]" />
           </div>
-          <div className="dash-brand-copy">
-            <span className="dash-brand-kicker">COSMIC GRAVITY · MALL OPS</span>
-            <h1>购物中心运营态势大屏</h1>
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] tracking-[0.22em] text-soft-white/52">COSMIC GRAVITY · MALL OPS</span>
+            <h1 className="m-0 text-[22px] font-light text-soft-white/92">购物中心运营态势大屏</h1>
           </div>
         </div>
-        <div className="dash-header-right">
-          <div className="dash-status-pill">
-            <span className="dash-status-dot" />
+        <div className="flex items-center gap-3">
+          <div className="cosmic-card inline-flex items-center gap-2 px-3 py-1.5 text-[12px] text-soft-white/82">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-teal shadow-[0_0_8px_rgb(127_185_190/0.7)]" />
             实时数据 · 同步正常
           </div>
-          <div className="dash-clock">
-            <span className="dash-clock-time">{time}</span>
-            <span className="dash-clock-date">
-              {date} · 周{weekday}
-            </span>
+          <div className="flex flex-col items-end leading-tight text-soft-white/82">
+            <span className="text-[20px] tabular-nums tracking-[0.04em]">{time}</span>
+            <span className="text-[10px] text-soft-white/56 tabular-nums">{date} · 周{weekday}</span>
           </div>
-          <nav aria-label="主导航" className="dash-nav">
-            <Link href="/" className="dash-nav-link">
-              系统
-            </Link>
-            <Link href="/charts" className="dash-nav-link">
-              图表
-            </Link>
-            <Link href="/forms" className="dash-nav-link">
-              表单
-            </Link>
-            <Link href="/dashboard" className="dash-nav-link dash-nav-link-active">
-              大屏
-            </Link>
+          <nav aria-label="主导航" className="flex items-center gap-1.5">
+            <DashNavLink href="/">系统</DashNavLink>
+            <DashNavLink href="/charts">图表</DashNavLink>
+            <DashNavLink href="/forms">表单</DashNavLink>
+            <DashNavLink href="/dashboard" active>大屏</DashNavLink>
           </nav>
         </div>
       </header>
 
-      <section className="dash-kpi-row" aria-label="核心指标">
+      <section aria-label="核心指标" className="relative z-[2] grid grid-cols-6 gap-3 mb-5">
         {kpiCards.map((kpi) => (
           <KpiCardView key={kpi.title} kpi={kpi} />
         ))}
       </section>
 
-      <section className="dash-grid">
-        <article className="dash-panel dash-panel-focus">
-          <TodayFocusPanel />
-        </article>
-        <article className="dash-panel dash-panel-traffic">
+      <section
+        className="relative z-[2] grid gap-4"
+        style={{
+          gridTemplateColumns: "1.2fr 1.5fr 1.15fr",
+          gridTemplateRows: "minmax(360px,auto) minmax(280px,auto) auto",
+          gridTemplateAreas: `
+            "focus traffic insights"
+            "agent sales funnel"
+            "plan plan plan"
+          `,
+        }}
+      >
+        <article className={panelCls} style={{ gridArea: "focus" }}><TodayFocusPanel /></article>
+        <article className={`${panelCls} overflow-visible`} style={{ gridArea: "traffic" }}>
           <TrafficSalesChart hoverIdx={hoverIdx} onHover={setHoverIdx} />
         </article>
-        <article className="dash-panel dash-panel-insights">
-          <AIInsightsPanel />
-        </article>
-
-        <article className="dash-panel dash-panel-agent">
-          <AgentSummaryPanel />
-        </article>
-        <article className="dash-panel dash-panel-sales">
-          <CategorySalesPanel />
-        </article>
-        <article className="dash-panel dash-panel-funnel">
-          <CampaignFunnelPanel />
-        </article>
-
-        <article className="dash-panel dash-panel-plan">
-          <AIPlanPanel />
-        </article>
+        <article className={panelCls} style={{ gridArea: "insights" }}><AIInsightsPanel /></article>
+        <article className={panelCls} style={{ gridArea: "agent" }}><AgentSummaryPanel /></article>
+        <article className={panelCls} style={{ gridArea: "sales" }}><CategorySalesPanel /></article>
+        <article className={panelCls} style={{ gridArea: "funnel" }}><CampaignFunnelPanel /></article>
+        <article className={panelCls} style={{ gridArea: "plan" }}><AIPlanPanel /></article>
       </section>
     </main>
   );
 }
 
+function DashNavLink({ href, children, active = false }: { href: string; children: ReactNode; active?: boolean }) {
+  return (
+    <Link
+      href={href}
+      className={[
+        "h-7 px-3 inline-flex items-center justify-center rounded-full text-[12px] no-underline border",
+        active
+          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-[inset_0_0_12px_rgb(245_210_138/0.08)]"
+          : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",
+      ].join(" ")}
+    >
+      {children}
+    </Link>
+  );
+}
+
 function DashboardBackdrop() {
   return (
-    <div className="dash-backdrop" aria-hidden="true">
-      <span className="dash-orbit dash-orbit-one" />
-      <span className="dash-orbit dash-orbit-two" />
-      <span className="dash-orbit dash-orbit-three" />
-      <span className="dash-glow dash-glow-gold" />
-      <span className="dash-glow dash-glow-teal" />
-      <span className="dash-grid-lines" />
+    <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
+      <span className="absolute -top-[260px] -left-[120px] w-[520px] h-[520px] rounded-full bg-stardust-gold/6 blur-[120px]" />
+      <span className="absolute bottom-[-220px] right-[-160px] w-[640px] h-[640px] rounded-full bg-accent-teal/6 blur-[140px]" />
     </div>
   );
 }
@@ -326,58 +224,65 @@ function PanelHeader({
   action,
 }: {
   title: string;
-  meta?: React.ReactNode;
-  action?: React.ReactNode;
+  meta?: ReactNode;
+  action?: ReactNode;
 }) {
   return (
-    <div className="dash-panel-head">
-      <div className="dash-panel-head-left">
-        <h2>{title}</h2>
-        {meta && <span className="dash-panel-meta">{meta}</span>}
+    <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center gap-3 min-w-0">
+        <h2 className="m-0 text-[15px] font-medium text-soft-white/92 truncate">{title}</h2>
+        {meta && <span className="text-[11px] text-soft-white/56">{meta}</span>}
       </div>
-      {action && <div className="dash-panel-action">{action}</div>}
+      {action && <div className="shrink-0">{action}</div>}
     </div>
   );
 }
 
-function ActionLink({ children = "查看更多" }: { children?: React.ReactNode }) {
+function ActionLink({ children = "查看更多" }: { children?: ReactNode }) {
   return (
-    <button type="button" className="dash-action-link">
+    <button
+      type="button"
+      className="inline-flex items-center gap-1 text-[11px] text-stardust-gold/82 hover:text-stardust-gold transition-colors"
+    >
       {children}
-      <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true">
+      <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden>
         <path d="M2 5 H7.5 M5 2.5 L8 5 L5 7.5" stroke="currentColor" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
   );
 }
 
-function TrendArrow({ trend }: { trend: Trend }) {
+function TrendChip({ trend, change }: { trend: Trend; change: string }) {
+  const up = trend === "up";
   return (
-    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
-      {trend === "up" ? (
-        <path d="M5 1.5 L9 6 L6.5 6 L6.5 9 L3.5 9 L3.5 6 L1 6 Z" fill="currentColor" />
-      ) : (
-        <path d="M5 8.5 L1 4 L3.5 4 L3.5 1 L6.5 1 L6.5 4 L9 4 Z" fill="currentColor" />
-      )}
-    </svg>
+    <span
+      className={[
+        "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] tabular-nums",
+        up ? "text-stardust-gold bg-stardust-gold/12 border border-stardust-gold/24" : "text-danger bg-danger/12 border border-danger/24",
+      ].join(" ")}
+    >
+      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden>
+        {up ? (
+          <path d="M5 1.5 L9 6 L6.5 6 L6.5 9 L3.5 9 L3.5 6 L1 6 Z" fill="currentColor" />
+        ) : (
+          <path d="M5 8.5 L1 4 L3.5 4 L3.5 1 L6.5 1 L6.5 4 L9 4 Z" fill="currentColor" />
+        )}
+      </svg>
+      {change}
+    </span>
   );
 }
 
 function KpiCardView({ kpi }: { kpi: KpiCard }) {
   return (
-    <div className={`dash-kpi ${kpi.trend === "down" ? "dash-kpi-down" : ""}`}>
-      <div className="dash-kpi-head">
-        <span className="dash-kpi-title">{kpi.title}</span>
-        <span className={`dash-trend-chip dash-trend-${kpi.trend}`}>
-          <TrendArrow trend={kpi.trend} />
-          {kpi.change}
-        </span>
+    <div className="cosmic-card flex flex-col gap-2 p-4 min-w-0">
+      <div className="flex items-start justify-between gap-2 min-w-0">
+        <span className="text-[12px] text-soft-white/64 truncate">{kpi.title}</span>
+        <TrendChip trend={kpi.trend} change={kpi.change} />
       </div>
-      <div className="dash-kpi-value">
-        <strong>{kpi.value}</strong>
-      </div>
-      <div className="dash-kpi-foot">
-        <span className="dash-kpi-comp">{kpi.comparison}</span>
+      <div className="text-[28px] leading-none font-light text-soft-white/92 tabular-nums">{kpi.value}</div>
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[10px] text-soft-white/46">{kpi.comparison}</span>
         <KpiSparkline data={kpi.spark} trend={kpi.trend} />
       </div>
     </div>
@@ -400,7 +305,7 @@ function KpiSparkline({ data, trend }: { data: number[]; trend: Trend }) {
   const stroke = trend === "up" ? "#F5D28A" : "#E58C8C";
   const fill = trend === "up" ? "url(#sparkFillUp)" : "url(#sparkFillDown)";
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} className="dash-spark" aria-hidden="true">
+    <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} aria-hidden>
       <defs>
         <linearGradient id="sparkFillUp" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#F5D28A" stopOpacity="0.32" />
@@ -423,18 +328,42 @@ function TodayFocusPanel() {
     <>
       <PanelHeader
         title={todayFocus.title}
-        meta={<span className="dash-tag dash-tag-ai">{todayFocus.tag}</span>}
+        meta={
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-violet/22 text-accent-violet text-[10px]">
+            {todayFocus.tag}
+          </span>
+        }
       />
-      <ul className="dash-focus-list">
+      <ul className="m-0 p-0 list-none flex flex-col gap-3 flex-1 overflow-y-auto">
         {todayFocus.items.map((item) => (
-          <li key={item.rank} className="dash-focus-item">
-            <span className={`dash-focus-rank dash-focus-rank-${item.rank}`}>{item.rank}</span>
-            <div className="dash-focus-body">
-              <div className="dash-focus-title">{item.title}</div>
-              <div className="dash-focus-desc">{item.description}</div>
-              <div className="dash-focus-actions">
+          <li key={item.rank} className="flex gap-3">
+            <span
+              className={[
+                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-[12px] font-medium",
+                item.rank === 1
+                  ? "bg-stardust-gold text-cosmic-black shadow-[0_0_12px_rgb(245_210_138/0.5)]"
+                  : item.rank === 2
+                    ? "bg-stardust-gold/40 text-soft-white"
+                    : "bg-soft-white/8 text-soft-white/72",
+              ].join(" ")}
+            >
+              {item.rank}
+            </span>
+            <div className="flex flex-col gap-1 min-w-0 flex-1">
+              <div className="text-[13px] font-medium text-soft-white/92">{item.title}</div>
+              <div className="text-[12px] text-soft-white/64 leading-snug">{item.description}</div>
+              <div className="flex gap-2 mt-1 flex-wrap">
                 {item.actions.map((a, i) => (
-                  <button key={a} type="button" className={`dash-focus-btn ${i === 1 ? "dash-focus-btn-primary" : ""}`}>
+                  <button
+                    key={a}
+                    type="button"
+                    className={[
+                      "h-7 px-2.5 rounded-full text-[11px] transition-colors border",
+                      i === 1
+                        ? "bg-stardust-gold/14 border-stardust-gold/45 text-stardust-gold hover:bg-stardust-gold/22"
+                        : "bg-cosmic-black/52 border-soft-white/10 text-soft-white/72 hover:border-soft-white/24 hover:text-soft-white/92",
+                    ].join(" ")}
+                  >
                     {a}
                   </button>
                 ))}
@@ -443,7 +372,7 @@ function TodayFocusPanel() {
           </li>
         ))}
       </ul>
-      <div className="dash-panel-footer">
+      <div className="pt-2 flex justify-end border-t border-soft-white/6">
         <ActionLink>{todayFocus.footerAction}</ActionLink>
       </div>
     </>
@@ -454,15 +383,15 @@ function AgentSummaryPanel() {
   return (
     <>
       <PanelHeader title={agentSummary.title} action={<ActionLink />} />
-      <ul className="dash-agent-metrics">
+      <ul className="m-0 p-0 list-none grid grid-cols-3 gap-2 flex-1">
         {agentSummary.metrics.map((m) => (
-          <li key={m.title} className="dash-agent-metric">
-            <span className="dash-agent-metric-title">{m.title}</span>
-            <div className="dash-agent-metric-value">
-              <strong>{m.value}</strong>
-              <span className="dash-agent-metric-unit">{m.unit}</span>
+          <li key={m.title} className="cosmic-card flex flex-col gap-1 p-3 min-w-0">
+            <span className="text-[11px] text-soft-white/56 truncate">{m.title}</span>
+            <div className="flex items-baseline gap-1">
+              <strong className="text-[22px] font-light text-soft-white/92 tabular-nums">{m.value}</strong>
+              <span className="text-[11px] text-soft-white/52">{m.unit}</span>
             </div>
-            <span className="dash-agent-metric-change">{m.change}</span>
+            <span className="text-[10px] text-stardust-gold/72">{m.change}</span>
           </li>
         ))}
       </ul>
@@ -522,23 +451,24 @@ function TrafficSalesChart({
       <PanelHeader
         title={trafficSales.title}
         meta={
-          <span className="dash-traffic-legend">
-            <span className="dash-traffic-legend-item">
-              <i className="dash-line-dot dash-line-traffic" />
+          <span className="inline-flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5">
+              <i className="w-2 h-2 rounded-full bg-stardust-gold shadow-[0_0_8px_rgb(245_210_138/0.6)]" />
               客流（人次/万）
             </span>
-            <span className="dash-traffic-legend-item">
-              <i className="dash-line-dot dash-line-sales" />
+            <span className="inline-flex items-center gap-1.5">
+              <i className="w-2 h-2 rounded-full bg-accent-teal" />
               销售额（万元）
             </span>
           </span>
         }
         action={<ActionLink />}
       />
-      <div className="dash-traffic-chart">
+      <div className="relative flex-1 min-h-0 overflow-visible">
         <svg
           viewBox={`0 0 ${w} ${h}`}
-          className="dash-traffic-svg"
+          className="w-full h-full"
+          preserveAspectRatio="none"
           aria-label="客流与销售额趋势"
           onMouseMove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
@@ -561,20 +491,13 @@ function TrafficSalesChart({
           </defs>
 
           {gridYs.map((gy, i) => (
-            <line key={i} x1={pad.left} x2={w - pad.right} y1={gy} y2={gy} stroke="rgba(245,246,248,0.06)" />
+            <line key={i} x1={pad.left} x2={w - pad.right} y1={gy} y2={gy} stroke="rgb(245 246 248 / 0.06)" />
           ))}
 
           {[0, 0.25, 0.5, 0.75, 1].map((r) => {
             const v = Math.round(trafficMax * (1 - r));
             return (
-              <text
-                key={`yl-${r}`}
-                x={pad.left - 8}
-                y={pad.top + innerH * r + 4}
-                textAnchor="end"
-                fill="rgba(245,210,138,0.6)"
-                fontSize="9.5"
-              >
+              <text key={`yl-${r}`} x={pad.left - 8} y={pad.top + innerH * r + 4} textAnchor="end" fill="rgb(245 210 138 / 0.6)" fontSize="9.5">
                 {v}
               </text>
             );
@@ -583,28 +506,14 @@ function TrafficSalesChart({
           {[0, 0.25, 0.5, 0.75, 1].map((r) => {
             const v = Math.round(salesMax * (1 - r));
             return (
-              <text
-                key={`yr-${r}`}
-                x={w - pad.right + 8}
-                y={pad.top + innerH * r + 4}
-                textAnchor="start"
-                fill="rgba(127,185,190,0.7)"
-                fontSize="9.5"
-              >
+              <text key={`yr-${r}`} x={w - pad.right + 8} y={pad.top + innerH * r + 4} textAnchor="start" fill="rgb(127 185 190 / 0.7)" fontSize="9.5">
                 {v}
               </text>
             );
           })}
 
           {data.xAxis.map((label, i) => (
-            <text
-              key={`${label}-${i}`}
-              x={xAt(i)}
-              y={h - 10}
-              textAnchor="middle"
-              fill="rgba(245,246,248,0.46)"
-              fontSize="10"
-            >
+            <text key={`${label}-${i}`} x={xAt(i)} y={h - 10} textAnchor="middle" fill="rgb(245 246 248 / 0.46)" fontSize="10">
               {label}
             </text>
           ))}
@@ -622,16 +531,16 @@ function TrafficSalesChart({
 
           {showHover && (
             <>
-              <line x1={hoverX} x2={hoverX} y1={pad.top} y2={baseY} stroke="rgba(245,210,138,0.45)" strokeDasharray="2 3" />
-              <circle cx={hoverX} cy={hoverYT} r="4.5" fill="#F5D28A" stroke="rgba(255,255,255,0.7)" />
-              <circle cx={hoverX} cy={hoverYS} r="4.5" fill="#7FB9BE" stroke="rgba(255,255,255,0.7)" />
+              <line x1={hoverX} x2={hoverX} y1={pad.top} y2={baseY} stroke="rgb(245 210 138 / 0.45)" strokeDasharray="2 3" />
+              <circle cx={hoverX} cy={hoverYT} r="4.5" fill="#F5D28A" stroke="rgb(255 255 255 / 0.7)" />
+              <circle cx={hoverX} cy={hoverYS} r="4.5" fill="#7FB9BE" stroke="rgb(255 255 255 / 0.7)" />
             </>
           )}
         </svg>
 
         {showHover && (
           <div
-            className="dash-tooltip"
+            className="absolute z-[20] cosmic-card p-2.5 text-[11px] whitespace-nowrap pointer-events-none -translate-y-1/2"
             style={(() => {
               const flipped = hoverX > w / 2;
               const xPct = (hoverX / w) * 100;
@@ -645,19 +554,19 @@ function TrafficSalesChart({
               } as CSSProperties;
             })()}
           >
-            <div className="dash-tooltip-time">{data.xAxis[safeHover]}</div>
-            <div className="dash-tooltip-row">
-              <i className="dash-line-dot dash-line-traffic" />
-              客流 <strong>{data.traffic[safeHover]} 万</strong>
+            <div className="text-soft-white/64 text-[10px] mb-1.5">{data.xAxis[safeHover]}</div>
+            <div className="flex items-center gap-2">
+              <i className="w-2 h-2 rounded-full bg-stardust-gold" />
+              客流 <strong className="text-soft-white/92">{data.traffic[safeHover]} 万</strong>
             </div>
-            <div className="dash-tooltip-row">
-              <i className="dash-line-dot dash-line-sales" />
-              销售额 <strong>{data.sales[safeHover]} 万</strong>
+            <div className="flex items-center gap-2 mt-0.5">
+              <i className="w-2 h-2 rounded-full bg-accent-teal" />
+              销售额 <strong className="text-soft-white/92">{data.sales[safeHover]} 万</strong>
             </div>
           </div>
         )}
       </div>
-      <div className="dash-traffic-summary">{trafficSales.summary}</div>
+      <div className="text-[11px] text-soft-white/56 text-center">{trafficSales.summary}</div>
     </>
   );
 }
@@ -666,25 +575,34 @@ function CategorySalesPanel() {
   const max = Math.max(...categoryRanking.map((c) => c.salesNum));
   return (
     <>
-      <PanelHeader
-        title="品类销售额排行（万元）"
-        meta={<span className="dash-panel-meta-text">较上周</span>}
-        action={<ActionLink />}
-      />
-      <ul className="dash-category-list">
+      <PanelHeader title="品类销售额排行（万元）" meta="较上周" action={<ActionLink />} />
+      <ul className="m-0 p-0 list-none flex flex-col gap-2.5 flex-1">
         {categoryRanking.map((c) => {
           const width = (c.salesNum / max) * 100;
           return (
-            <li key={c.rank} className="dash-category-row">
-              <span className={`dash-category-rank dash-category-rank-${c.rank <= 3 ? "top" : "normal"}`}>{c.rank}</span>
-              <span className="dash-category-name">{c.category}</span>
-              <span className="dash-category-bar">
-                <i style={{ width: `${width}%` }} className="dash-category-bar-fill" />
+            <li
+              key={c.rank}
+              className="grid items-center gap-2 text-[12px]"
+              style={{ gridTemplateColumns: "20px 64px 1fr 72px 60px" }}
+            >
+              <span
+                className={[
+                  "w-5 h-5 rounded-full grid place-items-center text-[11px] font-medium",
+                  c.rank <= 3 ? "bg-stardust-gold text-cosmic-black" : "bg-soft-white/8 text-soft-white/64",
+                ].join(" ")}
+              >
+                {c.rank}
               </span>
-              <span className="dash-category-sales">{c.sales}</span>
-              <span className={`dash-trend-chip dash-trend-${c.trend}`}>
-                <TrendArrow trend={c.trend} />
-                {c.change}
+              <span className="text-soft-white/92 truncate">{c.category}</span>
+              <span className="h-1.5 rounded-full bg-soft-white/8 overflow-hidden">
+                <i
+                  className="block h-full rounded-full bg-[linear-gradient(90deg,#f5d28a,#7fb9be)]"
+                  style={{ width: `${width}%` }}
+                />
+              </span>
+              <span className="text-soft-white/92 tabular-nums text-right">{c.sales}</span>
+              <span className="justify-self-end">
+                <TrendChip trend={c.trend} change={c.change} />
               </span>
             </li>
           );
@@ -698,35 +616,37 @@ function CampaignFunnelPanel() {
   const max = funnelData.stages[0].num;
   return (
     <>
-      <PanelHeader
-        title={funnelData.title}
-        meta={<span className="dash-panel-meta-text">{funnelData.period}</span>}
-        action={<ActionLink />}
-      />
-      <ul className="dash-funnel-list">
+      <PanelHeader title={funnelData.title} meta={funnelData.period} action={<ActionLink />} />
+      <ul className="m-0 p-0 list-none flex flex-col gap-1.5 flex-1">
         {funnelData.stages.map((s, i) => {
           const width = 40 + (s.num / max) * 60;
           return (
-            <li key={s.stage} className="dash-funnel-step">
+            <li key={s.stage} className="flex flex-col items-center gap-1">
               {i > 0 && s.conversion && (
-                <div className="dash-funnel-conv">
-                  <span className="dash-funnel-conv-arrow" aria-hidden="true">↓</span>
-                  转化 {s.conversion}
+                <div className="text-[10px] text-stardust-gold/72 flex items-center gap-1">
+                  <span aria-hidden>↓</span>转化 {s.conversion}
                 </div>
               )}
-              <div className="dash-funnel-bar" style={{ width: `${width}%` }}>
-                <span className="dash-funnel-stage">{s.stage}</span>
-                <span className="dash-funnel-value">{s.value}</span>
+              <div
+                className={[
+                  "rounded-[8px] px-3 py-1.5 flex items-center justify-between gap-3",
+                  "bg-[linear-gradient(90deg,rgb(245_210_138/0.32),rgb(127_185_190/0.18))]",
+                  "border border-stardust-gold/22",
+                ].join(" ")}
+                style={{ width: `${width}%` }}
+              >
+                <span className="text-[11px] text-soft-white/82">{s.stage}</span>
+                <span className="text-[12px] text-soft-white/92 tabular-nums">{s.value}</span>
               </div>
             </li>
           );
         })}
       </ul>
-      <div className="dash-funnel-roi">
-        <div className="dash-funnel-roi-label">{funnelData.roi.label}</div>
-        <div className="dash-funnel-roi-value">
-          <strong>{funnelData.roi.value}</strong>
-          <span>{funnelData.roi.change}</span>
+      <div className="cosmic-card flex items-center justify-between gap-2 p-3 mt-1">
+        <div className="text-[11px] text-soft-white/64">{funnelData.roi.label}</div>
+        <div className="flex items-baseline gap-2">
+          <strong className="text-[22px] font-light text-stardust-gold tabular-nums">{funnelData.roi.value}</strong>
+          <span className="text-[10px] text-stardust-gold/72">{funnelData.roi.change}</span>
         </div>
       </div>
     </>
@@ -737,51 +657,51 @@ function AIInsightsPanel() {
   return (
     <>
       <PanelHeader title="AI 异常洞察" action={<ActionLink />} />
-      <ul className="dash-insight-list">
+      <ul className="m-0 p-0 list-none flex flex-col gap-2.5 flex-1 overflow-y-auto">
         {insightsData.items.map((item, i) => (
-          <li key={i} className="dash-insight-item">
-            <div className="dash-insight-head">
-              <span className={`dash-tag dash-tag-${insightTagKey(item.tag)}`}>{item.tag}</span>
-              <span className="dash-insight-time">{item.time}</span>
+          <li key={i} className="cosmic-card p-3 flex flex-col gap-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${insightTagCls(item.tag)}`}>{item.tag}</span>
+              <span className="text-[10px] text-soft-white/46 tabular-nums">{item.time}</span>
             </div>
-            <div className="dash-insight-title">{item.title}</div>
-            <div className="dash-insight-desc">{item.description}</div>
+            <div className="text-[13px] text-soft-white/92 font-medium leading-snug">{item.title}</div>
+            <div className="text-[11px] text-soft-white/64 leading-snug">{item.description}</div>
           </li>
         ))}
       </ul>
-      <div className="dash-panel-footer">
+      <div className="pt-2 flex justify-end border-t border-soft-white/6">
         <ActionLink>{insightsData.footerAction}</ActionLink>
       </div>
     </>
   );
 }
 
-function insightTagKey(tag: InsightTag): "gold" | "teal" | "purple" {
-  if (tag === "销售洞察") return "gold";
-  if (tag === "运营洞察") return "teal";
-  return "purple";
+function insightTagCls(tag: InsightTag) {
+  if (tag === "销售洞察") return "bg-stardust-gold/16 text-stardust-gold border border-stardust-gold/24";
+  if (tag === "运营洞察") return "bg-accent-teal/16 text-accent-teal border border-accent-teal/24";
+  return "bg-accent-violet/22 text-accent-violet border border-accent-violet/24";
 }
 
 function AIPlanPanel() {
   return (
     <>
-      <PanelHeader
-        title="AI 推荐计划"
-        meta={<span className="dash-panel-meta-text">由 AI 基于数据与目标推荐</span>}
-      />
-      <ul className="dash-plan-grid">
+      <PanelHeader title="AI 推荐计划" meta="由 AI 基于数据与目标推荐" />
+      <ul className="m-0 p-0 list-none grid grid-cols-5 gap-3">
         {aiPlans.map((p) => (
-          <li key={p.title} className={`dash-plan-card dash-plan-${p.icon}`}>
-            <div className="dash-plan-icon" aria-hidden="true">
+          <li key={p.title} className="cosmic-card p-4 flex flex-col gap-2 min-h-[148px]">
+            <div className="w-9 h-9 rounded-[10px] bg-stardust-gold/14 text-stardust-gold grid place-items-center border border-stardust-gold/24">
               <PlanIconGlyph kind={p.icon} />
             </div>
-            <div className="dash-plan-body">
-              <div className="dash-plan-title">{p.title}</div>
-              <div className="dash-plan-desc">{p.description}</div>
+            <div className="flex flex-col gap-1 flex-1 min-w-0">
+              <div className="text-[13px] font-medium text-soft-white/92">{p.title}</div>
+              <div className="text-[11px] text-soft-white/64 leading-snug">{p.description}</div>
             </div>
-            <button type="button" className="dash-plan-action">
+            <button
+              type="button"
+              className="self-start inline-flex items-center gap-1 text-[11px] text-stardust-gold hover:text-stardust-amber transition-colors"
+            >
               {p.action}
-              <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden="true">
+              <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden>
                 <path d="M2 5 H7.5 M5 2.5 L8 5 L5 7.5" stroke="currentColor" strokeWidth="1.3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
