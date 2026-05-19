@@ -26,19 +26,6 @@ const colorTokens: ColorToken[] = [
 
 const colorGroups: ColorGroup[] = ["Surface", "Foreground", "Accent", "Semantic"];
 
-const fontTokens = [
-  {
-    name: "font-sans",
-    value: '"Space Grotesk", "Avenir Next", "Inter", system-ui, sans-serif',
-    className: "font-sans",
-  },
-  {
-    name: "font-display",
-    value: '"Space Grotesk", system-ui, sans-serif',
-    className: "font-display",
-  },
-];
-
 const typeScale = [
   { token: "text-6xl", size: "52 / 1.05", className: "text-6xl font-light" },
   { token: "text-5xl", size: "44 / 1.05", className: "text-5xl font-light" },
@@ -128,24 +115,9 @@ export default function CosmicGravity() {
 
       <Section
         kicker="Typography"
-        title="字体 & 字号"
-        desc="字体族通过 --font-sans / --font-display 注册；字号通过 --text-{2xs..6xl} 注册（每档配套 line-height），统一使用 text-xs / text-sm / text-base ... 语义化工具类，避免散落的 text-[Npx] 任意值。"
+        title="字号"
+        desc="字号通过 --text-{2xs..6xl} 注册（每档配套 line-height），统一使用 text-xs / text-sm / text-base ... 语义化工具类，避免散落的 text-[Npx] 任意值。"
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {fontTokens.map((font) => (
-            <article key={font.name} className="cosmic-panel p-6 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <CodeTag>{`--${font.name}`}</CodeTag>
-                <span className="text-2xs tracking-[0.18em] text-soft-white/46 uppercase">{font.name}</span>
-              </div>
-              <div className={`text-5xl leading-none font-light text-soft-white/92 ${font.className}`}>
-                Aa Bb 0123
-              </div>
-              <p className="m-0 text-xs text-soft-white/52 break-all font-mono">{font.value}</p>
-            </article>
-          ))}
-        </div>
-
         <div className="cosmic-panel p-6 flex flex-col gap-5">
           <div className="flex items-center gap-3">
             <h3 className="m-0 text-base font-medium text-soft-white/82">推荐字号体系</h3>
@@ -217,7 +189,7 @@ export default function CosmicGravity() {
       <Section
         kicker="Override"
         title="如何修改 / 扩展"
-        desc="编辑 app/globals.css 顶部的 @theme {} 块即可重新映射所有 Tailwind 工具类。新增 token 只需新增一行 --color-x 或 --shadow-y。注意：使用裸 @theme，不要加 static —— @theme static 不会覆盖 / 扩展 Tailwind v4 内置 namespace（--text-*、--font-sans 等），自定义值会静默回落到默认值。"
+        desc="编辑 app/globals.css 顶部的 @theme {} 块即可重新映射所有 Tailwind 工具类。新增 token 只需新增一行 --color-x 或 --shadow-y。注意：使用裸 @theme，不要加 static —— @theme static 不会覆盖 / 扩展 Tailwind v4 内置 namespace（--text-* 等），自定义值会静默回落到默认值。"
       >
         <pre className="cosmic-panel p-5 text-sm leading-relaxed text-soft-white/82 font-mono overflow-x-auto">
 {`@theme {
@@ -226,9 +198,6 @@ export default function CosmicGravity() {
   --color-stardust-gold: #f5d28a;
   --color-accent-teal: #7fb9be;
   /* ... */
-
-  /* Font family → font-sans / font-display */
-  --font-sans: "Space Grotesk", system-ui, sans-serif;
 
   /* Type scale → text-xs / text-sm / text-base / text-md ... */
   --text-xs: 11px;
