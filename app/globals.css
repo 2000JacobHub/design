@@ -12,6 +12,14 @@
    ones (--text-xs, ...).
    ============================================================ */
 @theme {
+  /* Font families — only Inter + JetBrains Mono on the page (medium 500).
+     Both are loaded via next/font in app/layout.tsx, which exposes
+     --font-inter / --font-jetbrains-mono as CSS variables. */
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
   /* Base / surface */
   --color-cosmic-black: #050507;
   --color-deep-space: #0e0e14;
@@ -94,6 +102,14 @@ body {
   min-height: 100%;
   background: var(--color-cosmic-black);
   color: rgb(245 246 248 / 0.92);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  /* Only the 500 face is loaded for Inter / JetBrains Mono — disabling
+     synthesis means that any `font-bold` / `<strong>` / `<b>` in the
+     component tree no longer renders as a faux-bold of the 500 face,
+     and `font-light` falls back to the nearest available weight (500).
+     Net effect: the page is rendered exclusively in medium 500. */
+  font-synthesis: none;
   text-rendering: geometricPrecision;
   scrollbar-color: rgb(245 246 248 / 0.18) transparent;
   scrollbar-width: thin;
@@ -101,6 +117,18 @@ body {
 
 body {
   margin: 0;
+}
+
+/* Numbers always render in JetBrains Mono. We piggy-back on the existing
+   `tabular-nums` marker that the data UI already uses for every numeric
+   value — adding the mono family here keeps usage sites unchanged. */
+.tabular-nums,
+.font-mono,
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--font-mono);
 }
 
 body::-webkit-scrollbar {

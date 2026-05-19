@@ -132,22 +132,7 @@ export default function Dashboard() {
 
       <header className="relative z-2 flex items-center justify-between gap-4 mb-5">
         <div className="flex items-center gap-4">
-          <div className="relative w-12 h-12 shrink-0" aria-hidden>
-            <span className="absolute inset-0 rounded-full border border-stardust-gold/45" />
-            <span className="absolute inset-[6px] rounded-full bg-stardust-gold/18 shadow-gold-soft" />
-            <span className="absolute inset-[15px] rounded-full bg-stardust-gold shadow-gold-pulse" />
-            <span className="absolute -right-0.5 -top-0.5 w-1.5 h-1.5 rounded-full bg-accent-teal shadow-teal-dot" />
-          </div>
-          <div className="flex flex-col gap-1">
-            <h1 className="m-0 text-2xl leading-none font-medium tracking-[0.06em]">
-              <span className="bg-linear-to-r from-stardust-gold via-stardust-amber to-accent-teal bg-clip-text text-transparent">
-                智慧商场运营大屏
-              </span>
-            </h1>
-            <span className="text-2xs text-soft-white/46 tracking-[0.4em] uppercase">
-              Cosmic · Live Mall Operations
-            </span>
-          </div>
+            <div className={'w-28 h-8 cosmic-card inline-flex items-center pointer:cursor'}></div>
         </div>
         <div className="flex items-center gap-3">
           <div className="inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-accent-teal/8 border border-accent-teal/24">
@@ -580,7 +565,7 @@ function CategorySalesPanel() {
             >
               <span
                 className={[
-                  "w-5 h-5 rounded-full grid place-items-center text-xs font-medium",
+                  "w-5 h-5 rounded-full grid place-items-center text-xs font-medium tabular-nums",
                   c.rank <= 3 ? "bg-stardust-gold text-cosmic-black" : "bg-soft-white/8 text-soft-white/64",
                 ].join(" ")}
               >
@@ -617,7 +602,7 @@ function CampaignFunnelPanel() {
             <li key={s.stage} className="flex flex-col items-center gap-1">
               {i > 0 && s.conversion && (
                 <div className="text-2xs text-stardust-gold/72 flex items-center gap-1">
-                  <span aria-hidden>↓</span>转化 {s.conversion}
+                  <span aria-hidden>↓</span>转化<span className='tabular-nums'>{s.conversion}</span>
                 </div>
               )}
               <div
