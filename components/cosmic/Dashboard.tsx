@@ -358,7 +358,7 @@ function TodayFocusPanel() {
                     key={a}
                     type="button"
                     className={[
-                      "h-7 px-2.5 rounded-full text-xs transition-colors border",
+                      "h-5 px-1.5 rounded-full text-2xs transition-colors border",
                       i === 1
                         ? "bg-stardust-gold/14 border-stardust-gold/45 text-stardust-gold hover:bg-stardust-gold/22"
                         : "bg-cosmic-black/52 border-soft-white/10 text-soft-white/72 hover:border-soft-white/24 hover:text-soft-white/92",
