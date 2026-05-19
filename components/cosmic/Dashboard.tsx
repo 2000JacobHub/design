@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 type Trend = "up" | "down";
 
@@ -385,11 +385,31 @@ function TrafficSalesChart({
   onHover: (idx: number | null) => void;
 }) {
   const data = trafficSales;
-  const w = 540;
-  const h = 220;
+
+  /* Measure the actual container size so the SVG viewBox uses real pixel
+     coordinates. Without this, viewBox is fixed (e.g. 540×220) and combined
+     with `preserveAspectRatio="none"` produces non-uniform X/Y scaling that
+     deforms circles into ovals, smears text, and makes strokes uneven. */
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ w: 540, h: 220 });
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const measure = () => {
+      const { width, height } = el.getBoundingClientRect();
+      if (width > 0 && height > 0) setSize({ w: width, h: height });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const { w, h } = size;
   const pad = { top: 22, right: 44, bottom: 30, left: 44 };
-  const innerW = w - pad.left - pad.right;
-  const innerH = h - pad.top - pad.bottom;
+  const innerW = Math.max(1, w - pad.left - pad.right);
+  const innerH = Math.max(1, h - pad.top - pad.bottom);
   const n = data.xAxis.length;
 
   const trafficMax = Math.max(...data.traffic) * 1.12;
@@ -411,8 +431,8 @@ function TrafficSalesChart({
       .join(" ");
   };
 
-  const trafficPath = useMemo(() => buildSmooth(data.traffic, yTraffic), [data.traffic]);
-  const salesPath = useMemo(() => buildSmooth(data.sales, ySales), [data.sales]);
+  const trafficPath = buildSmooth(data.traffic, yTraffic);
+  const salesPath = buildSmooth(data.sales, ySales);
   const baseY = h - pad.bottom;
   const trafficArea = `${trafficPath} L${xAt(n - 1).toFixed(1)} ${baseY} L${xAt(0).toFixed(1)} ${baseY} Z`;
 
@@ -442,11 +462,10 @@ function TrafficSalesChart({
         }
         action={<ActionLink />}
       />
-      <div className="relative flex-1 min-h-0 overflow-visible">
+      <div ref={containerRef} className="relative flex-1 min-h-0 overflow-visible">
         <svg
           viewBox={`0 0 ${w} ${h}`}
-          className="w-full h-full"
-          preserveAspectRatio="none"
+          className="w-full h-full block"
           aria-label="客流与销售额趋势"
           onMouseMove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
