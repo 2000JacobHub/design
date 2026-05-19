@@ -24,8 +24,8 @@ export function PageShell({ children }: { children: ReactNode }) {
         <Link href="/" className="flex items-center gap-3 no-underline group">
           <BrandMark />
           <div className="flex flex-col gap-0.5">
-            <span className="text-[10px] tracking-[0.24em] text-soft-white/52 uppercase">Design System</span>
-            <span className="text-[20px] font-light text-soft-white/92 group-hover:text-soft-white">
+            <span className="text-2xs tracking-[0.24em] text-soft-white/52 uppercase">Design System</span>
+            <span className="text-2xl font-light text-soft-white/92 group-hover:text-soft-white">
               Cosmic Gravity
             </span>
           </div>
@@ -58,7 +58,7 @@ function NavLink({ href, children, active = false }: { href: string; children: R
       href={href}
       aria-current={active ? "page" : undefined}
       className={[
-        "h-8 px-4 inline-flex items-center justify-center rounded-full text-[12px] no-underline border transition-colors",
+        "h-8 px-4 inline-flex items-center justify-center rounded-full text-sm no-underline border transition-colors",
         active
           ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-[inset_0_0_12px_rgb(245_210_138/0.08)]"
           : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",

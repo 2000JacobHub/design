@@ -139,18 +139,18 @@ export default function Dashboard() {
             <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-[0_0_12px_rgb(245_210_138/0.7)]" />
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-[10px] tracking-[0.22em] text-soft-white/52">COSMIC GRAVITY · MALL OPS</span>
-            <h1 className="m-0 text-[22px] font-light text-soft-white/92">购物中心运营态势大屏</h1>
+            <span className="text-2xs tracking-[0.22em] text-soft-white/52">COSMIC GRAVITY · MALL OPS</span>
+            <h1 className="m-0 text-3xl font-light text-soft-white/92">购物中心运营态势大屏</h1>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="cosmic-card inline-flex items-center gap-2 px-3 py-1.5 text-[12px] text-soft-white/82">
+          <div className="cosmic-card inline-flex items-center gap-2 px-3 py-1.5 text-sm text-soft-white/82">
             <span className="w-1.5 h-1.5 rounded-full bg-accent-teal shadow-[0_0_8px_rgb(127_185_190/0.7)]" />
             实时数据 · 同步正常
           </div>
           <div className="flex flex-col items-end leading-tight text-soft-white/82">
-            <span className="text-[20px] tabular-nums tracking-[0.04em]">{time}</span>
-            <span className="text-[10px] text-soft-white/56 tabular-nums">{date} · 周{weekday}</span>
+            <span className="text-2xl tabular-nums tracking-[0.04em]">{time}</span>
+            <span className="text-2xs text-soft-white/56 tabular-nums">{date} · 周{weekday}</span>
           </div>
           <nav aria-label="主导航" className="flex items-center gap-1.5">
             <DashNavLink href="/">系统</DashNavLink>
@@ -198,7 +198,7 @@ function DashNavLink({ href, children, active = false }: { href: string; childre
     <Link
       href={href}
       className={[
-        "h-7 px-3 inline-flex items-center justify-center rounded-full text-[12px] no-underline border",
+        "h-7 px-3 inline-flex items-center justify-center rounded-full text-sm no-underline border",
         active
           ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-[inset_0_0_12px_rgb(245_210_138/0.08)]"
           : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",
@@ -230,8 +230,8 @@ function PanelHeader({
   return (
     <div className="flex items-center justify-between gap-3">
       <div className="flex items-center gap-3 min-w-0">
-        <h2 className="m-0 text-[15px] font-medium text-soft-white/92 truncate">{title}</h2>
-        {meta && <span className="text-[11px] text-soft-white/56">{meta}</span>}
+        <h2 className="m-0 text-lg font-medium text-soft-white/92 truncate">{title}</h2>
+        {meta && <span className="text-xs text-soft-white/56">{meta}</span>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
@@ -242,7 +242,7 @@ function ActionLink({ children = "查看更多" }: { children?: ReactNode }) {
   return (
     <button
       type="button"
-      className="inline-flex items-center gap-1 text-[11px] text-stardust-gold/82 hover:text-stardust-gold transition-colors"
+      className="inline-flex items-center gap-1 text-xs text-stardust-gold/82 hover:text-stardust-gold transition-colors"
     >
       {children}
       <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden>
@@ -257,7 +257,7 @@ function TrendChip({ trend, change }: { trend: Trend; change: string }) {
   return (
     <span
       className={[
-        "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] tabular-nums",
+        "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs tabular-nums",
         up ? "text-stardust-gold bg-stardust-gold/12 border border-stardust-gold/24" : "text-danger bg-danger/12 border border-danger/24",
       ].join(" ")}
     >
@@ -277,12 +277,12 @@ function KpiCardView({ kpi }: { kpi: KpiCard }) {
   return (
     <div className="cosmic-card flex flex-col gap-2 p-4 min-w-0">
       <div className="flex items-start justify-between gap-2 min-w-0">
-        <span className="text-[12px] text-soft-white/64 truncate">{kpi.title}</span>
+        <span className="text-sm text-soft-white/64 truncate">{kpi.title}</span>
         <TrendChip trend={kpi.trend} change={kpi.change} />
       </div>
-      <div className="text-[28px] leading-none font-light text-soft-white/92 tabular-nums">{kpi.value}</div>
+      <div className="text-4xl leading-none font-light text-soft-white/92 tabular-nums">{kpi.value}</div>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-[10px] text-soft-white/46">{kpi.comparison}</span>
+        <span className="text-2xs text-soft-white/46">{kpi.comparison}</span>
         <KpiSparkline data={kpi.spark} trend={kpi.trend} />
       </div>
     </div>
@@ -329,7 +329,7 @@ function TodayFocusPanel() {
       <PanelHeader
         title={todayFocus.title}
         meta={
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-violet/22 text-accent-violet text-[10px]">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent-violet/22 text-accent-violet text-2xs">
             {todayFocus.tag}
           </span>
         }
@@ -339,7 +339,7 @@ function TodayFocusPanel() {
           <li key={item.rank} className="flex gap-3">
             <span
               className={[
-                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-[12px] font-medium",
+                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-sm font-medium",
                 item.rank === 1
                   ? "bg-stardust-gold text-cosmic-black shadow-[0_0_12px_rgb(245_210_138/0.5)]"
                   : item.rank === 2
@@ -350,15 +350,15 @@ function TodayFocusPanel() {
               {item.rank}
             </span>
             <div className="flex flex-col gap-1 min-w-0 flex-1">
-              <div className="text-[13px] font-medium text-soft-white/92">{item.title}</div>
-              <div className="text-[12px] text-soft-white/64 leading-snug">{item.description}</div>
+              <div className="text-base font-medium text-soft-white/92">{item.title}</div>
+              <div className="text-sm text-soft-white/64 leading-snug">{item.description}</div>
               <div className="flex gap-2 mt-1 flex-wrap">
                 {item.actions.map((a, i) => (
                   <button
                     key={a}
                     type="button"
                     className={[
-                      "h-7 px-2.5 rounded-full text-[11px] transition-colors border",
+                      "h-7 px-2.5 rounded-full text-xs transition-colors border",
                       i === 1
                         ? "bg-stardust-gold/14 border-stardust-gold/45 text-stardust-gold hover:bg-stardust-gold/22"
                         : "bg-cosmic-black/52 border-soft-white/10 text-soft-white/72 hover:border-soft-white/24 hover:text-soft-white/92",
@@ -386,12 +386,12 @@ function AgentSummaryPanel() {
       <ul className="m-0 p-0 list-none grid grid-cols-3 gap-2 flex-1">
         {agentSummary.metrics.map((m) => (
           <li key={m.title} className="cosmic-card flex flex-col gap-1 p-3 min-w-0">
-            <span className="text-[11px] text-soft-white/56 truncate">{m.title}</span>
+            <span className="text-xs text-soft-white/56 truncate">{m.title}</span>
             <div className="flex items-baseline gap-1">
-              <strong className="text-[22px] font-light text-soft-white/92 tabular-nums">{m.value}</strong>
-              <span className="text-[11px] text-soft-white/52">{m.unit}</span>
+              <strong className="text-3xl font-light text-soft-white/92 tabular-nums">{m.value}</strong>
+              <span className="text-xs text-soft-white/52">{m.unit}</span>
             </div>
-            <span className="text-[10px] text-stardust-gold/72">{m.change}</span>
+            <span className="text-2xs text-stardust-gold/72">{m.change}</span>
           </li>
         ))}
       </ul>
@@ -540,7 +540,7 @@ function TrafficSalesChart({
 
         {showHover && (
           <div
-            className="absolute z-[20] cosmic-card p-2.5 text-[11px] whitespace-nowrap pointer-events-none -translate-y-1/2"
+            className="absolute z-[20] cosmic-card p-2.5 text-xs whitespace-nowrap pointer-events-none -translate-y-1/2"
             style={(() => {
               const flipped = hoverX > w / 2;
               const xPct = (hoverX / w) * 100;
@@ -554,7 +554,7 @@ function TrafficSalesChart({
               } as CSSProperties;
             })()}
           >
-            <div className="text-soft-white/64 text-[10px] mb-1.5">{data.xAxis[safeHover]}</div>
+            <div className="text-soft-white/64 text-2xs mb-1.5">{data.xAxis[safeHover]}</div>
             <div className="flex items-center gap-2">
               <i className="w-2 h-2 rounded-full bg-stardust-gold" />
               客流 <strong className="text-soft-white/92">{data.traffic[safeHover]} 万</strong>
@@ -566,7 +566,7 @@ function TrafficSalesChart({
           </div>
         )}
       </div>
-      <div className="text-[11px] text-soft-white/56 text-center">{trafficSales.summary}</div>
+      <div className="text-xs text-soft-white/56 text-center">{trafficSales.summary}</div>
     </>
   );
 }
@@ -582,12 +582,12 @@ function CategorySalesPanel() {
           return (
             <li
               key={c.rank}
-              className="grid items-center gap-2 text-[12px]"
+              className="grid items-center gap-2 text-sm"
               style={{ gridTemplateColumns: "20px 64px 1fr 72px 60px" }}
             >
               <span
                 className={[
-                  "w-5 h-5 rounded-full grid place-items-center text-[11px] font-medium",
+                  "w-5 h-5 rounded-full grid place-items-center text-xs font-medium",
                   c.rank <= 3 ? "bg-stardust-gold text-cosmic-black" : "bg-soft-white/8 text-soft-white/64",
                 ].join(" ")}
               >
@@ -623,7 +623,7 @@ function CampaignFunnelPanel() {
           return (
             <li key={s.stage} className="flex flex-col items-center gap-1">
               {i > 0 && s.conversion && (
-                <div className="text-[10px] text-stardust-gold/72 flex items-center gap-1">
+                <div className="text-2xs text-stardust-gold/72 flex items-center gap-1">
                   <span aria-hidden>↓</span>转化 {s.conversion}
                 </div>
               )}
@@ -635,18 +635,18 @@ function CampaignFunnelPanel() {
                 ].join(" ")}
                 style={{ width: `${width}%` }}
               >
-                <span className="text-[11px] text-soft-white/82">{s.stage}</span>
-                <span className="text-[12px] text-soft-white/92 tabular-nums">{s.value}</span>
+                <span className="text-xs text-soft-white/82">{s.stage}</span>
+                <span className="text-sm text-soft-white/92 tabular-nums">{s.value}</span>
               </div>
             </li>
           );
         })}
       </ul>
       <div className="cosmic-card flex items-center justify-between gap-2 p-3 mt-1">
-        <div className="text-[11px] text-soft-white/64">{funnelData.roi.label}</div>
+        <div className="text-xs text-soft-white/64">{funnelData.roi.label}</div>
         <div className="flex items-baseline gap-2">
-          <strong className="text-[22px] font-light text-stardust-gold tabular-nums">{funnelData.roi.value}</strong>
-          <span className="text-[10px] text-stardust-gold/72">{funnelData.roi.change}</span>
+          <strong className="text-3xl font-light text-stardust-gold tabular-nums">{funnelData.roi.value}</strong>
+          <span className="text-2xs text-stardust-gold/72">{funnelData.roi.change}</span>
         </div>
       </div>
     </>
@@ -661,11 +661,11 @@ function AIInsightsPanel() {
         {insightsData.items.map((item, i) => (
           <li key={i} className="cosmic-card p-3 flex flex-col gap-1.5">
             <div className="flex items-center justify-between gap-2">
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full ${insightTagCls(item.tag)}`}>{item.tag}</span>
-              <span className="text-[10px] text-soft-white/46 tabular-nums">{item.time}</span>
+              <span className={`text-2xs px-1.5 py-0.5 rounded-full ${insightTagCls(item.tag)}`}>{item.tag}</span>
+              <span className="text-2xs text-soft-white/46 tabular-nums">{item.time}</span>
             </div>
-            <div className="text-[13px] text-soft-white/92 font-medium leading-snug">{item.title}</div>
-            <div className="text-[11px] text-soft-white/64 leading-snug">{item.description}</div>
+            <div className="text-base text-soft-white/92 font-medium leading-snug">{item.title}</div>
+            <div className="text-xs text-soft-white/64 leading-snug">{item.description}</div>
           </li>
         ))}
       </ul>
@@ -693,12 +693,12 @@ function AIPlanPanel() {
               <PlanIconGlyph kind={p.icon} />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">
-              <div className="text-[13px] font-medium text-soft-white/92">{p.title}</div>
-              <div className="text-[11px] text-soft-white/64 leading-snug">{p.description}</div>
+              <div className="text-base font-medium text-soft-white/92">{p.title}</div>
+              <div className="text-xs text-soft-white/64 leading-snug">{p.description}</div>
             </div>
             <button
               type="button"
-              className="self-start inline-flex items-center gap-1 text-[11px] text-stardust-gold hover:text-stardust-amber transition-colors"
+              className="self-start inline-flex items-center gap-1 text-xs text-stardust-gold hover:text-stardust-amber transition-colors"
             >
               {p.action}
               <svg viewBox="0 0 10 10" width="10" height="10" aria-hidden>

@@ -40,11 +40,18 @@ const fontTokens = [
 ];
 
 const typeScale = [
-  { label: "Display", size: "48px", weight: 300, className: "text-[48px] leading-none font-light" },
-  { label: "H1", size: "28px", weight: 300, className: "text-[28px] leading-tight font-light" },
-  { label: "H2", size: "22px", weight: 400, className: "text-[22px] leading-snug font-normal" },
-  { label: "Body", size: "14px", weight: 400, className: "text-[14px] leading-relaxed" },
-  { label: "Caption", size: "11px", weight: 400, className: "text-[11px] tracking-[0.16em] uppercase text-soft-white/56" },
+  { token: "text-6xl", size: "52 / 1.05", className: "text-6xl font-light" },
+  { token: "text-5xl", size: "44 / 1.05", className: "text-5xl font-light" },
+  { token: "text-4xl", size: "28 / 1.1",  className: "text-4xl font-light" },
+  { token: "text-3xl", size: "22 / 28",   className: "text-3xl font-normal" },
+  { token: "text-2xl", size: "20 / 26",   className: "text-2xl font-normal" },
+  { token: "text-xl",  size: "18 / 24",   className: "text-xl font-normal" },
+  { token: "text-lg",  size: "15 / 22",   className: "text-lg font-medium" },
+  { token: "text-md",  size: "14 / 20",   className: "text-md" },
+  { token: "text-base", size: "13 / 18",  className: "text-base" },
+  { token: "text-sm",  size: "12 / 16",   className: "text-sm" },
+  { token: "text-xs",  size: "11 / 16",   className: "text-xs" },
+  { token: "text-2xs", size: "10 / 14",   className: "text-2xs uppercase tracking-[0.16em]" },
 ];
 
 const radiusTokens = [
@@ -69,19 +76,19 @@ const utilityTokens = [
   { name: "dashboard-bg", desc: "大屏页面径向渐变", element: "dashboard" },
 ];
 
-const kicker = "text-[11px] tracking-[0.18em] text-soft-white/46 uppercase";
+const kicker = "text-xs tracking-[0.18em] text-soft-white/46 uppercase";
 
 export default function CosmicGravity() {
   return (
     <>
       <section className="flex flex-col gap-4 pt-6">
         <span className="cosmic-pill self-start">Cosmic Gravity</span>
-        <h2 className="m-0 text-[52px] leading-[1.05] font-light text-soft-white/92 max-w-[820px]">
-          一套围绕 <span className="text-stardust-gold">@theme static</span> 构建的设计 token 体系
+        <h2 className="m-0 text-6xl leading-[1.05] font-light text-soft-white/92 max-w-[820px]">
+          一套围绕 <span className="text-stardust-gold">@theme</span> 构建的设计 token 体系
         </h2>
-        <p className="m-0 max-w-[640px] text-[15px] leading-relaxed text-soft-white/64">
+        <p className="m-0 max-w-[640px] text-lg leading-relaxed text-soft-white/64">
           所有页面共享同一套 Tailwind v4 token：颜色 / 字体 / 圆角 / 阴影 / 工具类。
-          修改 <code className="px-1.5 py-0.5 rounded-md bg-soft-white/8 text-stardust-gold text-[13px]">app/globals.css</code> 中的 @theme 与 @utility 即可全局生效。
+          修改 <code className="px-1.5 py-0.5 rounded-md bg-soft-white/8 text-stardust-gold text-base">app/globals.css</code> 中的 @theme 与 @utility 即可全局生效。
         </p>
       </section>
 
@@ -93,9 +100,9 @@ export default function CosmicGravity() {
         {colorGroups.map((group) => (
           <div key={group} className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
-              <h3 className="m-0 text-[13px] font-medium text-soft-white/82">{group}</h3>
+              <h3 className="m-0 text-base font-medium text-soft-white/82">{group}</h3>
               <span className="h-px flex-1 bg-soft-white/8" />
-              <span className="text-[11px] text-soft-white/46 tabular-nums">
+              <span className="text-xs text-soft-white/46 tabular-nums">
                 {colorTokens.filter((c) => c.group === group).length}
               </span>
             </div>
@@ -113,34 +120,33 @@ export default function CosmicGravity() {
       <Section
         kicker="Typography"
         title="字体 & 字号"
-        desc="字体族通过 @theme 的 --font-sans / --font-display 注册。字号目前直接使用 Tailwind 任意值（text-[Npx]）。"
+        desc="字体族通过 --font-sans / --font-display 注册；字号通过 --text-{2xs..6xl} 注册（每档配套 line-height），统一使用 text-xs / text-sm / text-base ... 语义化工具类，避免散落的 text-[Npx] 任意值。"
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {fontTokens.map((font) => (
             <article key={font.name} className="cosmic-panel p-6 flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <CodeTag>{`--${font.name}`}</CodeTag>
-                <span className="text-[10px] tracking-[0.18em] text-soft-white/46 uppercase">{font.name}</span>
+                <span className="text-2xs tracking-[0.18em] text-soft-white/46 uppercase">{font.name}</span>
               </div>
-              <div className="text-[44px] leading-none font-light text-soft-white/92" style={font.style}>
+              <div className="text-5xl leading-none font-light text-soft-white/92" style={font.style}>
                 Aa Bb 0123
               </div>
-              <p className="m-0 text-[11px] text-soft-white/52 break-all font-mono">{font.value}</p>
+              <p className="m-0 text-xs text-soft-white/52 break-all font-mono">{font.value}</p>
             </article>
           ))}
         </div>
 
         <div className="cosmic-panel p-6 flex flex-col gap-5">
           <div className="flex items-center gap-3">
-            <h3 className="m-0 text-[13px] font-medium text-soft-white/82">推荐字号体系</h3>
+            <h3 className="m-0 text-base font-medium text-soft-white/82">推荐字号体系</h3>
             <span className="h-px flex-1 bg-soft-white/8" />
           </div>
           <div className="flex flex-col gap-4">
             {typeScale.map((row) => (
-              <div key={row.label} className="grid grid-cols-[80px_60px_60px_1fr] items-baseline gap-4 border-t border-soft-white/6 pt-3 first:border-0 first:pt-0">
-                <span className={kicker}>{row.label}</span>
-                <span className="text-[11px] text-soft-white/52 tabular-nums">{row.size}</span>
-                <span className="text-[11px] text-soft-white/52 tabular-nums">{row.weight}</span>
+              <div key={row.token} className="grid grid-cols-[120px_88px_1fr] items-baseline gap-4 border-t border-soft-white/6 pt-3 first:border-0 first:pt-0">
+                <CodeTag>{row.token}</CodeTag>
+                <span className="text-xs text-soft-white/52 tabular-nums">{row.size}</span>
                 <span className={`${row.className} text-soft-white/92 truncate`}>The quick brown cosmic fox 0123</span>
               </div>
             ))}
@@ -158,7 +164,7 @@ export default function CosmicGravity() {
             <article key={r.name} className="cosmic-panel p-6 flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <CodeTag>{`--${r.name}`}</CodeTag>
-                <span className="text-[11px] text-soft-white/56 tabular-nums">{r.value}</span>
+                <span className="text-xs text-soft-white/56 tabular-nums">{r.value}</span>
               </div>
               <div
                 className={`${r.className} h-24 bg-[linear-gradient(135deg,rgb(245_210_138/0.32),rgb(127_185_190/0.18))] border border-stardust-gold/24`}
@@ -179,7 +185,7 @@ export default function CosmicGravity() {
             <article key={s.name} className="cosmic-panel p-6 flex items-center justify-between gap-6">
               <div className="flex flex-col gap-2 min-w-0">
                 <CodeTag>{`--${s.name}`}</CodeTag>
-                <p className="m-0 text-[12px] text-soft-white/64">{s.desc}</p>
+                <p className="m-0 text-sm text-soft-white/64">{s.desc}</p>
               </div>
               <div className={`shrink-0 w-24 h-24 rounded-card bg-deep-space border border-soft-white/8 ${s.className}`} />
             </article>
@@ -202,21 +208,32 @@ export default function CosmicGravity() {
       <Section
         kicker="Override"
         title="如何修改 / 扩展"
-        desc="编辑 app/globals.css 顶部的 @theme static {} 块即可重新映射所有 Tailwind 工具类。新增 token 只需新增一行 --color-x 或 --shadow-y。"
+        desc="编辑 app/globals.css 顶部的 @theme {} 块即可重新映射所有 Tailwind 工具类。新增 token 只需新增一行 --color-x 或 --shadow-y。注意：使用裸 @theme，不要加 static —— @theme static 不会覆盖 / 扩展 Tailwind v4 内置 namespace（--text-*、--font-sans 等），自定义值会静默回落到默认值。"
       >
-        <pre className="cosmic-panel p-5 text-[12px] leading-relaxed text-soft-white/82 font-mono overflow-x-auto">
-{`@theme static {
+        <pre className="cosmic-panel p-5 text-sm leading-relaxed text-soft-white/82 font-mono overflow-x-auto">
+{`@theme {
+  /* Colors → bg-* / text-* / border-* */
   --color-cosmic-black: #050507;
   --color-stardust-gold: #f5d28a;
   --color-accent-teal: #7fb9be;
   /* ... */
 
+  /* Font family → font-sans / font-display */
   --font-sans: "Space Grotesk", system-ui, sans-serif;
 
+  /* Type scale → text-xs / text-sm / text-base / text-md ... */
+  --text-xs: 11px;
+  --text-xs--line-height: 16px;
+  --text-base: 13px;
+  --text-base--line-height: 18px;
+  /* ... */
+
+  /* Radius → rounded-pill / rounded-card / rounded-panel */
   --radius-pill: 999px;
   --radius-card: 14px;
   --radius-panel: 20px;
 
+  /* Shadow → shadow-gold-glow / shadow-panel / ... */
   --shadow-gold-glow: 0 0 28px rgb(245 210 138 / 0.18), inset 0 0 0 1px rgb(245 210 138 / 0.22);
 }`}
         </pre>
@@ -240,8 +257,8 @@ function Section({
     <section className="flex flex-col gap-5">
       <header className="flex flex-col gap-2">
         <span className={kicker}>{kickerText}</span>
-        <h2 className="m-0 text-[28px] font-light text-soft-white/92">{title}</h2>
-        {desc && <p className="m-0 max-w-[760px] text-[13px] text-soft-white/64 leading-relaxed">{desc}</p>}
+        <h2 className="m-0 text-4xl font-light text-soft-white/92">{title}</h2>
+        {desc && <p className="m-0 max-w-[760px] text-base text-soft-white/64 leading-relaxed">{desc}</p>}
       </header>
       <div className="flex flex-col gap-6">{children}</div>
     </section>
@@ -257,15 +274,15 @@ function ColorCard({ color }: { color: ColorToken }) {
       />
       <div className="flex flex-col gap-1.5 min-w-0">
         <div className="flex items-baseline justify-between gap-2">
-          <strong className="text-[13px] font-medium text-soft-white/92 truncate">{color.name}</strong>
-          <span className="text-[10px] text-soft-white/46 tabular-nums uppercase">{color.hex}</span>
+          <strong className="text-base font-medium text-soft-white/92 truncate">{color.name}</strong>
+          <span className="text-2xs text-soft-white/46 tabular-nums uppercase">{color.hex}</span>
         </div>
         <CodeTag>{`--color-${color.name}`}</CodeTag>
         <div className="flex items-center gap-1.5 flex-wrap">
           <ChipTag>{`bg-${color.name}`}</ChipTag>
           <ChipTag>{`text-${color.name}`}</ChipTag>
         </div>
-        {color.usage && <p className="m-0 text-[10.5px] text-soft-white/46 leading-snug">{color.usage}</p>}
+        {color.usage && <p className="m-0 text-2xs text-soft-white/46 leading-snug">{color.usage}</p>}
       </div>
     </article>
   );
@@ -277,7 +294,7 @@ function UtilityCard({ token }: { token: { name: string; desc: string; element: 
       <div className="flex items-center justify-between gap-2">
         <CodeTag>{`.${token.name}`}</CodeTag>
       </div>
-      <p className="m-0 text-[11.5px] text-soft-white/64 leading-snug">{token.desc}</p>
+      <p className="m-0 text-xs text-soft-white/64 leading-snug">{token.desc}</p>
       <div className="flex-1 grid place-items-center bg-cosmic-black/40 rounded-[10px] p-4 overflow-hidden">
         <UtilitySample element={token.element} />
       </div>
@@ -290,15 +307,15 @@ function UtilitySample({ element }: { element: string }) {
     case "panel":
       return (
         <div className="cosmic-panel w-full p-3 flex flex-col gap-1">
-          <span className="text-[10px] text-soft-white/46">PANEL TITLE</span>
-          <strong className="text-[14px] text-soft-white/92">面板内容示例</strong>
+          <span className="text-2xs text-soft-white/46">PANEL TITLE</span>
+          <strong className="text-md text-soft-white/92">面板内容示例</strong>
         </div>
       );
     case "card":
       return (
         <div className="cosmic-card w-full p-3 flex flex-col gap-1">
-          <span className="text-[10px] text-soft-white/46">CARD TITLE</span>
-          <strong className="text-[14px] text-soft-white/92">卡片内容示例</strong>
+          <span className="text-2xs text-soft-white/46">CARD TITLE</span>
+          <strong className="text-md text-soft-white/92">卡片内容示例</strong>
         </div>
       );
     case "pill":
@@ -324,7 +341,7 @@ function UtilitySample({ element }: { element: string }) {
 
 function CodeTag({ children }: { children: ReactNode }) {
   return (
-    <code className="inline-block px-1.5 py-0.5 rounded-md bg-soft-white/6 text-stardust-gold/90 text-[10.5px] font-mono w-max max-w-full truncate">
+    <code className="inline-block px-1.5 py-0.5 rounded-md bg-soft-white/6 text-stardust-gold/90 text-2xs font-mono w-max max-w-full truncate">
       {children}
     </code>
   );
@@ -332,7 +349,7 @@ function CodeTag({ children }: { children: ReactNode }) {
 
 function ChipTag({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-block px-1.5 py-0.5 rounded-md bg-cosmic-black/52 border border-soft-white/8 text-soft-white/64 text-[10px] font-mono">
+    <span className="inline-block px-1.5 py-0.5 rounded-md bg-cosmic-black/52 border border-soft-white/8 text-soft-white/64 text-2xs font-mono">
       {children}
     </span>
   );

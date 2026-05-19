@@ -30,9 +30,9 @@ const initialForm: FormState = {
   stabilized: false,
 };
 
-const kicker = "text-[11px] tracking-[0.16em] text-soft-white/46 uppercase";
+const kicker = "text-xs tracking-[0.16em] text-soft-white/46 uppercase";
 const fieldInput =
-  "h-10 w-full px-3 rounded-[10px] bg-soft-white/4 border border-soft-white/10 text-soft-white/92 text-[13px] " +
+  "h-10 w-full px-3 rounded-[10px] bg-soft-white/4 border border-soft-white/10 text-soft-white/92 text-base " +
   "placeholder:text-soft-white/30 transition-colors hover:border-soft-white/22 focus:outline-none focus:border-stardust-gold/55 focus:bg-soft-white/8 " +
   "[color-scheme:dark]";
 
@@ -64,16 +64,16 @@ export default function FormGallery() {
         <div className="flex flex-col gap-3">
           <span className="cosmic-pill self-start">Form Components</span>
           <h1 className="m-0 leading-none flex flex-col gap-1 text-soft-white/92 font-light">
-            <span className="text-[44px]">Mission</span>
-            <span className="text-[44px]">Console</span>
+            <span className="text-5xl">Mission</span>
+            <span className="text-5xl">Console</span>
           </h1>
         </div>
         <div className="cosmic-card flex flex-col gap-1 p-4 min-w-[208px]">
           <span className={kicker}>Validation</span>
-          <strong className="text-[24px] font-light text-soft-white/92">
+          <strong className="text-3xl font-light text-soft-white/92">
             {errors.length === 0 ? "Ready" : `${errors.length} Pending`}
           </strong>
-          <p className="m-0 text-[12px] text-soft-white/52">
+          <p className="m-0 text-sm text-soft-white/52">
             {submitted && errors.length === 0 ? "Transmission staged" : form.channel}
           </p>
         </div>
@@ -139,7 +139,7 @@ export default function FormGallery() {
                   role="radio"
                   type="button"
                   className={[
-                    "h-9 rounded-[8px] text-[12px] uppercase tracking-[0.14em] transition-colors",
+                    "h-9 rounded-[8px] text-sm uppercase tracking-[0.14em] transition-colors",
                     form.mode === mode
                       ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
                       : "text-soft-white/64 hover:bg-soft-white/4 hover:text-soft-white/92",
@@ -159,7 +159,7 @@ export default function FormGallery() {
                     type="radio"
                     className="appearance-none w-4 h-4 rounded-full border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:before:content-[''] checked:before:w-2 checked:before:h-2 checked:before:rounded-full checked:before:bg-stardust-gold checked:before:shadow-[0_0_8px_rgb(245_210_138/0.6)]"
                   />
-                  <span className="text-[13px] uppercase tracking-[0.08em] text-soft-white/72">{priority}</span>
+                  <span className="text-base uppercase tracking-[0.08em] text-soft-white/72">{priority}</span>
                 </label>
               ))}
             </div>
@@ -193,7 +193,7 @@ export default function FormGallery() {
               className="mt-4 flex items-center gap-3"
               style={{ "--value": `${form.frequency}%` } as CSSProperties}
             >
-              <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56 min-w-[78px]">Frequency</span>
+              <span className="text-xs uppercase tracking-[0.14em] text-soft-white/56 min-w-[78px]">Frequency</span>
               <span className="relative flex-1 h-3 flex items-center">
                 <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
                 <span
@@ -215,7 +215,7 @@ export default function FormGallery() {
                   style={{ left: "var(--value)" }}
                 />
               </span>
-              <b className="text-[12px] tabular-nums text-soft-white/82 min-w-[40px] text-right">{form.frequency}%</b>
+              <b className="text-sm tabular-nums text-soft-white/82 min-w-[40px] text-right">{form.frequency}%</b>
             </label>
           </FormPanel>
 
@@ -227,7 +227,7 @@ export default function FormGallery() {
               >
                 −
               </StepperButton>
-              <strong className="flex-1 text-center text-[28px] font-light text-soft-white/92 border border-soft-white/10 rounded-[10px] py-2 tabular-nums bg-cosmic-black/40">
+              <strong className="flex-1 text-center text-4xl font-light text-soft-white/92 border border-soft-white/10 rounded-[10px] py-2 tabular-nums bg-cosmic-black/40">
                 {form.frequency}
               </strong>
               <StepperButton
@@ -245,9 +245,9 @@ export default function FormGallery() {
                   setField("stabilized", e.currentTarget.checked);
                 }}
                 type="checkbox"
-                className="appearance-none w-4 h-4 rounded-[5px] border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:bg-stardust-gold/12 checked:before:content-['✓'] checked:before:text-stardust-gold checked:before:text-[10px] checked:before:leading-none"
+                className="appearance-none w-4 h-4 rounded-[5px] border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:bg-stardust-gold/12 checked:before:content-['✓'] checked:before:text-stardust-gold checked:before:text-2xs checked:before:leading-none"
               />
-              <span className="text-[12px] uppercase tracking-[0.1em] text-soft-white/72">Pair Locks</span>
+              <span className="text-sm uppercase tracking-[0.1em] text-soft-white/72">Pair Locks</span>
             </label>
           </FormPanel>
 
@@ -267,19 +267,19 @@ export default function FormGallery() {
                   "hover:border-stardust-gold/45 hover:bg-stardust-gold/4",
                 ].join(" ")}
               >
-                <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56">Telemetry Packet</span>
-                <strong className="text-[20px] font-light text-soft-white/92">
+                <span className="text-xs uppercase tracking-[0.14em] text-soft-white/56">Telemetry Packet</span>
+                <strong className="text-2xl font-light text-soft-white/92">
                   {files.length ? `${files.length} file${files.length > 1 ? "s" : ""}` : "Idle"}
                 </strong>
               </span>
             </label>
-            <p className="mt-3 mb-0 text-[11px] text-soft-white/52">
+            <p className="mt-3 mb-0 text-xs text-soft-white/52">
               {files[0] ?? "No packet selected"}
             </p>
           </FormPanel>
 
           <FormPanel title="Summary">
-            <div className="flex flex-col gap-2 text-[12px]">
+            <div className="flex flex-col gap-2 text-sm">
               <SummaryRow label="Channel" value={form.channel} />
               <SummaryRow label="Mode" value={form.mode} />
               <SummaryRow label="Priority" value={form.priority} />
@@ -287,7 +287,7 @@ export default function FormGallery() {
             <button
               type="submit"
               className={[
-                "mt-auto h-11 rounded-[10px] text-[13px] tracking-[0.2em] uppercase",
+                "mt-auto h-11 rounded-[10px] text-base tracking-[0.2em] uppercase",
                 "bg-[linear-gradient(180deg,#f8dba0_0%,#e7b66e_100%)] text-cosmic-black",
                 "border border-stardust-gold/72 shadow-[0_0_22px_rgb(245_210_138/0.42)]",
                 "hover:shadow-[0_0_28px_rgb(245_210_138/0.6)] transition-shadow",
@@ -322,7 +322,7 @@ function FormPanel({
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-[11px] uppercase tracking-[0.12em] text-soft-white/56">{label}</span>
+      <span className="text-xs uppercase tracking-[0.12em] text-soft-white/56">{label}</span>
       {children}
     </label>
   );
@@ -364,7 +364,7 @@ function SwitchRow({
           ].join(" ")}
         />
       </span>
-      <b className="text-[12px] uppercase tracking-[0.1em] text-soft-white/82 font-medium">{label}</b>
+      <b className="text-sm uppercase tracking-[0.1em] text-soft-white/82 font-medium">{label}</b>
     </label>
   );
 }
@@ -384,7 +384,7 @@ function StepperButton({
       type="button"
       onClick={onClick}
       className={[
-        "w-10 h-10 rounded-full border border-soft-white/18 text-soft-white/82 text-[18px]",
+        "w-10 h-10 rounded-full border border-soft-white/18 text-soft-white/82 text-xl",
         "bg-soft-white/4 hover:bg-stardust-gold/14 hover:border-stardust-gold/45 hover:text-stardust-gold transition-colors",
         "focus-visible:outline focus-visible:outline-stardust-gold/72 focus-visible:outline-offset-4",
       ].join(" ")}

@@ -55,7 +55,7 @@ function buildPath(values: number[], width: number, height: number, padding: num
   return { area, line, points };
 }
 
-const kicker = "text-[11px] tracking-[0.16em] text-soft-white/46 uppercase";
+const kicker = "text-xs tracking-[0.16em] text-soft-white/46 uppercase";
 
 export default function ChartGallery() {
   const [mode, setMode] = useState<ChartMode>("signal");
@@ -72,8 +72,8 @@ export default function ChartGallery() {
         <div className="flex flex-col gap-3">
           <span className="cosmic-pill self-start">Data Components</span>
           <h1 className="m-0 leading-none flex flex-col gap-1 text-soft-white/92 font-light">
-            <span className="text-[44px]">Cosmic</span>
-            <span className="text-[44px]">Analytics</span>
+            <span className="text-5xl">Cosmic</span>
+            <span className="text-5xl">Analytics</span>
           </h1>
         </div>
 
@@ -93,7 +93,7 @@ export default function ChartGallery() {
                   role="tab"
                   type="button"
                   className={[
-                    "h-8 px-5 rounded-full text-[12px] uppercase tracking-[0.14em] transition-colors",
+                    "h-8 px-5 rounded-full text-sm uppercase tracking-[0.14em] transition-colors",
                     active
                       ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
                       : "text-soft-white/64 hover:text-soft-white/92",
@@ -108,7 +108,7 @@ export default function ChartGallery() {
             className="flex items-center gap-3 min-w-[280px]"
             style={{ "--value": `${intensity}%` } as CSSProperties}
           >
-            <span className="text-[11px] uppercase tracking-[0.14em] text-soft-white/56">Gravity Load</span>
+            <span className="text-xs uppercase tracking-[0.14em] text-soft-white/56">Gravity Load</span>
             <span className="relative flex-1 h-3 flex items-center">
               <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
               <span
@@ -130,7 +130,7 @@ export default function ChartGallery() {
                 style={{ left: "var(--value)" }}
               />
             </span>
-            <b className="text-[12px] tabular-nums text-soft-white/82 min-w-[40px] text-right">{intensity}%</b>
+            <b className="text-sm tabular-nums text-soft-white/82 min-w-[40px] text-right">{intensity}%</b>
           </label>
         </div>
       </header>
@@ -174,7 +174,7 @@ function MetricCard({ label, value }: { label: string; value: string }) {
   return (
     <article className="cosmic-card flex items-center justify-between gap-2 px-4 py-3">
       <span className={kicker}>{label}</span>
-      <strong className="text-[22px] font-light text-soft-white/92 tabular-nums">{value}</strong>
+      <strong className="text-3xl font-light text-soft-white/92 tabular-nums">{value}</strong>
     </article>
   );
 }
@@ -248,7 +248,7 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
           />
         ))}
       </svg>
-      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[10px] uppercase tracking-[0.14em] text-soft-white/46">
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-2xs uppercase tracking-[0.14em] text-soft-white/46">
         <span>{labels[0]}</span>
         <span>{modeLabels[mode]} Flux</span>
         <span>{labels[labels.length - 1]}</span>
@@ -297,7 +297,7 @@ function BarChart({
           );
         })}
       </div>
-      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[11px] text-soft-white/64">
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-xs text-soft-white/64">
         <span className="uppercase tracking-[0.12em]">{labels[activeBar]}</span>
         <strong className="text-soft-white/92 tabular-nums">{series[activeBar]}%</strong>
       </div>
@@ -340,11 +340,11 @@ function DonutChart({ intensity, mode }: { intensity: number; mode: ChartMode })
               );
             })}
           </svg>
-          <strong className="absolute inset-0 grid place-items-center text-[22px] font-light text-soft-white/92 tabular-nums">
+          <strong className="absolute inset-0 grid place-items-center text-3xl font-light text-soft-white/92 tabular-nums">
             {Math.round(total / 3)}%
           </strong>
         </div>
-        <div className="flex flex-wrap gap-3 justify-center text-[11px] text-soft-white/72">
+        <div className="flex flex-wrap gap-3 justify-center text-xs text-soft-white/72">
           {segments.map((seg) => (
             <span key={seg.label} className="inline-flex items-center gap-1.5">
               <i className="w-2 h-2 rounded-full inline-block" style={{ background: seg.color }} />
@@ -442,7 +442,7 @@ function HeatmapChart({
           );
         })}
       </div>
-      <div className="absolute inset-x-4 bottom-3 flex justify-between text-[11px]">
+      <div className="absolute inset-x-4 bottom-3 flex justify-between text-xs">
         <span className="text-soft-white/64 tabular-nums">{selectedCell}</span>
         <strong className="text-soft-white/92 uppercase tracking-[0.12em]">{modeLabels[mode]}</strong>
       </div>
@@ -462,7 +462,7 @@ function FunnelChart({ intensity }: { intensity: number }) {
     <ChartPanel area="funnel" title="Comet Funnel">
       <div className="flex flex-col gap-3">
         {rows.map(([label, value]) => (
-          <div key={label} className="grid grid-cols-[64px_1fr_42px] items-center gap-2 text-[11px]">
+          <div key={label} className="grid grid-cols-[64px_1fr_42px] items-center gap-2 text-xs">
             <span className="text-soft-white/64 uppercase tracking-[0.1em]">{label}</span>
             <span className="h-2 rounded-full bg-soft-white/8 overflow-hidden">
               <i
@@ -490,7 +490,7 @@ function TimelineChart({ mode }: { mode: ChartMode }) {
     <ChartPanel area="timeline" title="Event Timeline">
       <ol className="flex flex-col gap-3 pl-2">
         {items.map(([time, label], index) => (
-          <li key={time} className="grid grid-cols-[44px_10px_1fr] items-center gap-2 text-[11px]">
+          <li key={time} className="grid grid-cols-[44px_10px_1fr] items-center gap-2 text-xs">
             <span className="text-soft-white/56 tabular-nums">{time}</span>
             <i
               className={[
