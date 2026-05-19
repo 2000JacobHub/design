@@ -131,12 +131,12 @@ export default function Dashboard() {
     <main className="relative min-h-screen w-full overflow-x-hidden p-5 dashboard-bg">
       <DashboardBackdrop />
 
-      <header className="relative z-[2] flex items-center justify-between gap-4 mb-5">
+      <header className="relative z-2 flex items-center justify-between gap-4 mb-5">
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10" aria-hidden>
             <span className="absolute inset-0 rounded-full border border-stardust-gold/45" />
-            <span className="absolute inset-[7px] rounded-full bg-stardust-gold/24 shadow-[0_0_18px_rgb(245_210_138/0.5)]" />
-            <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-[0_0_12px_rgb(245_210_138/0.7)]" />
+            <span className="absolute inset-[7px] rounded-full bg-stardust-gold/24 shadow-gold-soft" />
+            <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-gold-pulse" />
           </div>
           <div className="flex flex-col gap-0.5">
             <span className="text-2xs tracking-[0.22em] text-soft-white/52">COSMIC GRAVITY · MALL OPS</span>
@@ -145,7 +145,7 @@ export default function Dashboard() {
         </div>
         <div className="flex items-center gap-3">
           <div className="cosmic-card inline-flex items-center gap-2 px-3 py-1.5 text-sm text-soft-white/82">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-teal shadow-[0_0_8px_rgb(127_185_190/0.7)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-teal shadow-teal-dot" />
             实时数据 · 同步正常
           </div>
           <div className="flex flex-col items-end leading-tight text-soft-white/82">
@@ -161,14 +161,14 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <section aria-label="核心指标" className="relative z-[2] grid grid-cols-6 gap-3 mb-5">
+      <section aria-label="核心指标" className="relative z-2 grid grid-cols-6 gap-3 mb-5">
         {kpiCards.map((kpi) => (
           <KpiCardView key={kpi.title} kpi={kpi} />
         ))}
       </section>
 
       <section
-        className="relative z-[2] grid gap-4"
+        className="relative z-2 grid gap-4"
         style={{
           gridTemplateColumns: "1.2fr 1.5fr 1.15fr",
           gridTemplateRows: "minmax(360px,auto) minmax(280px,auto) auto",
@@ -200,7 +200,7 @@ function DashNavLink({ href, children, active = false }: { href: string; childre
       className={[
         "h-7 px-3 inline-flex items-center justify-center rounded-full text-sm no-underline border",
         active
-          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-[inset_0_0_12px_rgb(245_210_138/0.08)]"
+          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-gold-recess"
           : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",
       ].join(" ")}
     >
@@ -212,7 +212,7 @@ function DashNavLink({ href, children, active = false }: { href: string; childre
 function DashboardBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-      <span className="absolute -top-[260px] -left-[120px] w-[520px] h-[520px] rounded-full bg-stardust-gold/6 blur-[120px]" />
+      <span className="absolute top-[-260px] left-[-120px] w-[520px] h-[520px] rounded-full bg-stardust-gold/6 blur-[120px]" />
       <span className="absolute bottom-[-220px] right-[-160px] w-[640px] h-[640px] rounded-full bg-accent-teal/6 blur-[140px]" />
     </div>
   );
@@ -302,18 +302,18 @@ function KpiSparkline({ data, trend }: { data: number[]; trend: Trend }) {
   });
   const d = pts.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
   const fillD = `${d} L${w} ${h} L0 ${h} Z`;
-  const stroke = trend === "up" ? "#F5D28A" : "#E58C8C";
+  const stroke = trend === "up" ? "var(--color-stardust-gold)" : "var(--color-danger)";
   const fill = trend === "up" ? "url(#sparkFillUp)" : "url(#sparkFillDown)";
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width={w} height={h} aria-hidden>
       <defs>
         <linearGradient id="sparkFillUp" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#F5D28A" stopOpacity="0.32" />
-          <stop offset="100%" stopColor="#F5D28A" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--color-stardust-gold)" stopOpacity="0.32" />
+          <stop offset="100%" stopColor="var(--color-stardust-gold)" stopOpacity="0" />
         </linearGradient>
         <linearGradient id="sparkFillDown" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#E58C8C" stopOpacity="0.28" />
-          <stop offset="100%" stopColor="#E58C8C" stopOpacity="0" />
+          <stop offset="0%" stopColor="var(--color-danger)" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="var(--color-danger)" stopOpacity="0" />
         </linearGradient>
       </defs>
       <path d={fillD} fill={fill} />
@@ -341,7 +341,7 @@ function TodayFocusPanel() {
               className={[
                 "shrink-0 w-7 h-7 rounded-full grid place-items-center text-sm font-medium",
                 item.rank === 1
-                  ? "bg-stardust-gold text-cosmic-black shadow-[0_0_12px_rgb(245_210_138/0.5)]"
+                  ? "bg-stardust-gold text-cosmic-black shadow-gold-pulse"
                   : item.rank === 2
                     ? "bg-stardust-gold/40 text-soft-white"
                     : "bg-soft-white/8 text-soft-white/72",
@@ -453,7 +453,7 @@ function TrafficSalesChart({
         meta={
           <span className="inline-flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5">
-              <i className="w-2 h-2 rounded-full bg-stardust-gold shadow-[0_0_8px_rgb(245_210_138/0.6)]" />
+              <i className="w-2 h-2 rounded-full bg-stardust-gold shadow-gold-dot" />
               客流（人次/万）
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -480,13 +480,13 @@ function TrafficSalesChart({
         >
           <defs>
             <linearGradient id="trafficFill" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor="#F5D28A" stopOpacity="0.28" />
-              <stop offset="100%" stopColor="#F5D28A" stopOpacity="0" />
+              <stop offset="0%" stopColor="var(--color-stardust-gold)" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="var(--color-stardust-gold)" stopOpacity="0" />
             </linearGradient>
             <linearGradient id="trafficStroke" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#F5F6F8" stopOpacity="0.78" />
-              <stop offset="60%" stopColor="#F5D28A" />
-              <stop offset="100%" stopColor="#F5B26A" />
+              <stop offset="0%" stopColor="var(--color-soft-white)" stopOpacity="0.78" />
+              <stop offset="60%" stopColor="var(--color-stardust-gold)" />
+              <stop offset="100%" stopColor="var(--color-stardust-amber)" />
             </linearGradient>
           </defs>
 
@@ -519,28 +519,28 @@ function TrafficSalesChart({
           ))}
 
           <path d={trafficArea} fill="url(#trafficFill)" />
-          <path d={salesPath} fill="none" stroke="#7FB9BE" strokeWidth="1.6" strokeDasharray="5 4" />
+          <path d={salesPath} fill="none" stroke="var(--color-accent-teal)" strokeWidth="1.6" strokeDasharray="5 4" />
           <path d={trafficPath} fill="none" stroke="url(#trafficStroke)" strokeWidth="2" />
 
           {data.traffic.map((_, i) => (
-            <circle key={`t-${i}`} cx={xAt(i)} cy={yTraffic(data.traffic[i])} r="2.4" fill="#F5D28A" opacity="0.85" />
+            <circle key={`t-${i}`} cx={xAt(i)} cy={yTraffic(data.traffic[i])} r="2.4" fill="var(--color-stardust-gold)" opacity="0.85" />
           ))}
           {data.sales.map((_, i) => (
-            <circle key={`s-${i}`} cx={xAt(i)} cy={ySales(data.sales[i])} r="2.2" fill="#7FB9BE" opacity="0.85" />
+            <circle key={`s-${i}`} cx={xAt(i)} cy={ySales(data.sales[i])} r="2.2" fill="var(--color-accent-teal)" opacity="0.85" />
           ))}
 
           {showHover && (
             <>
               <line x1={hoverX} x2={hoverX} y1={pad.top} y2={baseY} stroke="rgb(245 210 138 / 0.45)" strokeDasharray="2 3" />
-              <circle cx={hoverX} cy={hoverYT} r="4.5" fill="#F5D28A" stroke="rgb(255 255 255 / 0.7)" />
-              <circle cx={hoverX} cy={hoverYS} r="4.5" fill="#7FB9BE" stroke="rgb(255 255 255 / 0.7)" />
+              <circle cx={hoverX} cy={hoverYT} r="4.5" fill="var(--color-stardust-gold)" stroke="rgb(255 255 255 / 0.7)" />
+              <circle cx={hoverX} cy={hoverYS} r="4.5" fill="var(--color-accent-teal)" stroke="rgb(255 255 255 / 0.7)" />
             </>
           )}
         </svg>
 
         {showHover && (
           <div
-            className="absolute z-[20] cosmic-card p-2.5 text-xs whitespace-nowrap pointer-events-none -translate-y-1/2"
+            className="absolute z-20 cosmic-card p-2.5 text-xs whitespace-nowrap pointer-events-none -translate-y-1/2"
             style={(() => {
               const flipped = hoverX > w / 2;
               const xPct = (hoverX / w) * 100;
@@ -596,7 +596,7 @@ function CategorySalesPanel() {
               <span className="text-soft-white/92 truncate">{c.category}</span>
               <span className="h-1.5 rounded-full bg-soft-white/8 overflow-hidden">
                 <i
-                  className="block h-full rounded-full bg-[linear-gradient(90deg,#f5d28a,#7fb9be)]"
+                  className="block h-full rounded-full bg-linear-to-r from-stardust-gold to-accent-teal"
                   style={{ width: `${width}%` }}
                 />
               </span>
@@ -629,8 +629,8 @@ function CampaignFunnelPanel() {
               )}
               <div
                 className={[
-                  "rounded-[8px] px-3 py-1.5 flex items-center justify-between gap-3",
-                  "bg-[linear-gradient(90deg,rgb(245_210_138/0.32),rgb(127_185_190/0.18))]",
+                  "rounded-lg px-3 py-1.5 flex items-center justify-between gap-3",
+                  "bg-linear-to-r from-stardust-gold/32 to-accent-teal/18",
                   "border border-stardust-gold/22",
                 ].join(" ")}
                 style={{ width: `${width}%` }}
@@ -689,7 +689,7 @@ function AIPlanPanel() {
       <ul className="m-0 p-0 list-none grid grid-cols-5 gap-3">
         {aiPlans.map((p) => (
           <li key={p.title} className="cosmic-card p-4 flex flex-col gap-2 min-h-[148px]">
-            <div className="w-9 h-9 rounded-[10px] bg-stardust-gold/14 text-stardust-gold grid place-items-center border border-stardust-gold/24">
+            <div className="w-9 h-9 rounded-input bg-stardust-gold/14 text-stardust-gold grid place-items-center border border-stardust-gold/24">
               <PlanIconGlyph kind={p.icon} />
             </div>
             <div className="flex flex-col gap-1 flex-1 min-w-0">

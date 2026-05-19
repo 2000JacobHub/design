@@ -60,7 +60,7 @@ function NavLink({ href, children, active = false }: { href: string; children: R
       className={[
         "h-8 px-4 inline-flex items-center justify-center rounded-full text-sm no-underline border transition-colors",
         active
-          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-[inset_0_0_12px_rgb(245_210_138/0.08)]"
+          ? "border-stardust-gold/45 bg-stardust-gold/12 text-soft-white shadow-gold-recess"
           : "border-soft-white/14 text-soft-white/64 bg-cosmic-black/52 hover:text-soft-white/92 hover:border-soft-white/28",
       ].join(" ")}
     >
@@ -74,7 +74,7 @@ function BrandMark() {
     <div className="relative w-10 h-10 shrink-0" aria-hidden>
       <span className="absolute inset-0 rounded-full border border-stardust-gold/45" />
       <span className="absolute inset-[7px] rounded-full bg-stardust-gold/24 shadow-gold-soft" />
-      <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-[0_0_12px_rgb(245_210_138/0.7)]" />
+      <span className="absolute inset-[14px] rounded-full bg-stardust-gold shadow-gold-pulse" />
     </div>
   );
 }

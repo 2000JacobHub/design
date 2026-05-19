@@ -95,7 +95,7 @@ export default function ChartGallery() {
                   className={[
                     "h-8 px-5 rounded-full text-sm uppercase tracking-[0.14em] transition-colors",
                     active
-                      ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
+                      ? "bg-stardust-gold/16 text-soft-white shadow-gold-ring"
                       : "text-soft-white/64 hover:text-soft-white/92",
                   ].join(" ")}
                 >
@@ -112,7 +112,7 @@ export default function ChartGallery() {
             <span className="relative flex-1 h-3 flex items-center">
               <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
               <span
-                className="absolute left-0 h-[3px] rounded-full bg-[linear-gradient(90deg,#f5f6f8,#f5d28a)]"
+                className="absolute left-0 h-[3px] rounded-full bg-linear-to-r from-soft-white to-stardust-gold"
                 style={{ width: "var(--value)" }}
               />
               <input
@@ -126,7 +126,7 @@ export default function ChartGallery() {
               />
               <span
                 aria-hidden
-                className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.5)] pointer-events-none"
+                className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-gold-pin pointer-events-none"
                 style={{ left: "var(--value)" }}
               />
             </span>
@@ -215,14 +215,14 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
       >
         <defs>
           <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#F5D28A" stopOpacity=".34" />
+            <stop offset="0" stopColor="var(--color-stardust-gold)" stopOpacity=".34" />
             <stop offset=".58" stopColor="#6C5E9D" stopOpacity=".12" />
-            <stop offset="1" stopColor="#0E1F22" stopOpacity="0" />
+            <stop offset="1" stopColor="var(--color-nebula-teal)" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="areaStroke" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#F5F6F8" stopOpacity=".86" />
-            <stop offset=".55" stopColor="#F5D28A" />
-            <stop offset="1" stopColor="#7FB9BE" stopOpacity=".56" />
+            <stop offset="0" stopColor="var(--color-soft-white)" stopOpacity=".86" />
+            <stop offset=".55" stopColor="var(--color-stardust-gold)" />
+            <stop offset="1" stopColor="var(--color-accent-teal)" stopOpacity=".56" />
           </linearGradient>
         </defs>
         {[0, 1, 2, 3].map((line) => (
@@ -244,7 +244,7 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
             cx={point.x}
             cy={point.y}
             r={index === 8 ? 4.5 : 2.8}
-            fill={index === 8 ? "#F5D28A" : "rgb(245 246 248 / 0.82)"}
+            fill={index === 8 ? "var(--color-stardust-gold)" : "rgb(245 246 248 / 0.82)"}
           />
         ))}
       </svg>
@@ -286,10 +286,10 @@ function BarChart({
             >
               <span
                 className={[
-                  "block w-full rounded-t-[6px] transition-all",
+                  "block w-full rounded-t-md transition-all",
                   active
-                    ? "bg-[linear-gradient(180deg,#f8e0aa,#f5b26a)] shadow-[0_0_18px_rgb(245_178_106/0.45)]"
-                    : "bg-[linear-gradient(180deg,rgb(245_210_138/0.62),rgb(108_94_157/0.42))] group-hover:bg-[linear-gradient(180deg,rgb(245_210_138/0.82),rgb(108_94_157/0.62))]",
+                    ? "bg-linear-to-b from-stardust-gold to-stardust-amber shadow-gold-soft"
+                    : "bg-linear-to-b from-stardust-gold/62 to-[#6c5e9d]/42 group-hover:from-stardust-gold/82 group-hover:to-[#6c5e9d]/62",
                 ].join(" ")}
                 style={{ height: `${value}%` }}
               />
@@ -307,9 +307,9 @@ function BarChart({
 
 function DonutChart({ intensity, mode }: { intensity: number; mode: ChartMode }) {
   const segments = [
-    { label: "Core", value: clamp(42 + intensity * 0.16), color: "#F5D28A" },
-    { label: "Dust", value: clamp(30 + (mode === "orbit" ? 18 : 7)), color: "#7FB9BE" },
-    { label: "Void", value: clamp(24 + (mode === "energy" ? 16 : 6)), color: "#8C78BC" },
+    { label: "Core", value: clamp(42 + intensity * 0.16), color: "var(--color-stardust-gold)" },
+    { label: "Dust", value: clamp(30 + (mode === "orbit" ? 18 : 7)), color: "var(--color-accent-teal)" },
+    { label: "Void", value: clamp(24 + (mode === "energy" ? 16 : 6)), color: "var(--color-accent-violet)" },
   ];
   const total = segments.reduce((s, x) => s + x.value, 0);
   let offset = 25;
@@ -397,7 +397,7 @@ function RadarChart({ intensity, series }: { intensity: number; series: number[]
             </g>
           );
         })}
-        <polygon points={points} fill="rgb(245 210 138 / 0.22)" stroke="#F5D28A" strokeWidth="1.4" />
+        <polygon points={points} fill="rgb(245 210 138 / 0.22)" stroke="var(--color-stardust-gold)" strokeWidth="1.4" />
       </svg>
     </ChartPanel>
   );
@@ -434,7 +434,7 @@ function HeatmapChart({
               role="gridcell"
               type="button"
               className={[
-                "rounded-[5px] transition-transform",
+                "rounded-sm transition-transform",
                 active ? "scale-110 ring-1 ring-stardust-gold/72" : "hover:scale-105",
               ].join(" ")}
               style={{ background: `rgba(245, 210, 138, ${alpha.toFixed(2)})` }}
@@ -463,10 +463,10 @@ function FunnelChart({ intensity }: { intensity: number }) {
       <div className="flex flex-col gap-3">
         {rows.map(([label, value]) => (
           <div key={label} className="grid grid-cols-[64px_1fr_42px] items-center gap-2 text-xs">
-            <span className="text-soft-white/64 uppercase tracking-[0.1em]">{label}</span>
+            <span className="text-soft-white/64 uppercase tracking-widest">{label}</span>
             <span className="h-2 rounded-full bg-soft-white/8 overflow-hidden">
               <i
-                className="block h-full rounded-full bg-[linear-gradient(90deg,#f5d28a,#7fb9be)]"
+                className="block h-full rounded-full bg-linear-to-r from-stardust-gold to-accent-teal"
                 style={{ width: `${value}%` }}
               />
             </span>
@@ -495,7 +495,7 @@ function TimelineChart({ mode }: { mode: ChartMode }) {
             <i
               className={[
                 "w-2 h-2 rounded-full justify-self-center",
-                index === 1 ? "bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.65)]" : "bg-soft-white/40",
+                index === 1 ? "bg-stardust-gold shadow-gold-pin" : "bg-soft-white/40",
               ].join(" ")}
             />
             <strong className="text-soft-white/82 font-medium">{label}</strong>
@@ -531,7 +531,7 @@ function ScatterChart({ series }: { series: number[] }) {
               cx={x}
               cy={y}
               r={r}
-              fill={index === 5 ? "#F5D28A" : "rgb(245 246 248 / 0.72)"}
+              fill={index === 5 ? "var(--color-stardust-gold)" : "rgb(245 246 248 / 0.72)"}
               stroke={index === 5 ? "rgb(245 210 138 / 0.45)" : "none"}
               strokeWidth={index === 5 ? "4" : "0"}
             />

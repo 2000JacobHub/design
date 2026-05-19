@@ -32,7 +32,7 @@ const initialForm: FormState = {
 
 const kicker = "text-xs tracking-[0.16em] text-soft-white/46 uppercase";
 const fieldInput =
-  "h-10 w-full px-3 rounded-[10px] bg-soft-white/4 border border-soft-white/10 text-soft-white/92 text-base " +
+  "h-10 w-full px-3 rounded-input bg-soft-white/4 border border-soft-white/10 text-soft-white/92 text-base " +
   "placeholder:text-soft-white/30 transition-colors hover:border-soft-white/22 focus:outline-none focus:border-stardust-gold/55 focus:bg-soft-white/8 " +
   "[color-scheme:dark]";
 
@@ -105,7 +105,7 @@ export default function FormGallery() {
               </Field>
               <Field label="Orbit">
                 <select
-                  className={`${fieldInput} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 8%22 fill=%22%23f5d28a%22><path d=%22M6 8 0 0h12z%22/></svg>')] bg-no-repeat bg-[right_0.75rem_center] bg-[length:10px_8px] pr-9`}
+                  className={`${fieldInput} appearance-none bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 12 8%22 fill=%22%23f5d28a%22><path d=%22M6 8 0 0h12z%22/></svg>')] bg-no-repeat bg-position-[right_0.75rem_center] bg-size-[10px_8px] pr-9`}
                   onChange={(e) => setField("orbit", e.currentTarget.value)}
                   value={form.orbit}
                 >
@@ -129,7 +129,7 @@ export default function FormGallery() {
             <div
               role="radiogroup"
               aria-label="Mission mode"
-              className="grid grid-cols-3 gap-1 p-1 bg-cosmic-black/64 border border-soft-white/10 rounded-[10px]"
+              className="grid grid-cols-3 gap-1 p-1 bg-cosmic-black/64 border border-soft-white/10 rounded-input"
             >
               {(["scan", "track", "dock"] as const).map((mode) => (
                 <button
@@ -139,9 +139,9 @@ export default function FormGallery() {
                   role="radio"
                   type="button"
                   className={[
-                    "h-9 rounded-[8px] text-sm uppercase tracking-[0.14em] transition-colors",
+                    "h-9 rounded-lg text-sm uppercase tracking-[0.14em] transition-colors",
                     form.mode === mode
-                      ? "bg-stardust-gold/16 text-soft-white shadow-[inset_0_0_0_1px_rgb(245_210_138/0.36)]"
+                      ? "bg-stardust-gold/16 text-soft-white shadow-gold-ring"
                       : "text-soft-white/64 hover:bg-soft-white/4 hover:text-soft-white/92",
                   ].join(" ")}
                 >
@@ -157,7 +157,7 @@ export default function FormGallery() {
                     name="priority"
                     onChange={() => setField("priority", priority)}
                     type="radio"
-                    className="appearance-none w-4 h-4 rounded-full border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:before:content-[''] checked:before:w-2 checked:before:h-2 checked:before:rounded-full checked:before:bg-stardust-gold checked:before:shadow-[0_0_8px_rgb(245_210_138/0.6)]"
+                    className="appearance-none w-4 h-4 rounded-full border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:before:content-[''] checked:before:w-2 checked:before:h-2 checked:before:rounded-full checked:before:bg-stardust-gold checked:before:shadow-gold-dot"
                   />
                   <span className="text-base uppercase tracking-[0.08em] text-soft-white/72">{priority}</span>
                 </label>
@@ -197,7 +197,7 @@ export default function FormGallery() {
               <span className="relative flex-1 h-3 flex items-center">
                 <span className="absolute inset-x-0 h-[3px] rounded-full bg-soft-white/12" />
                 <span
-                  className="absolute left-0 h-[3px] rounded-full bg-[linear-gradient(90deg,#f5f6f8,#f5d28a)]"
+                  className="absolute left-0 h-[3px] rounded-full bg-linear-to-r from-soft-white to-stardust-gold"
                   style={{ width: "var(--value)" }}
                 />
                 <input
@@ -211,7 +211,7 @@ export default function FormGallery() {
                 />
                 <span
                   aria-hidden
-                  className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.5)] pointer-events-none"
+                  className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 w-3 h-3 rounded-full bg-stardust-gold shadow-gold-pin pointer-events-none"
                   style={{ left: "var(--value)" }}
                 />
               </span>
@@ -227,7 +227,7 @@ export default function FormGallery() {
               >
                 −
               </StepperButton>
-              <strong className="flex-1 text-center text-4xl font-light text-soft-white/92 border border-soft-white/10 rounded-[10px] py-2 tabular-nums bg-cosmic-black/40">
+              <strong className="flex-1 text-center text-4xl font-light text-soft-white/92 border border-soft-white/10 rounded-input py-2 tabular-nums bg-cosmic-black/40">
                 {form.frequency}
               </strong>
               <StepperButton
@@ -245,9 +245,9 @@ export default function FormGallery() {
                   setField("stabilized", e.currentTarget.checked);
                 }}
                 type="checkbox"
-                className="appearance-none w-4 h-4 rounded-[5px] border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:bg-stardust-gold/12 checked:before:content-['✓'] checked:before:text-stardust-gold checked:before:text-2xs checked:before:leading-none"
+                className="appearance-none w-4 h-4 rounded-sm border border-soft-white/30 grid place-items-center checked:border-stardust-gold checked:bg-stardust-gold/12 checked:before:content-['✓'] checked:before:text-stardust-gold checked:before:text-2xs checked:before:leading-none"
               />
-              <span className="text-sm uppercase tracking-[0.1em] text-soft-white/72">Pair Locks</span>
+              <span className="text-sm uppercase tracking-widest text-soft-white/72">Pair Locks</span>
             </label>
           </FormPanel>
 
@@ -262,7 +262,7 @@ export default function FormGallery() {
               <span
                 className={[
                   "flex flex-col items-center justify-center gap-2",
-                  "h-[120px] rounded-[12px] border border-dashed border-soft-white/22",
+                  "h-[120px] rounded-xl border border-dashed border-soft-white/22",
                   "bg-cosmic-black/48 text-center transition-colors",
                   "hover:border-stardust-gold/45 hover:bg-stardust-gold/4",
                 ].join(" ")}
@@ -287,10 +287,10 @@ export default function FormGallery() {
             <button
               type="submit"
               className={[
-                "mt-auto h-11 rounded-[10px] text-base tracking-[0.2em] uppercase",
-                "bg-[linear-gradient(180deg,#f8dba0_0%,#e7b66e_100%)] text-cosmic-black",
-                "border border-stardust-gold/72 shadow-[0_0_22px_rgb(245_210_138/0.42)]",
-                "hover:shadow-[0_0_28px_rgb(245_210_138/0.6)] transition-shadow",
+                "mt-auto h-11 rounded-input text-base tracking-[0.2em] uppercase",
+                "bg-linear-to-b from-stardust-gold to-stardust-amber text-cosmic-black",
+                "border border-stardust-gold/72 shadow-gold-cta",
+                "hover:shadow-gold-cta-hover transition-shadow",
                 "focus-visible:outline focus-visible:outline-stardust-gold/72 focus-visible:outline-offset-4",
               ].join(" ")}
             >
@@ -351,7 +351,7 @@ function SwitchRow({
           "relative w-[44px] h-[24px] rounded-full transition-colors",
           "border border-soft-white/18",
           checked
-            ? "bg-[linear-gradient(90deg,rgb(245_210_138/0.55),rgb(245_210_138/0.18))]"
+            ? "bg-linear-to-r from-stardust-gold/55 to-stardust-gold/18"
             : "bg-soft-white/6",
         ].join(" ")}
       >
@@ -359,12 +359,12 @@ function SwitchRow({
           className={[
             "absolute top-1/2 -translate-y-1/2 w-[16px] h-[16px] rounded-full transition-all",
             checked
-              ? "left-[24px] bg-stardust-gold shadow-[0_0_10px_rgb(245_210_138/0.6)]"
+              ? "left-[24px] bg-stardust-gold shadow-gold-pin"
               : "left-1 bg-soft-white/72",
           ].join(" ")}
         />
       </span>
-      <b className="text-sm uppercase tracking-[0.1em] text-soft-white/82 font-medium">{label}</b>
+      <b className="text-sm uppercase tracking-widest text-soft-white/82 font-medium">{label}</b>
     </label>
   );
 }

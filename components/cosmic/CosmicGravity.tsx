@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type ColorToken = { name: string; hex: string; group: ColorGroup; usage?: string };
 type ColorGroup = "Surface" | "Foreground" | "Accent" | "Semantic";
@@ -30,12 +30,12 @@ const fontTokens = [
   {
     name: "font-sans",
     value: '"Space Grotesk", "Avenir Next", "Inter", system-ui, sans-serif',
-    style: { fontFamily: "var(--font-sans)" } as CSSProperties,
+    className: "font-sans",
   },
   {
     name: "font-display",
     value: '"Space Grotesk", system-ui, sans-serif',
-    style: { fontFamily: "var(--font-display)" } as CSSProperties,
+    className: "font-display",
   },
 ];
 
@@ -55,16 +55,25 @@ const typeScale = [
 ];
 
 const radiusTokens = [
+  { name: "radius-input", value: "10px", className: "rounded-input" },
   { name: "radius-pill", value: "999px", className: "rounded-pill" },
   { name: "radius-card", value: "14px", className: "rounded-card" },
   { name: "radius-panel", value: "20px", className: "rounded-panel" },
 ];
 
 const shadowTokens = [
-  { name: "shadow-gold-glow", desc: "Outer + inset gold halo · 焦点容器", className: "shadow-gold-glow" },
+  { name: "shadow-gold-dot", desc: "8px · 状态点 / 列表小圆点", className: "shadow-gold-dot" },
+  { name: "shadow-gold-pin", desc: "10px · slider thumb / switch knob", className: "shadow-gold-pin" },
+  { name: "shadow-gold-pulse", desc: "12px · 主按钮 / 醒目圆点", className: "shadow-gold-pulse" },
+  { name: "shadow-gold-soft", desc: "18px · 焦点光晕", className: "shadow-gold-soft" },
+  { name: "shadow-gold-cta", desc: "22px · CTA 默认", className: "shadow-gold-cta" },
+  { name: "shadow-gold-cta-hover", desc: "28px · CTA hover", className: "shadow-gold-cta-hover" },
+  { name: "shadow-gold-ring", desc: "inset 1px · 选中态描边", className: "shadow-gold-ring" },
+  { name: "shadow-gold-recess", desc: "inset blur · 激活态嵌入光", className: "shadow-gold-recess" },
+  { name: "shadow-gold-glow", desc: "外 28px + inset 1px · 焦点容器", className: "shadow-gold-glow" },
+  { name: "shadow-teal-dot", desc: "8px teal · 数据系列状态点", className: "shadow-teal-dot" },
   { name: "shadow-panel", desc: "大面板柔和投影", className: "shadow-panel" },
   { name: "shadow-card", desc: "卡片/小容器低层投影", className: "shadow-card" },
-  { name: "shadow-gold-soft", desc: "高光金色光晕 · slider thumb / 提示点", className: "shadow-gold-soft" },
 ];
 
 const utilityTokens = [
@@ -83,7 +92,7 @@ export default function CosmicGravity() {
     <>
       <section className="flex flex-col gap-4 pt-6">
         <span className="cosmic-pill self-start">Cosmic Gravity</span>
-        <h2 className="m-0 text-6xl leading-[1.05] font-light text-soft-white/92 max-w-[820px]">
+        <h2 className="m-0 text-6xl font-light text-soft-white/92 max-w-[820px]">
           一套围绕 <span className="text-stardust-gold">@theme</span> 构建的设计 token 体系
         </h2>
         <p className="m-0 max-w-[640px] text-lg leading-relaxed text-soft-white/64">
@@ -129,7 +138,7 @@ export default function CosmicGravity() {
                 <CodeTag>{`--${font.name}`}</CodeTag>
                 <span className="text-2xs tracking-[0.18em] text-soft-white/46 uppercase">{font.name}</span>
               </div>
-              <div className="text-5xl leading-none font-light text-soft-white/92" style={font.style}>
+              <div className={`text-5xl leading-none font-light text-soft-white/92 ${font.className}`}>
                 Aa Bb 0123
               </div>
               <p className="m-0 text-xs text-soft-white/52 break-all font-mono">{font.value}</p>
@@ -157,9 +166,9 @@ export default function CosmicGravity() {
       <Section
         kicker="Radius"
         title="圆角 Tokens"
-        desc="rounded-pill / rounded-card / rounded-panel 三档圆角，匹配 pill / card / panel 三类容器。"
+        desc="rounded-input / rounded-pill / rounded-card / rounded-panel 四档圆角，匹配 input / pill / card / panel 容器。小圆角（4/6/8/12px）使用 Tailwind 默认 rounded-sm/md/lg/xl。"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {radiusTokens.map((r) => (
             <article key={r.name} className="cosmic-panel p-6 flex flex-col gap-4">
               <div className="flex items-center justify-between">
@@ -167,7 +176,7 @@ export default function CosmicGravity() {
                 <span className="text-xs text-soft-white/56 tabular-nums">{r.value}</span>
               </div>
               <div
-                className={`${r.className} h-24 bg-[linear-gradient(135deg,rgb(245_210_138/0.32),rgb(127_185_190/0.18))] border border-stardust-gold/24`}
+                className={`${r.className} h-24 bg-linear-135 from-stardust-gold/32 to-accent-teal/18 border border-stardust-gold/24`}
               />
               <CodeTag>{r.className}</CodeTag>
             </article>
@@ -228,13 +237,18 @@ export default function CosmicGravity() {
   --text-base--line-height: 18px;
   /* ... */
 
-  /* Radius → rounded-pill / rounded-card / rounded-panel */
+  /* Radius → rounded-input / rounded-pill / rounded-card / rounded-panel */
+  --radius-input: 10px;
   --radius-pill: 999px;
   --radius-card: 14px;
   --radius-panel: 20px;
 
-  /* Shadow → shadow-gold-glow / shadow-panel / ... */
-  --shadow-gold-glow: 0 0 28px rgb(245 210 138 / 0.18), inset 0 0 0 1px rgb(245 210 138 / 0.22);
+  /* Shadow → shadow-gold-dot / shadow-gold-pin / shadow-gold-pulse ... */
+  --shadow-gold-dot: 0 0 8px rgb(245 210 138 / 0.6);
+  --shadow-gold-pulse: 0 0 12px rgb(245 210 138 / 0.65);
+  --shadow-gold-cta: 0 0 22px rgb(245 210 138 / 0.42);
+  --shadow-gold-ring: inset 0 0 0 1px rgb(245 210 138 / 0.36);
+  /* ... */
 }`}
         </pre>
       </Section>
@@ -269,8 +283,8 @@ function ColorCard({ color }: { color: ColorToken }) {
   return (
     <article className="cosmic-card p-3 flex flex-col gap-3">
       <div
-        className="h-20 rounded-[10px] border border-soft-white/8"
-        style={{ background: color.hex }}
+        className="h-20 rounded-input border border-soft-white/8"
+        style={{ background: `var(--color-${color.name})` }}
       />
       <div className="flex flex-col gap-1.5 min-w-0">
         <div className="flex items-baseline justify-between gap-2">
@@ -295,7 +309,7 @@ function UtilityCard({ token }: { token: { name: string; desc: string; element: 
         <CodeTag>{`.${token.name}`}</CodeTag>
       </div>
       <p className="m-0 text-xs text-soft-white/64 leading-snug">{token.desc}</p>
-      <div className="flex-1 grid place-items-center bg-cosmic-black/40 rounded-[10px] p-4 overflow-hidden">
+      <div className="flex-1 grid place-items-center bg-cosmic-black/40 rounded-input p-4 overflow-hidden">
         <UtilitySample element={token.element} />
       </div>
     </article>
@@ -322,18 +336,18 @@ function UtilitySample({ element }: { element: string }) {
       return <span className="cosmic-pill">DESIGN SYSTEM</span>;
     case "board":
       return (
-        <div className="cosmic-board-bg w-full h-20 rounded-[8px] relative overflow-hidden">
+        <div className="cosmic-board-bg w-full h-20 rounded-lg relative overflow-hidden">
           <span className="absolute inset-0 cosmic-board-grid" />
         </div>
       );
     case "grid":
       return (
-        <div className="relative w-full h-20 rounded-[8px] bg-cosmic-black overflow-hidden">
+        <div className="relative w-full h-20 rounded-lg bg-cosmic-black overflow-hidden">
           <span className="absolute inset-0 cosmic-board-grid" />
         </div>
       );
     case "dashboard":
-      return <div className="dashboard-bg w-full h-20 rounded-[8px]" />;
+      return <div className="dashboard-bg w-full h-20 rounded-lg" />;
     default:
       return null;
   }
