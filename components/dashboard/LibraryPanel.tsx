@@ -1,12 +1,11 @@
 import type { DragEvent } from "react";
 import { Icon, rotateCcw } from "@/lib/icons";
-import { widgetsOfType, type Layout, type WidgetType } from "@/components/dashboard/registry";
-
-export type DragPayload = {
-  type: WidgetType;
-  widgetId: string;
-  from: { section: WidgetType; index: number } | null;
-};
+import {
+  widgetsOfType,
+  type DragPayload,
+  type Layout,
+  type WidgetType,
+} from "@/components/dashboard/registry";
 
 const TYPE_LABEL: Record<WidgetType, string> = {
   small: "小卡片 · Small",

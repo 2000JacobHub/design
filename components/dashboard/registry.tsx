@@ -30,6 +30,14 @@ export type WidgetDef = {
   render: () => ReactNode;
 };
 
+/** Describes what is being dragged: a widget from the library (`from: null`)
+ *  or one already sitting in a slot (`from` = its section + index). */
+export type DragPayload = {
+  type: WidgetType;
+  widgetId: string;
+  from: { section: WidgetType; index: number } | null;
+};
+
 export const WIDGETS: WidgetDef[] = [
   // —— small ——
   { id: "traffic", type: "small", label: "客流", render: () => <TrafficCard /> },
