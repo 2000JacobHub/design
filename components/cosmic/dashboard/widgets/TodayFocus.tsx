@@ -5,14 +5,6 @@ export type TodayFocusProps = {
   data: TodayFocusData;
 };
 
-const RANK_BADGE = [
-  // index 0 unused; rank starts at 1.
-  "",
-  "bg-stardust-gold text-cosmic-black shadow-gold-pulse",
-  "bg-stardust-gold/40 text-soft-white",
-  "bg-soft-white/8 text-soft-white/72",
-] as const;
-
 export function TodayFocus({ data }: TodayFocusProps) {
   return (
     <>
@@ -27,13 +19,8 @@ export function TodayFocus({ data }: TodayFocusProps) {
       <ul className="m-0 p-0 list-none flex flex-col gap-3 flex-1 overflow-y-auto">
         {data.items.map((item) => (
           <li key={item.rank} className="flex gap-3">
-            <span
-              className={[
-                "shrink-0 w-7 h-7 rounded-full grid place-items-center text-sm font-medium font-mono",
-                RANK_BADGE[item.rank] ?? RANK_BADGE[3],
-              ].join(" ")}
-            >
-              {item.rank}
+            <span className="shrink-0 w-5 text-center text-xs font-medium font-mono text-soft-white/45 pt-0.5">
+              {item.rank}.
             </span>
             <div className="flex flex-col gap-1 min-w-0 flex-1">
               <div className="text-base font-medium text-soft-white/92">{item.title}</div>

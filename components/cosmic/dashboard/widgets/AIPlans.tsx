@@ -20,7 +20,8 @@ export function AIPlans({ data }: AIPlansProps) {
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}
       >
         {data.items.map((p) => (
-          <li key={p.title} className="cosmic-card p-4 flex flex-col gap-2 min-h-[148px]">
+          <li key={p.title} className="cosmic-card relative p-4 flex flex-col gap-2 min-h-[148px] cursor-pointer group overflow-hidden">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-card" style={{ background: "linear-gradient(to right, rgb(245 210 138 / 0.08) 0%, rgb(127 185 190 / 0.06) 100%)" }} />
             <div className="w-9 h-9 rounded-input bg-stardust-gold/14 text-stardust-gold grid place-items-center border border-stardust-gold/24">
               <PlanIconGlyph kind={p.icon} />
             </div>
