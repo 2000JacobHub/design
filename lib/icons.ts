@@ -30,3 +30,14 @@ export { default as megaphone } from "@iconify-icons/lucide/megaphone";
 export { default as presentation } from "@iconify-icons/lucide/presentation";
 export { default as store } from "@iconify-icons/lucide/store";
 export { default as lineChart } from "@iconify-icons/lucide/line-chart";
+
+/* Dashboard editor controls */
+export { default as sliders } from "@iconify-icons/lucide/sliders-horizontal";
+export { default as eye } from "@iconify-icons/lucide/eye";
+export { default as eyeOff } from "@iconify-icons/lucide/eye-off";
+export { default as trash } from "@iconify-icons/lucide/trash-2";
+export { default as plus } from "@iconify-icons/lucide/plus";
+export { default as chevronUp } from "@iconify-icons/lucide/chevron-up";
+export { default as chevronDown } from "@iconify-icons/lucide/chevron-down";
+export { default as close } from "@iconify-icons/lucide/x";
+export { default as rotateCcw } from "@iconify-icons/lucide/rotate-ccw";

@@ -1,17 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import type { TrafficSalesData } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-
-export type TrafficSalesChartProps = {
-  data: TrafficSalesData;
-};
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
 const PAD = { top: 22, right: 44, bottom: 30, left: 44 } as const;
 const Y_TICKS = [0, 0.25, 0.5, 0.75, 1] as const;
 
-export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
+export default function TrafficSalesChart() {
+  const data = mock.trafficSales;
   /* Hover state lives inside the widget — that way the chart is a drop-in
      unit and the page composing it doesn't need to plumb hover handlers. */
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
@@ -81,7 +79,7 @@ export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
   const hoverYS = ySales(data.sales[safeHover]);
 
   return (
-    <>
+    <BigPanel area="traffic" className="overflow-visible">
       <PanelHeader
         title={data.title}
         meta={
@@ -291,6 +289,6 @@ export function TrafficSalesChart({ data }: TrafficSalesChartProps) {
         )}
       </div>
       <div className="text-xs text-soft-white/56 text-center">{data.summary}</div>
-    </>
+    </BigPanel>
   );
 }

@@ -95,8 +95,6 @@ export const aiInsights: AIInsightsData = {
 };
 
 export const aiPlans: AIPlansData = {
-  title: "AI 推荐计划",
-  meta: "由 AI 基于数据与目标推荐",
   items: [
     { title: "生成活动复盘报告", description: "自动生成本次活动效果复盘与优化建议", action: "立即生成", icon: "report" },
     { title: "创建营销方案", description: "基于客群与品类趋势，生成营销活动方案", action: "去创建", icon: "marketing" },

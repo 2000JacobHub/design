@@ -123,7 +123,5 @@ export type PlanCardData = {
 };
 
 export type AIPlansData = {
-  title: string;
-  meta?: string;
   items: PlanCardData[];
 };

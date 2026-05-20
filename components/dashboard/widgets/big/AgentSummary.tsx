@@ -1,13 +1,11 @@
-import type { AgentSummaryData } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
-export type AgentSummaryProps = {
-  data: AgentSummaryData;
-};
-
-export function AgentSummary({ data }: AgentSummaryProps) {
+export default function AgentSummary() {
+  const data = mock.agentSummary;
   return (
-    <>
+    <BigPanel area="agent">
       <PanelHeader title={data.title} action={<ActionLink />} />
       <ul className="m-0 p-0 list-none grid grid-cols-2 sm:grid-cols-3 gap-2 flex-1">
         {data.metrics.map((m) => (
@@ -21,6 +19,6 @@ export function AgentSummary({ data }: AgentSummaryProps) {
           </li>
         ))}
       </ul>
-    </>
+    </BigPanel>
   );
 }

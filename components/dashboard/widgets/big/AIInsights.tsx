@@ -1,9 +1,7 @@
-import type { AIInsightsData, InsightTag } from "@/components/dashboard/data/types";
+import type { InsightTag } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-
-export type AIInsightsProps = {
-  data: AIInsightsData;
-};
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
 const TAG_CLS: Record<InsightTag, string> = {
   // "销售": "bg-stardust-gold/16 text-stardust-gold border border-stardust-gold/24",
@@ -14,9 +12,10 @@ const TAG_CLS: Record<InsightTag, string> = {
     "会员": "",
 };
 
-export function AIInsights({ data }: AIInsightsProps) {
+export default function AIInsights() {
+  const data = mock.aiInsights;
   return (
-    <>
+    <BigPanel area="insights">
       <PanelHeader title={data.title} action={<ActionLink />} />
       <ul className="m-0 p-0 list-none flex flex-col gap-2.5 flex-1 overflow-y-auto">
         {data.items.map((item, i) => (
@@ -33,6 +32,6 @@ export function AIInsights({ data }: AIInsightsProps) {
       <div className="pt-2 flex justify-end border-t border-soft-white/6">
         <ActionLink>{data.footerAction}</ActionLink>
       </div>
-    </>
+    </BigPanel>
   );
 }

@@ -1,13 +1,11 @@
-import type { TodayFocusData } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
-export type TodayFocusProps = {
-  data: TodayFocusData;
-};
-
-export function TodayFocus({ data }: TodayFocusProps) {
+export default function TodayFocus() {
+  const data = mock.todayFocus;
   return (
-    <>
+    <BigPanel area="focus">
       <PanelHeader
         title={data.title}
         meta={
@@ -43,6 +41,6 @@ export function TodayFocus({ data }: TodayFocusProps) {
       <div className="pt-2 flex justify-end border-t border-soft-white/6">
         <ActionLink>{data.footerAction}</ActionLink>
       </div>
-    </>
+    </BigPanel>
   );
 }

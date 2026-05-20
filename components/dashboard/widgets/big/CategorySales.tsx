@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CategorySalesData } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import {
       ActionLink,
       PanelHeader,
       TrendChip,
 } from "@/components/dashboard/primitives";
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
-export type CategorySalesProps = {
-      data: CategorySalesData;
-};
-
-export function CategorySales({ data }: CategorySalesProps) {
+export default function CategorySales() {
+      const data = mock.categorySales;
       const max = Math.max(...data.items.map((c) => c.salesNum));
       const [hovered, setHovered] = useState<number | null>(null);
       const listRef = useRef<HTMLUListElement>(null);
@@ -55,7 +53,7 @@ export function CategorySales({ data }: CategorySalesProps) {
       }, [hovered]);
 
       return (
-            <>
+            <BigPanel area="sales">
                   <PanelHeader
                         title={data.title}
                         meta={data.meta}
@@ -159,6 +157,6 @@ export function CategorySales({ data }: CategorySalesProps) {
                               );
                         })}
                   </ul>
-            </>
+            </BigPanel>
       );
 }

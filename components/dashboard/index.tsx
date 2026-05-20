@@ -1,55 +1,55 @@
 "use client";
-
-import type {ReactNode} from "react";
 import * as mock from "@/components/dashboard/data/mock";
 import {
-    DashboardBackdrop
+    DashboardBackdrop,
+    PanelHeader,
 } from "@/components/dashboard/primitives";
-import {
-    AgentSummary,
-    AIInsights,
-    AIPlans,
-    CampaignFunnel,
-    CategorySales,
-    KpiCard,
-    TodayFocus,
-    TrafficSalesChart,
-} from "@/components/dashboard/widgets";
 import Header from "@/components/dashboard/common/Header";
 
-const PANEL_CLS = "cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0";
+import CampaignRoiCard from "@/components/dashboard/widgets/small/CampaignRoiCard";
+import TrafficCard from "@/components/dashboard/widgets/small/TrafficCard";
+import SalesAmountCard from "@/components/dashboard/widgets/small/SalesAmountCard";
+import ConversionRateCard from "@/components/dashboard/widgets/small/ConversionRateCard";
+import NewMembersCard from "@/components/dashboard/widgets/small/NewMembersCard";
+import ParkingSaturationCard from "@/components/dashboard/widgets/small/ParkingSaturationCard";
+import TodayFocus from "@/components/dashboard/widgets/big/TodayFocus";
+import TrafficSalesChart from "@/components/dashboard/widgets/big/TrafficSalesChart";
+import AIInsights from "@/components/dashboard/widgets/big/AIInsights";
+import AgentSummary from "@/components/dashboard/widgets/big/AgentSummary";
+import CategorySales from "@/components/dashboard/widgets/big/CategorySales";
+import CampaignFunnel from "@/components/dashboard/widgets/big/CampaignFunnel";
+import ReportCard from "@/components/dashboard/widgets/mid/ReportCard";
+import MarketingCard from "@/components/dashboard/widgets/mid/MarketingCard";
+import PptCard from "@/components/dashboard/widgets/mid/PptCard";
+import TenantCard from "@/components/dashboard/widgets/mid/TenantCard";
+import ForecastCard from "@/components/dashboard/widgets/mid/ForecastCard";
 
-/**
- * The main grid is described declaratively. Each `LayoutCell`:
- *   - `area`     matches a slot in `gridTemplateAreas` below
- *   - `render`   produces the widget node (we pass `data` explicitly so
- *                the page can substitute datasets without touching the
- *                widget itself)
- *   - `extraCls` per-slot overrides on the panel wrapper
- *
- * Reordering / removing / replacing widgets is now a one-line edit
- * here — neither the widgets nor the primitives need to change.
- */
-type LayoutCell = {
-    area: string;
-    render: () => ReactNode;
-    extraCls?: string;
-};
 
-const mainLayout: LayoutCell[] = [
-    {area: "focus", render: () => <TodayFocus data={mock.todayFocus}/>},
-    {
-        area: "traffic",
-        render: () => <TrafficSalesChart data={mock.trafficSales}/>,
-        extraCls: "overflow-visible",
-    },
-    {area: "insights", render: () => <AIInsights data={mock.aiInsights}/>},
-    {area: "agent", render: () => <AgentSummary data={mock.agentSummary}/>},
-    {area: "sales", render: () => <CategorySales data={mock.categorySales}/>},
-    {area: "funnel", render: () => <CampaignFunnel data={mock.campaignFunnel}/>},
-    {area: "plan", render: () => <AIPlans data={mock.aiPlans}/>},
-];
-
+const config = {
+    small: [
+        <TrafficCard/>,
+        <SalesAmountCard/>,
+        <ConversionRateCard/>,
+        <NewMembersCard/>,
+        <CampaignRoiCard/>,
+        <ParkingSaturationCard/>,
+    ],
+    big: [
+        <TodayFocus/>,
+        <TrafficSalesChart/>,
+        <AIInsights/>,
+        <AgentSummary/>,
+        <CategorySales/>,
+        <CampaignFunnel/>,
+    ],
+    mid: [
+        <ReportCard/>,
+        <MarketingCard/>,
+        <PptCard/>,
+        <TenantCard/>,
+        <ForecastCard/>,
+    ],
+}
 export default function Dashboard() {
     return (
         <main className="relative min-h-screen w-full overflow-x-hidden p-3 sm:p-4 lg:p-5 dashboard-bg">
@@ -60,21 +60,26 @@ export default function Dashboard() {
                 aria-label="核心指标"
                 className="relative z-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-4 lg:mb-5"
             >
-                {mock.kpiCards.map((kpi) => (
-                    <KpiCard key={kpi.title} data={kpi}/>
-                ))}
+                {config.small.map((card, i) => card)}
             </section>
 
             <section className="relative z-2 dashboard-main-grid">
-                {mainLayout.map((cell) => (
-                    <article
-                        key={cell.area}
-                        className={[PANEL_CLS, cell.extraCls].filter(Boolean).join(" ")}
-                        style={{gridArea: cell.area}}
+                {config.big.map((panel, i) => panel)}
+
+                <article
+                    className={["cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0"]
+                        .filter(Boolean)
+                        .join(" ")}
+                    style={{ gridArea: 'plan' }}
+                >
+                    <PanelHeader title={"AI 推荐计划"} meta={"由 AI 基于数据与目标推荐"}/>
+                    <ul
+                        className="m-0 p-0 list-none grid gap-3"
+                        style={{gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))"}}
                     >
-                        {cell.render()}
-                    </article>
-                ))}
+                        {config.mid.map((panel, i) => panel)}
+                    </ul>
+                </article>
             </section>
         </main>
     );

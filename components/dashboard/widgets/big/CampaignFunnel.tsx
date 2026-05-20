@@ -1,19 +1,17 @@
-import type { CampaignFunnelData } from "@/components/dashboard/data/types";
+import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-
-export type CampaignFunnelProps = {
-  data: CampaignFunnelData;
-};
+import {BigPanel} from "@/components/dashboard/common/layouts";
 
 const MIN_W = 0.38;
 const MAX_W = 1.0;
 
-export function CampaignFunnel({ data }: CampaignFunnelProps) {
+export default function CampaignFunnel() {
+  const data = mock.campaignFunnel;
   const max = data.stages[0]?.num ?? 1;
   const widths = data.stages.map(s => MIN_W + (s.num / max) * (MAX_W - MIN_W));
 
   return (
-    <>
+    <BigPanel area="funnel">
       <PanelHeader title={data.title} meta={data.period} action={<ActionLink />} />
 
       <div className="flex flex-col flex-1 justify-center px-6">
@@ -85,6 +83,6 @@ export function CampaignFunnel({ data }: CampaignFunnelProps) {
           <span className="text-2xs text-stardust-gold/72">{data.roi.change}</span>
         </div>
       </div>
-    </>
+    </BigPanel>
   );
 }
