@@ -250,6 +250,13 @@ input[type="range"]::-moz-range-thumb {
   outline-offset: 4px;
 }
 
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ============================================================
    Cosmic Board (homepage canvas background) — multi-layer
    Hard to express as utilities; keep custom.

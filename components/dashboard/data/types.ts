@@ -68,6 +68,8 @@ export type CategoryItem = {
   salesNum: number;
   change: string;
   trend: Trend;
+  lastWeekSales: string;
+  lastWeekNum: number;
 };
 
 export type CategorySalesData = {
