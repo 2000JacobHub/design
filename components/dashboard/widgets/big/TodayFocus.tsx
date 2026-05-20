@@ -5,7 +5,7 @@ import {BigPanel} from "@/components/dashboard/primitives/layouts";
 export default function TodayFocus() {
   const data = mock.todayFocus;
   return (
-    <BigPanel area="focus">
+    <BigPanel>
       <PanelHeader
         title={data.title}
         meta={

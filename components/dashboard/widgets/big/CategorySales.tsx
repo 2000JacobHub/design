@@ -53,7 +53,7 @@ export default function CategorySales() {
       }, [hovered]);
 
       return (
-            <BigPanel area="sales">
+            <BigPanel>
                   <PanelHeader
                         title={data.title}
                         meta={data.meta}

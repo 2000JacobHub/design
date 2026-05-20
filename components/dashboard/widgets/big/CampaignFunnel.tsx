@@ -11,7 +11,7 @@ export default function CampaignFunnel() {
   const widths = data.stages.map(s => MIN_W + (s.num / max) * (MAX_W - MIN_W));
 
   return (
-    <BigPanel area="funnel">
+    <BigPanel>
       <PanelHeader title={data.title} meta={data.period} action={<ActionLink />} />
 
       <div className="flex flex-col flex-1 justify-center px-6">

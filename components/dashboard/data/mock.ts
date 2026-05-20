@@ -11,6 +11,7 @@ import type {
   CampaignFunnelData,
   CategorySalesData,
   KpiCardData,
+  ParkingHeatmapData,
   TodayFocusData,
   TrafficSalesData,
 } from "@/components/dashboard/data/types";
@@ -92,6 +93,26 @@ export const aiInsights: AIInsightsData = {
     { title: "会员新增主要来自线上渠道", tag: "会员", time: "07:55", description: "占比 67%，建议增加线下会员招募与引导。" },
   ],
   footerAction: "查看全部洞察（8）",
+};
+
+export const parkingHeatmap: ParkingHeatmapData = {
+  title: "停车场流量热力图",
+  meta: "最近 24 小时 · 车位饱和度",
+  cells: [
+    { hour: "00:00", value: 12 }, { hour: "01:00", value: 8 },
+    { hour: "02:00", value: 6 }, { hour: "03:00", value: 5 },
+    { hour: "04:00", value: 5 }, { hour: "05:00", value: 9 },
+    { hour: "06:00", value: 18 }, { hour: "07:00", value: 32 },
+    { hour: "08:00", value: 46 }, { hour: "09:00", value: 58 },
+    { hour: "10:00", value: 71 }, { hour: "11:00", value: 83 },
+    { hour: "12:00", value: 88 }, { hour: "13:00", value: 79 },
+    { hour: "14:00", value: 86 }, { hour: "15:00", value: 82 },
+    { hour: "16:00", value: 90 }, { hour: "17:00", value: 95 },
+    { hour: "18:00", value: 92 }, { hour: "19:00", value: 84 },
+    { hour: "20:00", value: 68 }, { hour: "21:00", value: 47 },
+    { hour: "22:00", value: 28 }, { hour: "23:00", value: 16 },
+  ],
+  summary: "峰值出现在 17:00（95%），夜间 02:00–05:00 最低",
 };
 
 export const aiPlans: AIPlansData = {

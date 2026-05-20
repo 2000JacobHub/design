@@ -5,7 +5,7 @@ import {BigPanel} from "@/components/dashboard/primitives/layouts";
 export default function AgentSummary() {
   const data = mock.agentSummary;
   return (
-    <BigPanel area="agent">
+    <BigPanel>
       <PanelHeader title={data.title} action={<ActionLink />} />
       <ul className="m-0 p-0 list-none grid grid-cols-2 sm:grid-cols-3 gap-2 flex-1">
         {data.metrics.map((m) => (

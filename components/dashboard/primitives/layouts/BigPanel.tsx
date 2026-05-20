@@ -13,7 +13,7 @@ export type BigPanelProps = HTMLAttributes<HTMLElement> & {
 export function BigPanel({ area, children, className, style, ...rest }: BigPanelProps) {
   return (
     <article
-      className={["cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0", className]
+      className={["cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0 h-full", className]
         .filter(Boolean)
         .join(" ")}
       style={area ? { gridArea: area, ...style } : style}

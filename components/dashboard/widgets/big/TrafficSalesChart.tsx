@@ -79,7 +79,7 @@ export default function TrafficSalesChart() {
   const hoverYS = ySales(data.sales[safeHover]);
 
   return (
-    <BigPanel area="traffic" className="overflow-visible">
+    <BigPanel className="overflow-visible">
       <PanelHeader
         title={data.title}
         meta={

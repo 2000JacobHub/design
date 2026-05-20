@@ -125,3 +125,19 @@ export type PlanCardData = {
 export type AIPlansData = {
   items: PlanCardData[];
 };
+
+/* ------------------------------------------------- Parking heatmap */
+
+export type ParkingHeatmapCell = {
+  /** 24h clock label, e.g. "14:00" */
+  hour: string;
+  /** Saturation percentage 0–100 */
+  value: number;
+};
+
+export type ParkingHeatmapData = {
+  title: string;
+  meta?: string;
+  cells: ParkingHeatmapCell[];
+  summary: string;
+};

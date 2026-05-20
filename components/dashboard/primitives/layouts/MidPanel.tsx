@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 
-export type PlanCardProps = HTMLAttributes<HTMLLIElement> & {
+export type PlanCardProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
 };
 
@@ -10,9 +10,9 @@ export type PlanCardProps = HTMLAttributes<HTMLLIElement> & {
  */
 export function MidPanel({ children, className, ...rest }: PlanCardProps) {
   return (
-    <li
+    <div
       className={[
-        "cosmic-card relative p-4 flex flex-col gap-2 min-h-[148px] cursor-pointer group overflow-hidden",
+        "cosmic-card relative p-4 flex flex-col gap-2 min-h-[148px] h-full cursor-pointer group overflow-hidden",
         className,
       ]
         .filter(Boolean)
@@ -27,6 +27,6 @@ export function MidPanel({ children, className, ...rest }: PlanCardProps) {
         }}
       />
       {children}
-    </li>
+    </div>
   );
 }

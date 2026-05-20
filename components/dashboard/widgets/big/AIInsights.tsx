@@ -15,7 +15,7 @@ const TAG_CLS: Record<InsightTag, string> = {
 export default function AIInsights() {
   const data = mock.aiInsights;
   return (
-    <BigPanel area="insights">
+    <BigPanel>
       <PanelHeader title={data.title} action={<ActionLink />} />
       <ul className="m-0 p-0 list-none flex flex-col gap-2.5 flex-1 overflow-y-auto">
         {data.items.map((item, i) => (
