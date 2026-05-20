@@ -7,7 +7,7 @@ import {
   presentation,
   store,
 } from "@/lib/icons";
-import type { PlanIconKind } from "@/components/cosmic/dashboard/data/types";
+import type { PlanIconKind } from "@/components/dashboard/data/types";
 
 export type PlanIconGlyphProps = {
   kind: PlanIconKind;

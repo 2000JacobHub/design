@@ -1,5 +1,5 @@
-import type { TodayFocusData } from "@/components/cosmic/dashboard/data/types";
-import { ActionLink, PanelHeader } from "@/components/cosmic/dashboard/primitives";
+import type { TodayFocusData } from "@/components/dashboard/data/types";
+import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
 
 export type TodayFocusProps = {
   data: TodayFocusData;

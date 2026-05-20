@@ -1,5 +1,5 @@
 import { Icon, trendingDown, trendingUp } from "@/lib/icons";
-import type { Trend } from "@/components/cosmic/dashboard/data/types";
+import type { Trend } from "@/components/dashboard/data/types";
 
 export type TrendChipProps = {
   trend: Trend;

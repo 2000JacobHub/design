@@ -13,7 +13,7 @@ import type {
   KpiCardData,
   TodayFocusData,
   TrafficSalesData,
-} from "@/components/cosmic/dashboard/data/types";
+} from "@/components/dashboard/data/types";
 
 export const kpiCards: KpiCardData[] = [
   { title: "客流（人次）", value: "128.6万", change: "8.6%", trend: "up", comparison: "较上周", spark: [62, 68, 71, 65, 74, 88, 96] },

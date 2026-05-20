@@ -1,6 +1,6 @@
 import { arrowRight, Icon } from "@/lib/icons";
-import type { AIPlansData } from "@/components/cosmic/dashboard/data/types";
-import { PanelHeader, PlanIconGlyph } from "@/components/cosmic/dashboard/primitives";
+import type { AIPlansData } from "@/components/dashboard/data/types";
+import { PanelHeader, PlanIconGlyph } from "@/components/dashboard/primitives";
 
 export type AIPlansProps = {
   data: AIPlansData;

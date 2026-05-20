@@ -1,5 +1,5 @@
-import FormGallery from "@/components/cosmic/FormGallery";
-import { PageShell } from "@/components/cosmic/PageShell";
+import FormGallery from "@/components/FormGallery";
+import { PageShell } from "@/components/PageShell";
 
 export default function FormsPage() {
   return (

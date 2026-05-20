@@ -1,5 +1,5 @@
-import type { KpiCardData } from "@/components/cosmic/dashboard/data/types";
-import { Sparkline, TrendChip } from "@/components/cosmic/dashboard/primitives";
+import type { KpiCardData } from "@/components/dashboard/data/types";
+import { Sparkline, TrendChip } from "@/components/dashboard/primitives";
 
 export type KpiCardProps = {
   data: KpiCardData;

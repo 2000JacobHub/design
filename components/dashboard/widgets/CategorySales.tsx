@@ -1,9 +1,9 @@
-import type { CategorySalesData } from '@/components/cosmic/dashboard/data/types';
+import type { CategorySalesData } from '@/components/dashboard/data/types';
 import {
       ActionLink,
       PanelHeader,
       TrendChip,
-} from '@/components/cosmic/dashboard/primitives';
+} from '@/components/dashboard/primitives';
 
 export type CategorySalesProps = {
       data: CategorySalesData;

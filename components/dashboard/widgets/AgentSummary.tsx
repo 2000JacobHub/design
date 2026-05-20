@@ -1,5 +1,5 @@
-import type { AgentSummaryData } from "@/components/cosmic/dashboard/data/types";
-import { ActionLink, PanelHeader } from "@/components/cosmic/dashboard/primitives";
+import type { AgentSummaryData } from "@/components/dashboard/data/types";
+import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
 
 export type AgentSummaryProps = {
   data: AgentSummaryData;

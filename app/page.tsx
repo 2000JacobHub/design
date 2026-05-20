@@ -1,5 +1,5 @@
-import CosmicGravity from "@/components/cosmic/CosmicGravity";
-import { PageShell } from "@/components/cosmic/PageShell";
+import CosmicGravity from "@/components/CosmicGravity";
+import { PageShell } from "@/components/PageShell";
 
 export default function Home() {
   return (

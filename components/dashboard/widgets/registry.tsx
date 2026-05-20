@@ -19,15 +19,15 @@
  */
 
 import type { ReactNode } from "react";
-import * as mock from "@/components/cosmic/dashboard/data/mock";
-import { AgentSummary } from "@/components/cosmic/dashboard/widgets/AgentSummary";
-import { AIInsights } from "@/components/cosmic/dashboard/widgets/AIInsights";
-import { AIPlans } from "@/components/cosmic/dashboard/widgets/AIPlans";
-import { CampaignFunnel } from "@/components/cosmic/dashboard/widgets/CampaignFunnel";
-import { CategorySales } from "@/components/cosmic/dashboard/widgets/CategorySales";
-import { KpiCard } from "@/components/cosmic/dashboard/widgets/KpiCard";
-import { TodayFocus } from "@/components/cosmic/dashboard/widgets/TodayFocus";
-import { TrafficSalesChart } from "@/components/cosmic/dashboard/widgets/TrafficSalesChart";
+import * as mock from "@/components/dashboard/data/mock";
+import { AgentSummary } from "@/components/dashboard/widgets/AgentSummary";
+import { AIInsights } from "@/components/dashboard/widgets/AIInsights";
+import { AIPlans } from "@/components/dashboard/widgets/AIPlans";
+import { CampaignFunnel } from "@/components/dashboard/widgets/CampaignFunnel";
+import { CategorySales } from "@/components/dashboard/widgets/CategorySales";
+import { KpiCard } from "@/components/dashboard/widgets/KpiCard";
+import { TodayFocus } from "@/components/dashboard/widgets/TodayFocus";
+import { TrafficSalesChart } from "@/components/dashboard/widgets/TrafficSalesChart";
 
 export type WidgetId =
   | "kpi-card"

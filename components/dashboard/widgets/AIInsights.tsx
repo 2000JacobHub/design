@@ -1,5 +1,5 @@
-import type { AIInsightsData, InsightTag } from "@/components/cosmic/dashboard/data/types";
-import { ActionLink, PanelHeader } from "@/components/cosmic/dashboard/primitives";
+import type { AIInsightsData, InsightTag } from "@/components/dashboard/data/types";
+import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
 
 export type AIInsightsProps = {
   data: AIInsightsData;

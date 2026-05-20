@@ -1,4 +1,4 @@
-import type { Trend } from "@/components/cosmic/dashboard/data/types";
+import type { Trend } from "@/components/dashboard/data/types";
 
 export type SparklineProps = {
   data: number[];

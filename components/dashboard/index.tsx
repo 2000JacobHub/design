@@ -1,12 +1,12 @@
 "use client";
 
 import type { ReactNode } from "react";
-import * as mock from "@/components/cosmic/dashboard/data/mock";
+import * as mock from "@/components/dashboard/data/mock";
 import {
   DashboardBackdrop,
   HeaderClock,
   SyncStatus,
-} from "@/components/cosmic/dashboard/primitives";
+} from "@/components/dashboard/primitives";
 import {
   AgentSummary,
   AIInsights,
@@ -16,7 +16,7 @@ import {
   KpiCard,
   TodayFocus,
   TrafficSalesChart,
-} from "@/components/cosmic/dashboard/widgets";
+} from "@/components/dashboard/widgets";
 
 const PANEL_CLS = "cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0";
 
