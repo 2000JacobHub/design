@@ -1,29 +1,25 @@
 "use client";
 
-import { useRef, useState, type DragEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type DragEvent,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
 import { DashboardBackdrop, PanelHeader } from "@/components/dashboard/primitives";
 import Header from "@/components/dashboard/primitives/Header";
+import { Icon, sliders, close, check } from "@/lib/icons";
 import {
   BIG_AREAS,
   INITIAL_LAYOUT,
   WIDGET_MAP,
-  widgetsOfType,
   type Layout,
   type WidgetDef,
   type WidgetType,
 } from "@/components/dashboard/registry";
-
-type DragPayload = {
-  type: WidgetType;
-  widgetId: string;
-  from: { section: WidgetType; index: number } | null;
-};
-
-const TYPE_LABEL: Record<WidgetType, string> = {
-  small: "小卡片 · Small",
-  big: "大面板 · Big",
-  mid: "计划卡片 · Mid",
-};
+import { LibraryPanel, type DragPayload } from "@/components/dashboard/LibraryPanel";
 
 const PLACEHOLDER_MIN: Record<WidgetType, string> = {
   small: "min-h-[116px]",
@@ -138,10 +134,10 @@ export default function Dashboard() {
               e.stopPropagation();
               removeSlot(section, index);
             }}
-            className="absolute top-1.5 right-1.5 z-20 w-6 h-6 grid place-items-center rounded-full bg-cosmic-black/80 border border-soft-white/20 text-soft-white/70 hover:text-danger hover:border-danger/60 transition-colors"
+            className="absolute top-1.5 right-1.5 z-20 w-5 h-5 grid place-items-center rounded-full bg-cosmic-black/80 border border-soft-white/20 text-soft-white/70 hover:text-danger hover:border-danger/60 transition-colors"
             aria-label="移除组件"
           >
-            ×
+            <Icon icon={close} width={12} height={12} aria-hidden />
           </button>
         )}
       </div>
@@ -154,30 +150,6 @@ export default function Dashboard() {
         <DashboardBackdrop />
 
         <Header />
-
-        <div className="relative z-2 flex items-center justify-end gap-2 mb-3 -mt-2">
-          {editing && (
-            <button
-              type="button"
-              onClick={() => setLayout(INITIAL_LAYOUT)}
-              className="inline-flex items-center rounded-input px-3 py-1.5 text-xs border border-soft-white/15 text-soft-white/64 hover:text-soft-white/90 hover:border-soft-white/30 transition-colors"
-            >
-              重置
-            </button>
-          )}
-          <button
-            type="button"
-            onClick={() => setEditing((v) => !v)}
-            className={[
-              "inline-flex items-center rounded-input px-3 py-1.5 text-xs border transition-colors",
-              editing
-                ? "bg-stardust-gold/16 border-stardust-gold/45 text-stardust-gold"
-                : "border-soft-white/15 text-soft-white/72 hover:border-soft-white/30 hover:text-soft-white/90",
-            ].join(" ")}
-          >
-            {editing ? "完成" : "自定义布局"}
-          </button>
-        </div>
 
         <section
           aria-label="核心指标"
@@ -205,39 +177,120 @@ export default function Dashboard() {
       </main>
 
       {editing && (
-        <aside className="w-72 shrink-0 h-screen sticky top-0 overflow-y-auto border-l border-soft-white/10 bg-cosmic-black/60 backdrop-blur p-4">
-          <div className="text-sm font-medium text-soft-white/85 mb-1">组件库</div>
-          <div className="text-2xs text-soft-white/45 mb-4">拖拽组件到左侧对应类型的槽位</div>
-
-          {(["small", "big", "mid"] as WidgetType[]).map((type) => (
-            <div key={type} className="mb-5">
-              <div className="text-2xs uppercase tracking-wide text-soft-white/45 mb-2">
-                {TYPE_LABEL[type]}
-              </div>
-              <div className="flex flex-col gap-2">
-                {widgetsOfType(type).map((w) => {
-                  const placed = layout[type].includes(w.id);
-                  return (
-                    <div
-                      key={w.id}
-                      draggable
-                      onDragStart={(e) => startDrag(e, { type: w.type, widgetId: w.id, from: null })}
-                      onDragEnd={endDrag}
-                      className={[
-                        "cosmic-card px-3 py-2 text-xs flex items-center justify-between gap-2 cursor-grab active:cursor-grabbing transition-opacity",
-                        placed ? "opacity-45" : "hover:border-stardust-gold/40",
-                      ].join(" ")}
-                    >
-                      <span className="truncate text-soft-white/85">{w.label}</span>
-                      {placed && <span className="text-2xs text-soft-white/40 shrink-0">已用</span>}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </aside>
+        <LibraryPanel
+          layout={layout}
+          onReset={() => setLayout(INITIAL_LAYOUT)}
+          onDragStart={startDrag}
+          onDragEnd={endDrag}
+        />
       )}
+
+      <FloatingToggle editing={editing} onToggle={() => setEditing((v) => !v)} />
     </div>
+  );
+}
+
+const FLOAT_MARGIN = 12;
+
+function FloatingToggle({ editing, onToggle }: { editing: boolean; onToggle: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [pos, setPos] = useState({ x: FLOAT_MARGIN, y: FLOAT_MARGIN });
+  const [ready, setReady] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const drag = useRef<{ sx: number; sy: number; bx: number; by: number; moved: boolean } | null>(null);
+
+  const clamp = (x: number, y: number, w: number, h: number) => ({
+    x: Math.min(Math.max(x, FLOAT_MARGIN), Math.max(FLOAT_MARGIN, window.innerWidth - w - FLOAT_MARGIN)),
+    y: Math.min(Math.max(y, FLOAT_MARGIN), Math.max(FLOAT_MARGIN, window.innerHeight - h - FLOAT_MARGIN)),
+  });
+
+  const snapToEdge = () => {
+    const el = ref.current;
+    if (!el) return;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    setPos((p) => {
+      const center = p.x + w / 2;
+      const x = center < window.innerWidth / 2 ? FLOAT_MARGIN : window.innerWidth - w - FLOAT_MARGIN;
+      return clamp(x, p.y, w, h);
+    });
+  };
+
+  useEffect(() => {
+    const el = ref.current;
+    const w = el?.offsetWidth ?? 48;
+    const h = el?.offsetHeight ?? 48;
+    setPos({
+      x: window.innerWidth - w - FLOAT_MARGIN,
+      y: window.innerHeight - h - FLOAT_MARGIN,
+    });
+    setReady(true);
+    window.addEventListener("resize", snapToEdge);
+    return () => window.removeEventListener("resize", snapToEdge);
+  }, []);
+
+  const onPointerDown = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    drag.current = { sx: e.clientX, sy: e.clientY, bx: pos.x, by: pos.y, moved: false };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const onPointerMove = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.sx;
+    const dy = e.clientY - d.sy;
+    if (!d.moved && Math.hypot(dx, dy) > 4) {
+      d.moved = true;
+      setDragging(true);
+    }
+    if (!d.moved) return;
+    const el = ref.current;
+    const w = el?.offsetWidth ?? 0;
+    const h = el?.offsetHeight ?? 0;
+    setPos(clamp(d.bx + dx, d.by + dy, w, h));
+  };
+
+  const onPointerUp = (e: ReactPointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    drag.current = null;
+    e.currentTarget.releasePointerCapture(e.pointerId);
+    if (!d) return;
+    if (!d.moved) {
+      onToggle();
+      return;
+    }
+    setDragging(false);
+    snapToEdge();
+  };
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      style={{
+        left: pos.x,
+        top: pos.y,
+        boxShadow: editing
+          ? "0 10px 30px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,210,138,0.28), 0 0 26px -2px rgba(245,210,138,0.5)"
+          : "0 10px 30px -8px rgba(0,0,0,0.65), 0 0 0 1px rgba(245,246,248,0.06), 0 0 20px -6px rgba(245,210,138,0.22)",
+      }}
+      aria-label={editing ? "完成" : "自定义布局"}
+      title={editing ? "完成" : "自定义布局"}
+      className={[
+        "fixed z-50 w-12 h-12 grid place-items-center rounded-full border touch-none select-none backdrop-blur-md",
+        ready ? "opacity-100" : "opacity-0",
+        dragging
+          ? "cursor-grabbing scale-105"
+          : "cursor-grab transition-all duration-200 ease-out hover:scale-105 active:scale-95",
+        editing
+          ? "bg-stardust-gold/20 border-stardust-gold/50 text-stardust-gold"
+          : "bg-cosmic-black/80 border-soft-white/15 text-soft-white/90 hover:text-stardust-gold hover:border-stardust-gold/40",
+      ].join(" ")}
+    >
+      <Icon icon={editing ? check : sliders} width={18} height={18} aria-hidden />
+    </button>
   );
 }

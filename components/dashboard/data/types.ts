@@ -131,8 +131,10 @@ export type AIPlansData = {
 export type ParkingHeatmapCell = {
   /** 24h clock label, e.g. "14:00" */
   hour: string;
-  /** Saturation percentage 0–100 */
+  /** Saturation percentage 0–100 — drives the cell color */
   value: number;
+  /** Vehicle flow for that hour (辆) — shown in the hover tooltip */
+  count: number;
 };
 
 export type ParkingHeatmapData = {

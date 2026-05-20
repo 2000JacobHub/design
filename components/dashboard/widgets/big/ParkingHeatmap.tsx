@@ -2,17 +2,22 @@ import * as mock from "@/components/dashboard/data/mock";
 import { PanelHeader } from "@/components/dashboard/primitives";
 import { BigPanel } from "@/components/dashboard/primitives/layouts";
 
-/** value 0–100 → an inline background that reads as a low→high heatmap. */
+/** value 0–100 → an inline background: the busier the hour, the redder. */
 function cellStyle(value: number) {
   const t = Math.max(0, Math.min(1, value / 100));
-  // Hue glides teal → gold → amber as saturation climbs; alpha rises so
-  // quiet hours stay near the panel background and peaks glow.
-  const alpha = (0.1 + t * 0.85).toFixed(3);
-  const color =
-    t < 0.5
-      ? `rgba(127, 185, 190, ${alpha})` // teal for the calmer half
-      : `rgba(245, ${Math.round(210 - (t - 0.5) * 80)}, 138, ${alpha})`; // gold→amber
-  return { background: color };
+  // Warm low end → deep red high end, with rising alpha so quiet hours
+  // stay near the panel background and busy hours glow red.
+  const r = Math.round(250 - t * 40);
+  const g = Math.round(180 - t * 150);
+  const b = Math.round(130 - t * 100);
+  const alpha = (0.16 + t * 0.84).toFixed(3);
+  return { background: `rgba(${r}, ${g}, ${b}, ${alpha})` };
+}
+
+/** Opaque accent for the tooltip dot — same red ramp at full opacity. */
+function accentColor(value: number) {
+  const t = Math.max(0, Math.min(1, value / 100));
+  return `rgb(${Math.round(250 - t * 40)}, ${Math.round(180 - t * 150)}, ${Math.round(130 - t * 100)})`;
 }
 
 export default function ParkingHeatmap() {
@@ -23,23 +28,37 @@ export default function ParkingHeatmap() {
     <BigPanel>
       <PanelHeader title={data.title} meta={data.meta} />
 
-      <div className="flex flex-col gap-3 flex-1 justify-center">
-        <div className="grid grid-cols-12 gap-1.5">
+      <div className="flex flex-col gap-3 flex-1 justify-center px-4 xl:px-12">
+        <div className="grid grid-cols-8 gap-1.5">
           {data.cells.map((c) => {
             const isPeak = c.hour === peak.hour;
             return (
               <div
                 key={c.hour}
-                title={`${c.hour} · 饱和度 ${c.value}%`}
                 className={[
-                  "aspect-square rounded-sm grid place-items-center text-2xs tabular-nums transition-transform hover:scale-110 cursor-default",
+                  "group relative aspect-square rounded-sm grid place-items-center text-2xs tabular-nums transition-transform hover:scale-110 cursor-default",
                   isPeak
-                    ? "ring-1 ring-stardust-gold text-cosmic-black font-medium"
+                    ? "ring-1 ring-[#ff6b6b] text-soft-white font-medium"
                     : "text-soft-white/70",
                 ].join(" ")}
                 style={cellStyle(c.value)}
               >
                 {parseInt(c.hour, 10)}
+                <div className="pointer-events-none absolute left-1/2 bottom-full z-30 mb-2 -translate-x-1/2 translate-y-1 scale-95 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
+                  <div className="relative whitespace-nowrap rounded-lg border border-soft-white/12 bg-cosmic-black/90 px-3 py-2 shadow-xl backdrop-blur">
+                    <div className="flex items-center gap-1.5 text-2xs text-soft-white/55">
+                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: accentColor(c.value) }} />
+                      {c.hour}
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-1">
+                      <span className="text-[10px] text-soft-white/55">车流量</span>
+                      <span className="text-base font-semibold leading-none tabular-nums text-soft-white">{c.count}</span>
+                      <span className="text-2xs text-soft-white/55">辆</span>
+                    </div>
+                    <div className="mt-0.5 text-[10px] text-soft-white/45">饱和度 {c.value}%</div>
+                    <span className="absolute left-1/2 top-full -mt-px h-0 w-0 -translate-x-1/2 border-[5px] border-transparent border-t-cosmic-black/90" />
+                  </div>
+                </div>
               </div>
             );
           })}
@@ -51,7 +70,7 @@ export default function ParkingHeatmap() {
             className="h-1.5 flex-1 rounded-full"
             style={{
               background:
-                "linear-gradient(to right, rgba(127,185,190,0.18) 0%, rgba(127,185,190,0.6) 45%, rgba(245,210,138,0.85) 70%, rgba(245,180,138,0.95) 100%)",
+                "linear-gradient(to right, rgba(250,180,130,0.2) 0%, rgba(240,120,80,0.6) 50%, rgba(210,30,30,0.95) 100%)",
             }}
           />
           <span>高</span>

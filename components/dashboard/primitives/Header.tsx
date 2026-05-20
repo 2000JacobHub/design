@@ -7,14 +7,20 @@ export default function Header() {
     return (
         <header className="relative z-2 flex flex-wrap items-center justify-between gap-3 mb-4 lg:mb-5">
             <div className="flex items-center gap-4">
-                <div className="w-24 h-8 cosmic-card inline-flex items-center cursor-pointer"/>
+                <div className="w-10 h-10 grid place-items-center cursor-pointer" aria-label="X">
+                    <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden>
+                        <defs>
+                            <linearGradient id="x-logo-gold" x1="0" y1="0" x2="1" y2="1">
+                                <stop offset="0%" stopColor="#f5d28a"/>
+                                <stop offset="55%" stopColor="#f5d28a"/>
+                                <stop offset="100%" stopColor="#e8a955"/>
+                            </linearGradient>
+                        </defs>
+                        <path fill="url(#x-logo-gold)" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/>
+                    </svg>
+                </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
-                {/* SyncStatus pill takes ~10rem; hide it below sm to keep the
-              header readable on phones, where the live clock alone is enough. */}
-                <div className="hidden sm:block">
-                    <SyncStatus/>
-                </div>
                 <HeaderClock/>
             </div>
         </header>
@@ -54,52 +60,6 @@ function HeaderClock() {
           {date} · 周{weekday}
         </span>
             </div>
-        </div>
-    );
-}
-
-
-/**
- * Pulsing "live" pill in the page header. Visual only — wire up the
- * `online` prop once the page has a real status source.
- */
-export type SyncStatusProps = {
-    label?: string;
-    online?: boolean;
-};
-
-export function SyncStatus({label = "实时同步正常", online = true}: SyncStatusProps) {
-    return (
-        <div
-            className={[
-                "inline-flex items-center gap-2 h-9 px-3.5 rounded-full border",
-                online
-                    ? "bg-accent-teal/8 border-accent-teal/24"
-                    : "bg-danger/8 border-danger/24",
-            ].join(" ")}
-        >
-      <span className="relative flex h-2 w-2">
-        <span
-            className={[
-                "absolute inline-flex h-full w-full rounded-full opacity-60",
-                online ? "bg-accent-teal animate-ping" : "bg-danger",
-            ].join(" ")}
-        />
-        <span
-            className={[
-                "relative inline-flex h-2 w-2 rounded-full",
-                online ? "bg-accent-teal shadow-teal-dot" : "bg-danger",
-            ].join(" ")}
-        />
-      </span>
-            <span
-                className={[
-                    "text-xs tracking-wide",
-                    online ? "text-accent-teal/92" : "text-danger/92",
-                ].join(" ")}
-            >
-        {label}
-      </span>
         </div>
     );
 }

@@ -40,4 +40,5 @@ export { default as plus } from "@iconify-icons/lucide/plus";
 export { default as chevronUp } from "@iconify-icons/lucide/chevron-up";
 export { default as chevronDown } from "@iconify-icons/lucide/chevron-down";
 export { default as close } from "@iconify-icons/lucide/x";
+export { default as check } from "@iconify-icons/lucide/check";
 export { default as rotateCcw } from "@iconify-icons/lucide/rotate-ccw";
