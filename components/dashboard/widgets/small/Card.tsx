@@ -1,6 +1,6 @@
 import type { KpiCardData } from "@/components/dashboard/data/types";
 import { Sparkline, TrendChip } from "@/components/dashboard/primitives";
-import {SmallPanel} from "@/components/dashboard/common/layouts";
+import {SmallPanel} from "@/components/dashboard/primitives/layouts";
 
 export type CardProps = {
   data: KpiCardData;

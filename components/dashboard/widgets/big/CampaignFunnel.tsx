@@ -1,6 +1,6 @@
 import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-import {BigPanel} from "@/components/dashboard/common/layouts";
+import {BigPanel} from "@/components/dashboard/primitives/layouts";
 
 const MIN_W = 0.38;
 const MAX_W = 1.0;

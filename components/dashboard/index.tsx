@@ -1,10 +1,9 @@
 "use client";
-import * as mock from "@/components/dashboard/data/mock";
 import {
     DashboardBackdrop,
     PanelHeader,
 } from "@/components/dashboard/primitives";
-import Header from "@/components/dashboard/common/Header";
+import Header from "@/components/dashboard/primitives/Header";
 
 import CampaignRoiCard from "@/components/dashboard/widgets/small/CampaignRoiCard";
 import TrafficCard from "@/components/dashboard/widgets/small/TrafficCard";
@@ -70,7 +69,7 @@ export default function Dashboard() {
                     className={["cosmic-panel flex flex-col gap-3 p-4 lg:p-5 min-h-0"]
                         .filter(Boolean)
                         .join(" ")}
-                    style={{ gridArea: 'plan' }}
+                    style={{gridArea: 'plan'}}
                 >
                     <PanelHeader title={"AI 推荐计划"} meta={"由 AI 基于数据与目标推荐"}/>
                     <ul

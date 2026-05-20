@@ -7,7 +7,7 @@ import {
       PanelHeader,
       TrendChip,
 } from "@/components/dashboard/primitives";
-import {BigPanel} from "@/components/dashboard/common/layouts";
+import {BigPanel} from "@/components/dashboard/primitives/layouts";
 
 export default function CategorySales() {
       const data = mock.categorySales;

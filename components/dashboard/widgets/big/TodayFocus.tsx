@@ -1,6 +1,6 @@
 import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-import {BigPanel} from "@/components/dashboard/common/layouts";
+import {BigPanel} from "@/components/dashboard/primitives/layouts";
 
 export default function TodayFocus() {
   const data = mock.todayFocus;

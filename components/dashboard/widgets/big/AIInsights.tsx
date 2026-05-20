@@ -1,7 +1,7 @@
 import type { InsightTag } from "@/components/dashboard/data/types";
 import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-import {BigPanel} from "@/components/dashboard/common/layouts";
+import {BigPanel} from "@/components/dashboard/primitives/layouts";
 
 const TAG_CLS: Record<InsightTag, string> = {
   // "销售": "bg-stardust-gold/16 text-stardust-gold border border-stardust-gold/24",

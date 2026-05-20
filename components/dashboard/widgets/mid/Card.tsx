@@ -1,7 +1,7 @@
 import { arrowRight, Icon } from "@/lib/icons";
 import {AIPlansData, PlanCardData} from "@/components/dashboard/data/types";
 import { PanelHeader, PlanIconGlyph } from "@/components/dashboard/primitives";
-import {MidPanel} from "@/components/dashboard/common/layouts";
+import {MidPanel} from "@/components/dashboard/primitives/layouts";
 
 export function Card(p: PlanCardData) {
   return (

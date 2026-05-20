@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import * as mock from "@/components/dashboard/data/mock";
 import { ActionLink, PanelHeader } from "@/components/dashboard/primitives";
-import {BigPanel} from "@/components/dashboard/common/layouts";
+import {BigPanel} from "@/components/dashboard/primitives/layouts";
 
 const PAD = { top: 22, right: 44, bottom: 30, left: 44 } as const;
 const Y_TICKS = [0, 0.25, 0.5, 0.75, 1] as const;
