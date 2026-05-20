@@ -66,14 +66,13 @@ export default function Dashboard() {
         )}
       </main>
 
-      {dash.editing && (
-        <LibraryPanel
-          layout={dash.layout}
-          onReset={dash.resetLayout}
-          onDragStart={dash.startDrag}
-          onDragEnd={dash.endDrag}
-        />
-      )}
+      <LibraryPanel
+        open={dash.editing}
+        layout={dash.layout}
+        onReset={dash.resetLayout}
+        onDragStart={dash.startDrag}
+        onDragEnd={dash.endDrag}
+      />
 
       <FloatingToggle editing={dash.editing} onToggle={dash.toggleEditing} />
     </div>
