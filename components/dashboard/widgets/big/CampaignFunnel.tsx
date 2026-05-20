@@ -80,7 +80,7 @@ export default function CampaignFunnel() {
         <div className="text-xs text-soft-white/64">{data.roi.label}</div>
         <div className="flex items-baseline gap-2">
           <strong className="text-3xl font-light text-stardust-gold tabular-nums">{data.roi.value}</strong>
-          <span className="text-2xs text-stardust-gold/72">{data.roi.change}</span>
+          <span className="text-2xs text-stardust-gold/72 tabular-nums">{data.roi.change}</span>
         </div>
       </div>
     </BigPanel>

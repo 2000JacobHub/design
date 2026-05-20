@@ -15,7 +15,7 @@ export default function AgentSummary() {
               <strong className="text-3xl font-light text-soft-white/92 tabular-nums">{m.value}</strong>
               <span className="text-xs text-soft-white/52">{m.unit}</span>
             </div>
-            <span className="text-2xs text-stardust-gold/72">{m.change}</span>
+            <span className="text-2xs text-stardust-gold/72 tabular-nums">{m.change}</span>
           </li>
         ))}
       </ul>

@@ -79,7 +79,7 @@ export default function TrafficSalesChart() {
   const hoverYS = ySales(data.sales[safeHover]);
 
   return (
-    <BigPanel className="overflow-visible">
+    <BigPanel className="overflow-visible max-h-[420px]">
       <PanelHeader
         title={data.title}
         meta={
@@ -144,6 +144,7 @@ export default function TrafficSalesChart() {
                 return (
                   <text
                     key={`yl-${r}`}
+                    className="tabular-nums"
                     x={PAD.left - 8}
                     y={PAD.top + innerH * r + 4}
                     textAnchor="end"
@@ -160,6 +161,7 @@ export default function TrafficSalesChart() {
                 return (
                   <text
                     key={`yr-${r}`}
+                    className="tabular-nums"
                     x={w - PAD.right + 8}
                     y={PAD.top + innerH * r + 4}
                     textAnchor="start"
@@ -174,6 +176,7 @@ export default function TrafficSalesChart() {
               {data.xAxis.map((label, i) => (
                 <text
                   key={`${label}-${i}`}
+                  className="tabular-nums"
                   x={xAt(i)}
                   y={h - 10}
                   textAnchor="middle"
@@ -274,14 +277,14 @@ export default function TrafficSalesChart() {
                   } as CSSProperties;
                 })()}
               >
-                <div className="text-soft-white/64 text-2xs mb-1.5">{data.xAxis[safeHover]}</div>
+                <div className="text-soft-white/64 text-2xs mb-1.5 tabular-nums">{data.xAxis[safeHover]}</div>
                 <div className="flex items-center gap-2">
                   <i className="w-2 h-2 rounded-full bg-stardust-gold" />
-                  客流 <strong className="text-soft-white/92">{data.traffic[safeHover]} 万</strong>
+                  客流 <strong className="text-soft-white/92 tabular-nums">{data.traffic[safeHover]} 万</strong>
                 </div>
                 <div className="flex items-center gap-2 mt-0.5">
                   <i className="w-2 h-2 rounded-full bg-accent-teal" />
-                  销售额 <strong className="text-soft-white/92">{data.sales[safeHover]} 万</strong>
+                  销售额 <strong className="text-soft-white/92 tabular-nums">{data.sales[safeHover]} 万</strong>
                 </div>
               </div>
             )}
