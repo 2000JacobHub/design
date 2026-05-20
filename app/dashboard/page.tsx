@@ -57,7 +57,7 @@ export default function Dashboard() {
                   style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}
                 >
                   {dash.layout.mid.map((id, i) => (
-                    <DashboardSlot key={`mid-${i}`} section="mid" index={i} id={id} {...slotProps} />
+                    <DashboardSlot key={`mid-${i}`} section="mid" index={i} id={id} {...slotProps} editing={dash.editing}/>
                   ))}
                 </div>
               </article>

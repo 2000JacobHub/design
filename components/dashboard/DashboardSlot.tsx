@@ -76,7 +76,8 @@ export function DashboardSlot({
       ) : (
         <div
           className={[
-            "h-full w-full grid place-items-center rounded-card border border-dashed border-soft-white/15 text-2xs text-soft-white/40",
+            "h-full w-full grid place-items-center rounded-card border border-dashed text-2xs text-soft-white/40",
+              `${editing ? 'border-stardust-gold': 'border-soft-white/15'}`,
             PLACEHOLDER_MIN[section],
           ].join(" ")}
         >
