@@ -119,9 +119,9 @@ export const customerMix: ShareChartData = {
   title: "客群结构占比",
   meta: "近7天 · 按到访客群",
   slices: [
-    { label: "新客", value: 28, color: "#f5d28a" },
-    { label: "老客", value: 34, color: "#7fb9be" },
-    { label: "会员", value: 38, color: "#8c78bc" },
+    { label: "新客", value: 28, color: "var(--color-stardust-gold)" },
+    { label: "老客", value: 34, color: "var(--color-accent-teal)" },
+    { label: "会员", value: 38, color: "var(--color-accent-violet)" },
   ],
   centerLabel: "12.8万",
   centerSub: "总到访",
@@ -131,10 +131,10 @@ export const paymentMix: ShareChartData = {
   title: "支付方式占比",
   meta: "近7天 · 按交易笔数",
   slices: [
-    { label: "移动支付", value: 62, color: "#f5d28a" },
-    { label: "银行卡", value: 21, color: "#7fb9be" },
-    { label: "现金", value: 9, color: "#8c78bc" },
-    { label: "其他", value: 8, color: "#f5b26a" },
+    { label: "移动支付", value: 62, color: "var(--color-stardust-gold)" },
+    { label: "银行卡", value: 21, color: "var(--color-accent-teal)" },
+    { label: "现金", value: 9, color: "var(--color-accent-violet)" },
+    { label: "其他", value: 8, color: "var(--color-stardust-amber)" },
   ],
 };
 

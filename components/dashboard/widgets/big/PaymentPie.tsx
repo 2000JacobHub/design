@@ -25,14 +25,9 @@ function wedge(startDeg: number, endDeg: number): string {
   return `M ${CENTER} ${CENTER} L ${sx} ${sy} A ${R} ${R} 0 ${large} 1 ${ex} ${ey} Z`;
 }
 
-/** Mix a #rrggbb color toward white for a soft highlight stop. */
-function lighten(hex: string, amt: number): string {
-  const n = parseInt(hex.slice(1), 16);
-  const r = (n >> 16) & 255;
-  const g = (n >> 8) & 255;
-  const b = n & 255;
-  const mix = (c: number) => Math.round(c + (255 - c) * amt);
-  return `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`;
+/** Highlight stop: blend a slice's token color toward soft-white. */
+function highlight(color: string): string {
+  return `color-mix(in srgb, var(--color-soft-white) 32%, ${color})`;
 }
 
 export default function PaymentPie() {
@@ -66,19 +61,19 @@ export default function PaymentPie() {
           <svg
             viewBox={`0 0 ${SIZE} ${SIZE}`}
             className="w-full overflow-visible"
-            style={{ filter: "drop-shadow(0 8px 18px rgb(0 0 0 / 0.5))" }}
+            style={{ filter: "drop-shadow(0 8px 18px color-mix(in srgb, transparent 50%, var(--color-cosmic-black)))" }}
           >
             <defs>
               {wedges.map((s) => (
                 <linearGradient key={s.label} id={`pie-${s.i}`} x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor={lighten(s.color, 0.32)} />
+                  <stop offset="0%" stopColor={highlight(s.color)} />
                   <stop offset="100%" stopColor={s.color} />
                 </linearGradient>
               ))}
               {/* faint top sheen overlaid on the whole pie */}
               <radialGradient id="pie-sheen" cx="38%" cy="32%" r="75%">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
-                <stop offset="55%" stopColor="#ffffff" stopOpacity="0" />
+                <stop offset="0%" stopColor="var(--color-soft-white)" stopOpacity="0.18" />
+                <stop offset="55%" stopColor="var(--color-soft-white)" stopOpacity="0" />
               </radialGradient>
             </defs>
 

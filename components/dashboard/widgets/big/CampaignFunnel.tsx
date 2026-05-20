@@ -53,8 +53,8 @@ export default function CampaignFunnel() {
                   className="funnel-stage absolute inset-0"
                   style={{
                     clipPath: `polygon(${lPct.toFixed(2)}% 0%, ${rPct.toFixed(2)}% 0%, ${rNextPct.toFixed(2)}% 100%, ${lNextPct.toFixed(2)}% 100%)`,
-                    background: `linear-gradient(to right, rgba(245,210,138,${goldA}) 0%, rgba(127,185,190,${tealA}) 100%)`,
-                    filter: "drop-shadow(0 0 1.5px rgba(245,210,138,0.28))",
+                    background: `linear-gradient(to right, color-mix(in srgb, transparent ${(100 - Number(goldA) * 100).toFixed(1)}%, var(--color-stardust-gold)) 0%, color-mix(in srgb, transparent ${(100 - Number(tealA) * 100).toFixed(1)}%, var(--color-accent-teal)) 100%)`,
+                    filter: "drop-shadow(0 0 1.5px color-mix(in srgb, transparent 72%, var(--color-stardust-gold)))",
                     animationDelay: stageDelay,
                   }}
                 />

@@ -11,9 +11,9 @@ export default function Header() {
                     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden>
                         <defs>
                             <linearGradient id="x-logo-gold" x1="0" y1="0" x2="1" y2="1">
-                                <stop offset="0%" stopColor="#f5d28a"/>
-                                <stop offset="55%" stopColor="#f5d28a"/>
-                                <stop offset="100%" stopColor="#e8a955"/>
+                                <stop offset="0%" stopColor="var(--color-stardust-gold)"/>
+                                <stop offset="55%" stopColor="var(--color-stardust-gold)"/>
+                                <stop offset="100%" stopColor="var(--color-stardust-amber)"/>
                             </linearGradient>
                         </defs>
                         <path fill="url(#x-logo-gold)" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644Z"/>

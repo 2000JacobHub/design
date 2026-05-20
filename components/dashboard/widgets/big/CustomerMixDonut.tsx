@@ -34,7 +34,7 @@ export default function CustomerMixDonut() {
       <div className="flex flex-1 items-center gap-5 px-2">
         <div className="relative shrink-0 w-[160px]">
           <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="w-full -rotate-90">
-            <circle cx={SIZE / 2} cy={SIZE / 2} r={R} fill="none" stroke="rgb(245 246 248 / 0.05)" strokeWidth={STROKE} />
+            <circle cx={SIZE / 2} cy={SIZE / 2} r={R} fill="none" stroke="var(--color-soft-white)" strokeOpacity={0.05} strokeWidth={STROKE} />
             {segments.map((s) => (
               <circle
                 key={s.label}

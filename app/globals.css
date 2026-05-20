@@ -39,6 +39,11 @@
   --color-accent-amethyst: #6f48a4;
   --color-danger: #e58c8c;
 
+  /* Data-viz heat ramp — parking heatmap (low traffic → busy) */
+  --color-heat-low: #fab482;
+  --color-heat-high: #d21e1e;
+  --color-heat-peak: #ff6b6b;
+
   /* Typography — type scale (denser than Tailwind defaults, suited for data UI)
      Each token ships paired --line-height; consumers can still override via leading-* */
   --text-2xs: 10px;
@@ -88,6 +93,14 @@
   --shadow-teal-dot: 0 0 8px rgb(127 185 190 / 0.7);
   --shadow-panel: 0 12px 36px rgb(0 0 0 / 0.34);
   --shadow-card: 0 4px 18px rgb(0 0 0 / 0.28);
+
+  /* Floating edit-mode toggle — depth + gold halo, built from tokens. */
+  --shadow-float: 0 10px 30px -8px color-mix(in srgb, transparent 35%, var(--color-cosmic-black)),
+    0 0 0 1px color-mix(in srgb, transparent 94%, var(--color-soft-white)),
+    0 0 20px -6px color-mix(in srgb, transparent 78%, var(--color-stardust-gold));
+  --shadow-float-active: 0 10px 30px -6px color-mix(in srgb, transparent 40%, var(--color-cosmic-black)),
+    0 0 0 1px color-mix(in srgb, transparent 72%, var(--color-stardust-gold)),
+    0 0 26px -2px color-mix(in srgb, transparent 50%, var(--color-stardust-gold));
 
   /* Easing curves — project rule (.cursor/skills/ui-design-rules) bans
      `linear` and `ease-in-out` because their symmetric profile feels

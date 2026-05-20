@@ -135,7 +135,8 @@ export default function TrafficSalesChart() {
                   x2={w - PAD.right}
                   y1={PAD.top + innerH * r}
                   y2={PAD.top + innerH * r}
-                  stroke="rgb(245 246 248 / 0.06)"
+                  stroke="var(--color-soft-white)"
+                  strokeOpacity={0.06}
                 />
               ))}
 
@@ -148,7 +149,8 @@ export default function TrafficSalesChart() {
                     x={PAD.left - 8}
                     y={PAD.top + innerH * r + 4}
                     textAnchor="end"
-                    fill="rgb(245 210 138 / 0.6)"
+                    fill="var(--color-stardust-gold)"
+                    fillOpacity={0.6}
                     fontSize="9.5"
                   >
                     {v}
@@ -165,7 +167,8 @@ export default function TrafficSalesChart() {
                     x={w - PAD.right + 8}
                     y={PAD.top + innerH * r + 4}
                     textAnchor="start"
-                    fill="rgb(127 185 190 / 0.7)"
+                    fill="var(--color-accent-teal)"
+                    fillOpacity={0.7}
                     fontSize="9.5"
                   >
                     {v}
@@ -180,7 +183,8 @@ export default function TrafficSalesChart() {
                   x={xAt(i)}
                   y={h - 10}
                   textAnchor="middle"
-                  fill="rgb(245 246 248 / 0.46)"
+                  fill="var(--color-soft-white)"
+                  fillOpacity={0.46}
                   fontSize="10"
                 >
                   {label}
@@ -252,11 +256,12 @@ export default function TrafficSalesChart() {
                     x2={hoverX}
                     y1={PAD.top}
                     y2={baseY}
-                    stroke="rgb(245 210 138 / 0.45)"
+                    stroke="var(--color-stardust-gold)"
+                    strokeOpacity={0.45}
                     strokeDasharray="2 3"
                   />
-                  <circle cx={hoverX} cy={hoverYT} r="4.5" fill="var(--color-stardust-gold)" stroke="rgb(255 255 255 / 0.7)" />
-                  <circle cx={hoverX} cy={hoverYS} r="4.5" fill="var(--color-accent-teal)" stroke="rgb(255 255 255 / 0.7)" />
+                  <circle cx={hoverX} cy={hoverYT} r="4.5" fill="var(--color-stardust-gold)" stroke="var(--color-soft-white)" strokeOpacity={0.7} />
+                  <circle cx={hoverX} cy={hoverYS} r="4.5" fill="var(--color-accent-teal)" stroke="var(--color-soft-white)" strokeOpacity={0.7} />
                 </>
               )}
             </svg>

@@ -87,17 +87,12 @@ export function FloatingToggle({ editing, onToggle }: { editing: boolean; onTogg
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
-      style={{
-        left: pos.x,
-        top: pos.y,
-        boxShadow: editing
-          ? "0 10px 30px -6px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,210,138,0.28), 0 0 26px -2px rgba(245,210,138,0.5)"
-          : "0 10px 30px -8px rgba(0,0,0,0.65), 0 0 0 1px rgba(245,246,248,0.06), 0 0 20px -6px rgba(245,210,138,0.22)",
-      }}
+      style={{ left: pos.x, top: pos.y }}
       aria-label={editing ? "完成" : "自定义布局"}
       title={editing ? "完成" : "自定义布局"}
       className={[
         "fixed z-50 w-12 h-12 grid place-items-center rounded-full border touch-none select-none backdrop-blur-md",
+        editing ? "shadow-float-active" : "shadow-float",
         ready ? "opacity-100" : "opacity-0",
         dragging
           ? "cursor-grabbing scale-105"

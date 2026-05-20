@@ -2,22 +2,22 @@ import * as mock from "@/components/dashboard/data/mock";
 import { PanelHeader } from "@/components/dashboard/primitives";
 import { BigPanel } from "@/components/dashboard/primitives/layouts";
 
-/** value 0–100 → an inline background: the busier the hour, the redder. */
-function cellStyle(value: number) {
-  const t = Math.max(0, Math.min(1, value / 100));
-  // Warm low end → deep red high end, with rising alpha so quiet hours
-  // stay near the panel background and busy hours glow red.
-  const r = Math.round(250 - t * 40);
-  const g = Math.round(180 - t * 150);
-  const b = Math.round(130 - t * 100);
-  const alpha = (0.16 + t * 0.84).toFixed(3);
-  return { background: `rgba(${r}, ${g}, ${b}, ${alpha})` };
+/** Opaque ramp color (low → high) built by mixing the heat tokens. */
+function rampColor(t: number) {
+  return `color-mix(in srgb, var(--color-heat-low), var(--color-heat-high) ${(t * 100).toFixed(1)}%)`;
 }
 
-/** Opaque accent for the tooltip dot — same red ramp at full opacity. */
-function accentColor(value: number) {
+/** value 0–100 → an inline background: the busier the hour, the redder.
+ *  Alpha rises with traffic so quiet hours fade into the panel. */
+function cellStyle(value: number) {
   const t = Math.max(0, Math.min(1, value / 100));
-  return `rgb(${Math.round(250 - t * 40)}, ${Math.round(180 - t * 150)}, ${Math.round(130 - t * 100)})`;
+  const transparentPct = (100 - (0.16 + t * 0.84) * 100).toFixed(1);
+  return { background: `color-mix(in srgb, transparent ${transparentPct}%, ${rampColor(t)})` };
+}
+
+/** Opaque accent for the tooltip dot — same ramp at full opacity. */
+function accentColor(value: number) {
+  return rampColor(Math.max(0, Math.min(1, value / 100)));
 }
 
 export default function ParkingHeatmap() {
@@ -38,7 +38,7 @@ export default function ParkingHeatmap() {
                 className={[
                   "group relative aspect-square rounded-sm grid place-items-center text-2xs tabular-nums transition-transform hover:scale-110 cursor-default",
                   isPeak
-                    ? "ring-1 ring-[#ff6b6b] text-soft-white font-medium"
+                    ? "ring-1 ring-[var(--color-heat-peak)] text-soft-white font-medium"
                     : "text-soft-white/70",
                 ].join(" ")}
                 style={cellStyle(c.value)}
@@ -70,7 +70,7 @@ export default function ParkingHeatmap() {
             className="h-1.5 flex-1 rounded-full"
             style={{
               background:
-                "linear-gradient(to right, rgba(250,180,130,0.2) 0%, rgba(240,120,80,0.6) 50%, rgba(210,30,30,0.95) 100%)",
+                "linear-gradient(to right, color-mix(in srgb, transparent 80%, var(--color-heat-low)) 0%, var(--color-heat-low) 50%, var(--color-heat-high) 100%)",
             }}
           />
           <span>高</span>

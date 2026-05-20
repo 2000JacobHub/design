@@ -23,7 +23,7 @@ export function MidPanel({ children, className, ...rest }: PlanCardProps) {
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-card"
         style={{
           background:
-            "linear-gradient(to right, rgb(245 210 138 / 0.08) 0%, rgb(127 185 190 / 0.06) 100%)",
+            "linear-gradient(to right, color-mix(in srgb, transparent 92%, var(--color-stardust-gold)) 0%, color-mix(in srgb, transparent 94%, var(--color-accent-teal)) 100%)",
         }}
       />
       {children}
