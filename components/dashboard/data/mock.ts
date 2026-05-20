@@ -12,6 +12,7 @@ import type {
   CategorySalesData,
   KpiCardData,
   ParkingHeatmapData,
+  ShareChartData,
   TodayFocusData,
   TrafficSalesData,
 } from "@/components/dashboard/data/types";
@@ -112,6 +113,29 @@ export const parkingHeatmap: ParkingHeatmapData = {
     { hour: "22:00", value: 28, count: 150 }, { hour: "23:00", value: 16, count: 85 },
   ],
   summary: "峰值出现在 17:00（95%），夜间 02:00–05:00 最低",
+};
+
+export const customerMix: ShareChartData = {
+  title: "客群结构占比",
+  meta: "近7天 · 按到访客群",
+  slices: [
+    { label: "新客", value: 28, color: "#f5d28a" },
+    { label: "老客", value: 34, color: "#7fb9be" },
+    { label: "会员", value: 38, color: "#8c78bc" },
+  ],
+  centerLabel: "12.8万",
+  centerSub: "总到访",
+};
+
+export const paymentMix: ShareChartData = {
+  title: "支付方式占比",
+  meta: "近7天 · 按交易笔数",
+  slices: [
+    { label: "移动支付", value: 62, color: "#f5d28a" },
+    { label: "银行卡", value: 21, color: "#7fb9be" },
+    { label: "现金", value: 9, color: "#8c78bc" },
+    { label: "其他", value: 8, color: "#f5b26a" },
+  ],
 };
 
 export const aiPlans: AIPlansData = {

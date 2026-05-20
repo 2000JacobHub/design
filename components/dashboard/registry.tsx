@@ -6,6 +6,8 @@ import ConversionRateCard from "@/components/dashboard/widgets/small/ConversionR
 import NewMembersCard from "@/components/dashboard/widgets/small/NewMembersCard";
 import CampaignRoiCard from "@/components/dashboard/widgets/small/CampaignRoiCard";
 import ParkingSaturationCard from "@/components/dashboard/widgets/small/ParkingSaturationCard";
+import AvgPriceCard from "@/components/dashboard/widgets/small/AvgPriceCard";
+import RefundRateCard from "@/components/dashboard/widgets/small/RefundRateCard";
 
 import TodayFocus from "@/components/dashboard/widgets/big/TodayFocus";
 import TrafficSalesChart from "@/components/dashboard/widgets/big/TrafficSalesChart";
@@ -14,12 +16,16 @@ import AgentSummary from "@/components/dashboard/widgets/big/AgentSummary";
 import CategorySales from "@/components/dashboard/widgets/big/CategorySales";
 import CampaignFunnel from "@/components/dashboard/widgets/big/CampaignFunnel";
 import ParkingHeatmap from "@/components/dashboard/widgets/big/ParkingHeatmap";
+import CustomerMixDonut from "@/components/dashboard/widgets/big/CustomerMixDonut";
+import PaymentPie from "@/components/dashboard/widgets/big/PaymentPie";
 
 import ReportCard from "@/components/dashboard/widgets/mid/ReportCard";
 import MarketingCard from "@/components/dashboard/widgets/mid/MarketingCard";
 import PptCard from "@/components/dashboard/widgets/mid/PptCard";
 import TenantCard from "@/components/dashboard/widgets/mid/TenantCard";
 import ForecastCard from "@/components/dashboard/widgets/mid/ForecastCard";
+import AnomalyAlertCard from "@/components/dashboard/widgets/mid/AnomalyAlertCard";
+import InventoryCard from "@/components/dashboard/widgets/mid/InventoryCard";
 
 export type WidgetType = "small" | "mid" | "big";
 
@@ -46,6 +52,8 @@ export const WIDGETS: WidgetDef[] = [
   { id: "new-members", type: "small", label: "会员新增", render: () => <NewMembersCard /> },
   { id: "campaign-roi", type: "small", label: "活动 ROI", render: () => <CampaignRoiCard /> },
   { id: "parking-saturation", type: "small", label: "停车饱和度", render: () => <ParkingSaturationCard /> },
+  { id: "avg-price", type: "small", label: "客单价", render: () => <AvgPriceCard /> },
+  { id: "refund-rate", type: "small", label: "退货率", render: () => <RefundRateCard /> },
 
   // —— big ——
   { id: "today-focus", type: "big", label: "今日该关注", render: () => <TodayFocus /> },
@@ -55,6 +63,8 @@ export const WIDGETS: WidgetDef[] = [
   { id: "category-sales", type: "big", label: "品类销售额排行", render: () => <CategorySales /> },
   { id: "campaign-funnel", type: "big", label: "活动效果漏斗", render: () => <CampaignFunnel /> },
   { id: "parking-heatmap", type: "big", label: "停车场流量热力图", render: () => <ParkingHeatmap /> },
+  { id: "customer-mix", type: "big", label: "客群结构占比（环形图）", render: () => <CustomerMixDonut /> },
+  { id: "payment-pie", type: "big", label: "支付方式占比（饼图）", render: () => <PaymentPie /> },
 
   // —— mid ——
   { id: "report", type: "mid", label: "生成活动复盘报告", render: () => <ReportCard /> },
@@ -62,6 +72,8 @@ export const WIDGETS: WidgetDef[] = [
   { id: "ppt", type: "mid", label: "生成汇报 PPT", render: () => <PptCard /> },
   { id: "tenant", type: "mid", label: "租户经营分析", render: () => <TenantCard /> },
   { id: "forecast", type: "mid", label: "客收预测", render: () => <ForecastCard /> },
+  { id: "anomaly-alert", type: "mid", label: "异常预警推送", render: () => <AnomalyAlertCard /> },
+  { id: "inventory", type: "mid", label: "库存周转分析", render: () => <InventoryCard /> },
 ];
 
 export const WIDGET_MAP: Record<string, WidgetDef> = Object.fromEntries(

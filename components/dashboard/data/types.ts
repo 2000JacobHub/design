@@ -113,7 +113,14 @@ export type AIInsightsData = {
 
 /* ------------------------------------------------------------- Plans */
 
-export type PlanIconKind = "report" | "marketing" | "ppt" | "tenant" | "forecast";
+export type PlanIconKind =
+  | "report"
+  | "marketing"
+  | "ppt"
+  | "tenant"
+  | "forecast"
+  | "alert"
+  | "inventory";
 
 export type PlanCardData = {
   title: string;
@@ -142,4 +149,23 @@ export type ParkingHeatmapData = {
   meta?: string;
   cells: ParkingHeatmapCell[];
   summary: string;
+};
+
+/* -------------------------------------------- Share (pie / donut) */
+
+export type ShareSlice = {
+  label: string;
+  /** Percentage 0–100; slices should sum to ~100 */
+  value: number;
+  /** CSS color for the slice */
+  color: string;
+};
+
+export type ShareChartData = {
+  title: string;
+  meta?: string;
+  slices: ShareSlice[];
+  /** Big number shown in a donut's center (optional) */
+  centerLabel?: string;
+  centerSub?: string;
 };

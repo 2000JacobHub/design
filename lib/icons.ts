@@ -30,6 +30,8 @@ export { default as megaphone } from "@iconify-icons/lucide/megaphone";
 export { default as presentation } from "@iconify-icons/lucide/presentation";
 export { default as store } from "@iconify-icons/lucide/store";
 export { default as lineChart } from "@iconify-icons/lucide/line-chart";
+export { default as bell } from "@iconify-icons/lucide/bell-ring";
+export { default as boxes } from "@iconify-icons/lucide/boxes";
 
 /* Dashboard editor controls */
 export { default as sliders } from "@iconify-icons/lucide/sliders-horizontal";

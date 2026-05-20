@@ -1,5 +1,7 @@
 import type { IconifyIcon } from "@iconify/types";
 import {
+  bell,
+  boxes,
   fileText,
   Icon,
   lineChart,
@@ -20,6 +22,8 @@ const KIND_TO_ICON: Record<PlanIconKind, IconifyIcon> = {
   ppt: presentation,
   tenant: store,
   forecast: lineChart,
+  alert: bell,
+  inventory: boxes,
 };
 
 export function PlanIconGlyph({ kind, size = 18 }: PlanIconGlyphProps) {
