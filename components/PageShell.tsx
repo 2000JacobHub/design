@@ -24,9 +24,8 @@ export function PageShell({ children }: { children: ReactNode }) {
         <Link href="/" className="flex items-center gap-3 no-underline group">
           <BrandMark />
           <div className="flex flex-col gap-0.5">
-            <span className="text-2xs tracking-[0.24em] text-soft-white/52 uppercase">Design System</span>
             <span className="text-2xl font-light text-soft-white/92 group-hover:text-soft-white">
-              Cosmic Gravity
+              Design System
             </span>
           </div>
         </Link>

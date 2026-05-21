@@ -78,20 +78,14 @@ export default function CosmicGravity() {
   return (
     <>
       <section className="flex flex-col gap-4 pt-6">
-        <span className="cosmic-pill self-start">Cosmic Gravity</span>
         <h2 className="m-0 text-6xl font-light text-soft-white/92 max-w-[820px]">
-          一套围绕 <span className="text-stardust-gold">@theme</span> 构建的设计 token 体系
+          设计 Tokens
         </h2>
-        <p className="m-0 max-w-[640px] text-lg leading-relaxed text-soft-white/64">
-          所有页面共享同一套 Tailwind v4 token：颜色 / 字体 / 圆角 / 阴影 / 工具类。
-          修改 <code className="px-1.5 py-0.5 rounded-md bg-soft-white/8 text-stardust-gold text-base">app/globals.css</code> 中的 @theme 与 @utility 即可全局生效。
-        </p>
       </section>
 
       <Section
         kicker="Color"
         title="颜色 Tokens"
-        desc={`共 ${colorTokens.length} 个颜色变量。所有颜色都暴露为 Tailwind 工具类：bg-{name} / text-{name} / border-{name}，支持 /<alpha> 透明度修饰符。`}
       >
         {colorGroups.map((group) => (
           <div key={group} className="flex flex-col gap-3">
@@ -116,7 +110,6 @@ export default function CosmicGravity() {
       <Section
         kicker="Typography"
         title="字号"
-        desc="字号通过 --text-{2xs..6xl} 注册（每档配套 line-height），统一使用 text-xs / text-sm / text-base ... 语义化工具类，避免散落的 text-[Npx] 任意值。"
       >
         <div className="cosmic-panel p-6 flex flex-col gap-5">
           <div className="flex items-center gap-3">
@@ -138,7 +131,6 @@ export default function CosmicGravity() {
       <Section
         kicker="Radius"
         title="圆角 Tokens"
-        desc="rounded-input / rounded-pill / rounded-card / rounded-panel 四档圆角，匹配 input / pill / card / panel 容器。小圆角（4/6/8/12px）使用 Tailwind 默认 rounded-sm/md/lg/xl。"
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {radiusTokens.map((r) => (
@@ -159,7 +151,6 @@ export default function CosmicGravity() {
       <Section
         kicker="Shadow"
         title="阴影 Tokens"
-        desc="所有阴影都暴露为 shadow-{name}。组合了外阴影 + 内描边，避免在深色背景上发飘。"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {shadowTokens.map((s) => (
@@ -176,50 +167,13 @@ export default function CosmicGravity() {
 
       <Section
         kicker="Utility"
-        title="@utility 容器类"
-        desc="通过 @utility 暴露的复合容器样式（多层渐变 / 阴影 / 内描边），可像 Tailwind 工具类一样直接使用。"
+        title="容器类"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {utilityTokens.map((u) => (
             <UtilityCard key={u.name} token={u} />
           ))}
         </div>
-      </Section>
-
-      <Section
-        kicker="Override"
-        title="如何修改 / 扩展"
-        desc="编辑 app/globals.css 顶部的 @theme {} 块即可重新映射所有 Tailwind 工具类。新增 token 只需新增一行 --color-x 或 --shadow-y。注意：使用裸 @theme，不要加 static —— @theme static 不会覆盖 / 扩展 Tailwind v4 内置 namespace（--text-* 等），自定义值会静默回落到默认值。"
-      >
-        <pre className="cosmic-panel p-5 text-sm leading-relaxed text-soft-white/82 font-mono overflow-x-auto">
-{`@theme {
-  /* Colors → bg-* / text-* / border-* */
-  --color-cosmic-black: #050507;
-  --color-stardust-gold: #f5d28a;
-  --color-accent-teal: #7fb9be;
-  /* ... */
-
-  /* Type scale → text-xs / text-sm / text-base / text-md ... */
-  --text-xs: 11px;
-  --text-xs--line-height: 16px;
-  --text-base: 13px;
-  --text-base--line-height: 18px;
-  /* ... */
-
-  /* Radius → rounded-input / rounded-pill / rounded-card / rounded-panel */
-  --radius-input: 10px;
-  --radius-pill: 999px;
-  --radius-card: 14px;
-  --radius-panel: 20px;
-
-  /* Shadow → shadow-gold-dot / shadow-gold-pin / shadow-gold-pulse ... */
-  --shadow-gold-dot: 0 0 8px rgb(245 210 138 / 0.6);
-  --shadow-gold-pulse: 0 0 12px rgb(245 210 138 / 0.65);
-  --shadow-gold-cta: 0 0 22px rgb(245 210 138 / 0.42);
-  --shadow-gold-ring: inset 0 0 0 1px rgb(245 210 138 / 0.36);
-  /* ... */
-}`}
-        </pre>
       </Section>
     </>
   );

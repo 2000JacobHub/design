@@ -17,8 +17,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cosmic Gravity UI",
-  description: "A one-screen Cosmic Gravity design system recreation.",
+  title: "Dashboard",
+  description: "Dashboard",
 };
 
 export default function RootLayout({
