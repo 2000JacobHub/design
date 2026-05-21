@@ -85,7 +85,7 @@ export default function CategorySales() {
                                                       className={[
                                                             "w-5 h-5 rounded-full grid place-items-center text-xs font-medium tabular-nums",
                                                             c.rank <= 3
-                                                                  ? "bg-stardust-gold text-cosmic-black"
+                                                                  ? "bg-stardust-gold text-ink"
                                                                   : "bg-soft-white/8 text-soft-white/64",
                                                       ].join(" ")}
                                                 >

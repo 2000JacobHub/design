@@ -20,23 +20,33 @@
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas,
     monospace;
 
+  /* Themeable colors point at the --p-* palette (defined in :root and
+     overridden per data-theme). The indirection is REQUIRED: if these were
+     literal hex, Tailwind v4 would statically bake opacity utilities
+     (text-soft-white/64 → #f5f6f8a3) and glow shadows, defeating runtime
+     theming. A var() value forces color-mix(var(...)) so overrides cascade. */
+
   /* Base / surface */
-  --color-cosmic-black: #050507;
-  --color-deep-space: #0e0e14;
-  --color-nebula-teal: #0e1f22;
+  --color-cosmic-black: var(--p-cosmic-black);
+  --color-deep-space: var(--p-deep-space);
+  --color-nebula-teal: var(--p-nebula-teal);
 
   /* Foreground */
-  --color-soft-white: #f5f6f8;
+  --color-soft-white: var(--p-soft-white);
+
+  /* Ink — text/icon color that sits ON an accent fill (gold buttons etc.).
+     Constant in every theme, so a literal is fine (and must not be themed). */
+  --color-ink: #07070b;
 
   /* Accents */
-  --color-stardust-gold: #f5d28a;
-  --color-stardust-amber: #f5b26a;
-  --color-accent-teal: #7fb9be;
-  --color-accent-violet: #8c78bc;
-  --color-accent-indigo: #6c5e9d;
-  --color-danger: #e58c8c;
+  --color-stardust-gold: var(--p-stardust-gold);
+  --color-stardust-amber: var(--p-stardust-amber);
+  --color-accent-teal: var(--p-accent-teal);
+  --color-accent-violet: var(--p-accent-violet);
+  --color-accent-indigo: var(--p-accent-indigo);
+  --color-danger: var(--p-danger);
 
-  /* Data-viz heat ramp — parking heatmap (low traffic → busy) */
+  /* Data-viz heat ramp — constant across themes (literal is fine) */
   --color-heat-low: #fab482;
   --color-heat-high: #d21e1e;
   --color-heat-peak: #ff6b6b;
@@ -76,20 +86,25 @@
   --radius-card: 14px;         /* rounded-card */
   --radius-panel: 20px;        /* rounded-panel */
 
-  /* Shadow — gold halo scale.
+  /* Shadow — accent halo scale. The gold tint now references
+     --color-stardust-gold so accent-recolor themes (violet/emerald)
+     re-tint the whole glow system from one token.
      Naming: dot < pin < pulse < soft (=halo) < cta < cta-hover (by blur radius). */
-  --shadow-gold-glow: 0 0 28px rgb(245 210 138 / 0.18), inset 0 0 0 1px rgb(245 210 138 / 0.22);
-  --shadow-gold-dot: 0 0 8px rgb(245 210 138 / 0.6);
-  --shadow-gold-pin: 0 0 10px rgb(245 210 138 / 0.55);
-  --shadow-gold-pulse: 0 0 12px rgb(245 210 138 / 0.65);
-  --shadow-gold-soft: 0 0 18px rgb(245 210 138 / 0.5);
-  --shadow-gold-cta: 0 0 22px rgb(245 210 138 / 0.42);
-  --shadow-gold-cta-hover: 0 0 28px rgb(245 210 138 / 0.6);
-  --shadow-gold-ring: inset 0 0 0 1px rgb(245 210 138 / 0.36);
-  --shadow-gold-recess: inset 0 0 12px rgb(245 210 138 / 0.08);
-  --shadow-teal-dot: 0 0 8px rgb(127 185 190 / 0.7);
-  --shadow-panel: 0 12px 36px rgb(0 0 0 / 0.34);
-  --shadow-card: 0 4px 18px rgb(0 0 0 / 0.28);
+  --shadow-gold-glow: 0 0 28px color-mix(in srgb, var(--color-stardust-gold) 18%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--color-stardust-gold) 22%, transparent);
+  --shadow-gold-dot: 0 0 8px color-mix(in srgb, var(--color-stardust-gold) 60%, transparent);
+  --shadow-gold-pin: 0 0 10px color-mix(in srgb, var(--color-stardust-gold) 55%, transparent);
+  --shadow-gold-pulse: 0 0 12px color-mix(in srgb, var(--color-stardust-gold) 65%, transparent);
+  --shadow-gold-soft: 0 0 18px color-mix(in srgb, var(--color-stardust-gold) 50%, transparent);
+  --shadow-gold-cta: 0 0 22px color-mix(in srgb, var(--color-stardust-gold) 42%, transparent);
+  --shadow-gold-cta-hover: 0 0 28px color-mix(in srgb, var(--color-stardust-gold) 60%, transparent);
+  --shadow-gold-ring: inset 0 0 0 1px color-mix(in srgb, var(--color-stardust-gold) 36%, transparent);
+  --shadow-gold-recess: inset 0 0 12px color-mix(in srgb, var(--color-stardust-gold) 8%, transparent);
+  --shadow-teal-dot: 0 0 8px color-mix(in srgb, var(--color-accent-teal) 70%, transparent);
+  /* Drop shadows — color carried by a themeable var that already includes
+     alpha. (Tailwind's shadow parser collapses a color-mix() here, so the
+     translucency must live in the var itself, not in a mix.) */
+  --shadow-panel: 0 12px 36px var(--shadow-color-panel);
+  --shadow-card: 0 4px 18px var(--shadow-color-card);
 
   /* Floating edit-mode toggle — depth + gold halo, built from tokens. */
   --shadow-float: 0 10px 30px -8px color-mix(in srgb, transparent 35%, var(--color-cosmic-black)),
@@ -108,6 +123,198 @@
 }
 
 /* ============================================================
+   Theme layer
+   ------------------------------------------------------------
+   Surfaces / borders / backgrounds are full values (consumed by
+   the @utility blocks below) so each theme controls them outright.
+   `:root` holds the default (dark) values; `:root[data-theme=...]`
+   blocks override the color tokens above + these structural vars.
+   data-theme is set on <html> by the no-flash script in layout.tsx.
+   ============================================================ */
+:root {
+  /* Palette — raw color values referenced by the @theme --color-* tokens.
+     Override these per data-theme to recolor everything (incl. /alpha
+     utilities and glow shadows, which resolve color-mix(var(...)) at runtime). */
+  --p-cosmic-black: #050507;
+  --p-deep-space: #0e0e14;
+  --p-nebula-teal: #0e1f22;
+  --p-soft-white: #f5f6f8;
+  --p-stardust-gold: #f5d28a;
+  --p-stardust-amber: #f5b26a;
+  --p-accent-teal: #7fb9be;
+  --p-accent-violet: #8c78bc;
+  --p-accent-indigo: #6c5e9d;
+  --p-danger: #e58c8c;
+
+  /* drop-shadow colors (alpha baked in — see --shadow-panel/-card) */
+  --shadow-color-panel: rgb(0 0 0 / 0.34);
+  --shadow-color-card: rgb(0 0 0 / 0.28);
+
+  /* Panels / cards / pills */
+  --surface-panel: linear-gradient(180deg, rgb(24 24 32 / 0.78), rgb(12 12 18 / 0.86));
+  --surface-panel-border: rgb(245 246 248 / 0.1);
+  --surface-panel-inset: rgb(245 246 248 / 0.04);
+  --surface-card: linear-gradient(180deg, rgb(28 28 38 / 0.7), rgb(14 14 22 / 0.78));
+  --surface-card-border: rgb(245 246 248 / 0.08);
+  --pill-border: rgb(245 246 248 / 0.17);
+  --pill-surface: linear-gradient(180deg, rgb(255 255 255 / 0.032), rgb(255 255 255 / 0.005));
+  --pill-text: rgb(245 246 248 / 0.72);
+  --kicker-text: rgb(245 246 248 / 0.46);
+
+  /* Page / board backgrounds */
+  --page-bg:
+    radial-gradient(1200px 720px at 18% 12%, rgb(245 210 138 / 0.05), transparent 60%),
+    radial-gradient(900px 700px at 84% 88%, rgb(127 185 190 / 0.06), transparent 62%),
+    linear-gradient(180deg, #03030a 0%, #06060c 50%, #04040a 100%);
+  --board-bg:
+    radial-gradient(900px 640px at 63% 48%, rgb(245 210 138 / 0.045), transparent 62%),
+    radial-gradient(720px 620px at 74% 70%, rgb(66 96 132 / 0.05), transparent 66%),
+    #050507;
+  --board-grid-h: rgb(255 255 255 / 0.022);
+  --board-grid-v: rgb(255 255 255 / 0.018);
+}
+
+/* ---- Light ---------------------------------------------------
+   soft-white flips to dark ink, cosmic-black/deep-space flip to
+   light surfaces; the /alpha modifiers across components then read
+   as muted-dark-on-light automatically. Gold is deepened so it is
+   legible both as text on white and as a fill under --color-ink. */
+:root[data-theme="light"] {
+  --p-cosmic-black: #eef1f6;
+  --p-deep-space: #ffffff;
+  --p-nebula-teal: #e3ecec;
+  --p-soft-white: #1c2230;
+  --p-stardust-gold: #b07d1f;
+  --p-stardust-amber: #c2762a;
+  --p-accent-teal: #2f8c93;
+  --p-accent-violet: #6f5ba8;
+  --p-accent-indigo: #5b4f8a;
+  --p-danger: #c0392b;
+
+  --shadow-color-panel: rgb(40 50 80 / 0.16);
+  --shadow-color-card: rgb(40 50 80 / 0.12);
+
+  --surface-panel: linear-gradient(180deg, rgb(255 255 255 / 0.92), rgb(247 249 252 / 0.96));
+  --surface-panel-border: rgb(20 26 40 / 0.1);
+  --surface-panel-inset: rgb(255 255 255 / 0.6);
+  --surface-card: linear-gradient(180deg, rgb(255 255 255 / 0.96), rgb(244 247 251 / 0.98));
+  --surface-card-border: rgb(20 26 40 / 0.08);
+  --pill-border: rgb(20 26 40 / 0.14);
+  --pill-surface: linear-gradient(180deg, rgb(20 26 40 / 0.035), rgb(20 26 40 / 0.01));
+  --pill-text: rgb(28 34 48 / 0.72);
+  --kicker-text: rgb(28 34 48 / 0.5);
+
+  --page-bg:
+    radial-gradient(1200px 720px at 18% 12%, rgb(176 125 31 / 0.06), transparent 60%),
+    radial-gradient(900px 700px at 84% 88%, rgb(47 140 147 / 0.07), transparent 62%),
+    linear-gradient(180deg, #eef1f6 0%, #e7ebf2 50%, #eef1f6 100%);
+  --board-bg:
+    radial-gradient(900px 640px at 63% 48%, rgb(176 125 31 / 0.05), transparent 62%),
+    radial-gradient(720px 620px at 74% 70%, rgb(66 96 132 / 0.06), transparent 66%),
+    #eef1f6;
+  --board-grid-h: rgb(20 26 40 / 0.05);
+  --board-grid-v: rgb(20 26 40 / 0.04);
+}
+
+/* ---- Violet (dark, violet accent) --------------------------- */
+:root[data-theme="violet"] {
+  --p-stardust-gold: #b79cf5;
+  --p-stardust-amber: #9f86e8;
+}
+
+/* ---- Emerald (dark, emerald accent) ------------------------- */
+:root[data-theme="emerald"] {
+  --p-stardust-gold: #5fd0a6;
+  --p-stardust-amber: #46b88c;
+}
+
+/* ---- Azure (enterprise blue-on-white) ----------------------------
+   A light theme like `light`, but cool/blue-tinted surfaces and a
+   refined corporate-blue accent for a restrained, premium feel. */
+:root[data-theme="azure"] {
+  --p-cosmic-black: #eef3fb;
+  --p-deep-space: #ffffff;
+  --p-nebula-teal: #e2ecf7;
+  --p-soft-white: #16243f;
+  --p-stardust-gold: #2f62c4;
+  --p-stardust-amber: #4f86f7;
+  --p-accent-teal: #2f8c93;
+  --p-accent-violet: #5b6fb5;
+  --p-accent-indigo: #3f5aa8;
+  --p-danger: #c0392b;
+
+  --shadow-color-panel: rgb(30 58 110 / 0.12);
+  --shadow-color-card: rgb(30 58 110 / 0.09);
+
+  --surface-panel: linear-gradient(180deg, rgb(255 255 255 / 0.95), rgb(248 251 255 / 0.97));
+  --surface-panel-border: rgb(30 58 110 / 0.1);
+  --surface-panel-inset: rgb(255 255 255 / 0.7);
+  --surface-card: linear-gradient(180deg, rgb(255 255 255 / 0.97), rgb(245 249 255 / 0.99));
+  --surface-card-border: rgb(30 58 110 / 0.09);
+  --pill-border: rgb(30 58 110 / 0.14);
+  --pill-surface: linear-gradient(180deg, rgb(30 58 110 / 0.04), rgb(30 58 110 / 0.01));
+  --pill-text: rgb(22 36 63 / 0.72);
+  --kicker-text: rgb(22 36 63 / 0.5);
+
+  --page-bg:
+    radial-gradient(1200px 720px at 18% 12%, rgb(47 98 196 / 0.06), transparent 60%),
+    radial-gradient(900px 700px at 84% 88%, rgb(79 134 247 / 0.07), transparent 62%),
+    linear-gradient(180deg, #f4f8fd 0%, #eaf1fb 50%, #f4f8fd 100%);
+  --board-bg:
+    radial-gradient(900px 640px at 63% 48%, rgb(47 98 196 / 0.05), transparent 62%),
+    radial-gradient(720px 620px at 74% 70%, rgb(79 134 247 / 0.06), transparent 66%),
+    #eef3fb;
+  --board-grid-h: rgb(30 58 110 / 0.05);
+  --board-grid-v: rgb(30 58 110 / 0.04);
+}
+
+/* ---- Minimal (Tesla-style white + single Electric Blue accent) ----
+   White canvas, ONE chromatic color, no gradients; depth comes from
+   hairline gray borders and opacity, not shadow. Overrides two normally
+   constant tokens on purpose: --color-ink (CTAs are blue + white, not
+   dark ink) and the heat ramp (kept blue to preserve the monochrome
+   discipline). Both are safe to override here — text-ink has no /alpha
+   usage and the heat vars resolve at runtime via color-mix/arbitrary. */
+:root[data-theme="minimal"] {
+  --p-cosmic-black: #f4f4f4;   /* Light Ash — base / translucent-overlay tone */
+  --p-deep-space:   #ffffff;   /* Pure White — solid surfaces */
+  --p-nebula-teal:  #e6ecfb;   /* faint blue chart fade-out */
+  --p-soft-white:   #171a20;   /* Carbon Dark — text; /alpha tiers ≈ Graphite/Pewter/Silver */
+  --p-stardust-gold:  #3e6ae1; /* Electric Blue — the sole chromatic accent */
+  --p-stardust-amber: #6e8fe9; /* lighter blue — keeps chart series differentiable */
+  --p-accent-teal:   #5c5e62;  /* Pewter (data series) */
+  --p-accent-violet: #8e8e8e;  /* Silver Fog (data series) */
+  --p-accent-indigo: #a8b6da;  /* pale blue (data series) */
+  --p-danger:        #c0392b;  /* restrained red — kept for trend legibility */
+
+  --color-ink: #ffffff;        /* white text on the blue CTA */
+
+  /* Blue heatmap ramp instead of the default orange→red */
+  --color-heat-low:  #d4ddf6;
+  --color-heat-high: #3e6ae1;
+  --color-heat-peak: #2a4fb0;
+
+  --shadow-color-panel: rgb(23 26 32 / 0.06);
+  --shadow-color-card:  rgb(23 26 32 / 0.04);
+
+  --surface-panel: #ffffff;
+  --surface-panel-border: rgb(23 26 32 / 0.1);
+  --surface-panel-inset: rgb(255 255 255 / 0);
+  --surface-card: #ffffff;
+  --surface-card-border: rgb(23 26 32 / 0.08);
+  --pill-border: rgb(23 26 32 / 0.12);
+  --pill-surface: #f4f4f4;
+  --pill-text: rgb(23 26 32 / 0.66);
+  --kicker-text: rgb(23 26 32 / 0.5);
+
+  /* No gradients — flat Light Ash page + faint grid */
+  --page-bg: #f4f4f4;
+  --board-bg: #f4f4f4;
+  --board-grid-h: rgb(23 26 32 / 0.04);
+  --board-grid-v: rgb(23 26 32 / 0.03);
+}
+
+/* ============================================================
    Base / Reset
    ============================================================ */
 * {
@@ -118,7 +325,7 @@ html,
 body {
   min-height: 100%;
   background: var(--color-cosmic-black);
-  color: rgb(245 246 248 / 0.92);
+  color: color-mix(in srgb, var(--color-soft-white) 92%, transparent);
   font-family: var(--font-sans);
   font-weight: 500;
   /* Only the 500 face is loaded for Inter / JetBrains Mono — disabling
@@ -128,7 +335,7 @@ body {
      Net effect: the page is rendered exclusively in medium 500. */
   font-synthesis: none;
   text-rendering: geometricPrecision;
-  scrollbar-color: rgb(245 246 248 / 0.18) transparent;
+  scrollbar-color: color-mix(in srgb, var(--color-soft-white) 18%, transparent) transparent;
   scrollbar-width: thin;
 }
 
@@ -158,12 +365,12 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: rgb(245 246 248 / 0.18);
+  background: color-mix(in srgb, var(--color-soft-white) 18%, transparent);
   border-radius: 999px;
 }
 
 body::-webkit-scrollbar-thumb:hover {
-  background: rgb(245 246 248 / 0.3);
+  background: color-mix(in srgb, var(--color-soft-white) 30%, transparent);
 }
 
 @layer base {
@@ -214,20 +421,18 @@ input[type="range"]::-moz-range-thumb {
    (these are too repetitive to inline as Tailwind class strings)
    ============================================================ */
 @utility cosmic-panel {
-  background:
-    linear-gradient(180deg, rgb(24 24 32 / 0.78), rgb(12 12 18 / 0.86));
-  border: 1px solid rgb(245 246 248 / 0.1);
+  background: var(--surface-panel);
+  border: 1px solid var(--surface-panel-border);
   border-radius: var(--radius-panel);
   box-shadow:
     var(--shadow-panel),
-    inset 0 1px 0 rgb(245 246 248 / 0.04);
+    inset 0 1px 0 var(--surface-panel-inset);
   backdrop-filter: blur(8px);
 }
 
 @utility cosmic-card {
-  background:
-    linear-gradient(180deg, rgb(28 28 38 / 0.7), rgb(14 14 22 / 0.78));
-  border: 1px solid rgb(245 246 248 / 0.08);
+  background: var(--surface-card);
+  border: 1px solid var(--surface-card-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
 }
@@ -239,9 +444,9 @@ input[type="range"]::-moz-range-thumb {
   height: 28px;
   padding-inline: 16px;
   border-radius: 999px;
-  border: 1px solid rgb(245 246 248 / 0.17);
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.032), rgb(255 255 255 / 0.005));
-  color: rgb(245 246 248 / 0.72);
+  border: 1px solid var(--pill-border);
+  background: var(--pill-surface);
+  color: var(--pill-text);
   font-size: 11px;
   line-height: 1;
   text-transform: uppercase;
@@ -251,12 +456,12 @@ input[type="range"]::-moz-range-thumb {
 @utility cosmic-section-kicker {
   font-size: 11px;
   letter-spacing: 0.16em;
-  color: rgb(245 246 248 / 0.46);
+  color: var(--kicker-text);
   text-transform: uppercase;
 }
 
 @utility cosmic-focus-ring {
-  outline: 1px solid rgb(245 210 138 / 0.72);
+  outline: 1px solid color-mix(in srgb, var(--color-stardust-gold) 72%, transparent);
   outline-offset: 4px;
 }
 
@@ -272,26 +477,20 @@ input[type="range"]::-moz-range-thumb {
    Hard to express as utilities; keep custom.
    ============================================================ */
 @utility cosmic-board-bg {
-  background:
-    radial-gradient(900px 640px at 63% 48%, rgb(245 210 138 / 0.045), transparent 62%),
-    radial-gradient(720px 620px at 74% 70%, rgb(66 96 132 / 0.05), transparent 66%),
-    #050507;
+  background: var(--board-bg);
 }
 
 @utility cosmic-board-grid {
   background-image:
-    linear-gradient(rgb(255 255 255 / 0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px);
+    linear-gradient(var(--board-grid-h) 1px, transparent 1px),
+    linear-gradient(90deg, var(--board-grid-v) 1px, transparent 1px);
   background-size: 210px 210px;
   mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
   opacity: 0.2;
 }
 
 @utility dashboard-bg {
-  background:
-    radial-gradient(1200px 720px at 18% 12%, rgb(245 210 138 / 0.05), transparent 60%),
-    radial-gradient(900px 700px at 84% 88%, rgb(127 185 190 / 0.06), transparent 62%),
-    linear-gradient(180deg, #03030a 0%, #06060c 50%, #04040a 100%);
+  background: var(--page-bg);
 }
 
 /* ============================================================

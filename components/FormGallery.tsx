@@ -288,7 +288,7 @@ export default function FormGallery() {
               type="submit"
               className={[
                 "mt-auto h-11 rounded-input text-base tracking-[0.2em] uppercase",
-                "bg-linear-to-b from-stardust-gold to-stardust-amber text-cosmic-black",
+                "bg-linear-to-b from-stardust-gold to-stardust-amber text-ink",
                 "border border-stardust-gold/72 shadow-gold-cta",
                 "hover:shadow-gold-cta-hover transition-shadow",
                 "focus-visible:outline focus-visible:outline-stardust-gold/72 focus-visible:outline-offset-4",

@@ -2,6 +2,7 @@
 
 import {clock as clockIcon, Icon} from "@/lib/icons";
 import {useClock} from "@/hooks/useClock";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 export default function Header() {
     return (
@@ -21,6 +22,7 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex items-center gap-2 sm:gap-3">
+                <ThemeToggle/>
                 <HeaderClock/>
             </div>
         </header>
