@@ -3,13 +3,11 @@
 import type { ReactNode } from "react";
 
 type ColorToken = { name: string; hex: string; group: ColorGroup; usage?: string };
-type ColorGroup = "Surface" | "Foreground" | "Accent" | "Semantic";
+type ColorGroup = "Surface" | "Foreground" | "Accent" | "Semantic" | "Data-viz";
 
 const colorTokens: ColorToken[] = [
   { name: "cosmic-black", hex: "#050507", group: "Surface", usage: "Page base / body background" },
   { name: "deep-space", hex: "#0e0e14", group: "Surface", usage: "Card surface" },
-  { name: "night-purple", hex: "#1a1c2a", group: "Surface" },
-  { name: "dusk-blue", hex: "#0f1b2a", group: "Surface" },
   { name: "nebula-teal", hex: "#0e1f22", group: "Surface" },
 
   { name: "soft-white", hex: "#f5f6f8", group: "Foreground", usage: "Primary text · /92 /64 /46 ..." },
@@ -18,13 +16,16 @@ const colorTokens: ColorToken[] = [
   { name: "stardust-amber", hex: "#f5b26a", group: "Accent", usage: "Warm accent / hover" },
   { name: "accent-teal", hex: "#7fb9be", group: "Accent", usage: "Data series · secondary" },
   { name: "accent-violet", hex: "#8c78bc", group: "Accent", usage: "Insight / AI" },
-  { name: "accent-jade", hex: "#27757f", group: "Accent" },
-  { name: "accent-amethyst", hex: "#6f48a4", group: "Accent" },
+  { name: "accent-indigo", hex: "#6c5e9d", group: "Accent", usage: "Chart series · gradient" },
 
   { name: "danger", hex: "#e58c8c", group: "Semantic", usage: "Negative trend · error" },
+
+  { name: "heat-low", hex: "#fab482", group: "Data-viz", usage: "Heatmap · low" },
+  { name: "heat-high", hex: "#d21e1e", group: "Data-viz", usage: "Heatmap · high" },
+  { name: "heat-peak", hex: "#ff6b6b", group: "Data-viz", usage: "Heatmap · peak highlight" },
 ];
 
-const colorGroups: ColorGroup[] = ["Surface", "Foreground", "Accent", "Semantic"];
+const colorGroups: ColorGroup[] = ["Surface", "Foreground", "Accent", "Semantic", "Data-viz"];
 
 const typeScale = [
   { token: "text-6xl", size: "52 / 1.05", className: "text-6xl font-light" },

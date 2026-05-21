@@ -23,8 +23,6 @@
   /* Base / surface */
   --color-cosmic-black: #050507;
   --color-deep-space: #0e0e14;
-  --color-night-purple: #1a1c2a;
-  --color-dusk-blue: #0f1b2a;
   --color-nebula-teal: #0e1f22;
 
   /* Foreground */
@@ -35,8 +33,7 @@
   --color-stardust-amber: #f5b26a;
   --color-accent-teal: #7fb9be;
   --color-accent-violet: #8c78bc;
-  --color-accent-jade: #27757f;
-  --color-accent-amethyst: #6f48a4;
+  --color-accent-indigo: #6c5e9d;
   --color-danger: #e58c8c;
 
   /* Data-viz heat ramp — parking heatmap (low traffic → busy) */

@@ -216,7 +216,7 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
         <defs>
           <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0" stopColor="var(--color-stardust-gold)" stopOpacity=".34" />
-            <stop offset=".58" stopColor="#6C5E9D" stopOpacity=".12" />
+            <stop offset=".58" stopColor="var(--color-accent-indigo)" stopOpacity=".12" />
             <stop offset="1" stopColor="var(--color-nebula-teal)" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="areaStroke" x1="0" x2="1" y1="0" y2="0">
@@ -228,11 +228,11 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
         {[0, 1, 2, 3].map((line) => (
           <line
             key={line}
+            className="stroke-soft-white/6"
             x1={padding}
             x2={width - padding}
             y1={padding + line * 48}
             y2={padding + line * 48}
-            stroke="rgb(245 246 248 / 0.06)"
             strokeDasharray="3 4"
           />
         ))}
@@ -244,7 +244,7 @@ function AreaChart({ mode, series }: { mode: ChartMode; series: number[] }) {
             cx={point.x}
             cy={point.y}
             r={index === 8 ? 4.5 : 2.8}
-            fill={index === 8 ? "var(--color-stardust-gold)" : "rgb(245 246 248 / 0.82)"}
+            fill={index === 8 ? "var(--color-stardust-gold)" : "color-mix(in srgb, var(--color-soft-white) 82%, transparent)"}
           />
         ))}
       </svg>
@@ -289,7 +289,7 @@ function BarChart({
                   "block w-full rounded-t-md transition-all",
                   active
                     ? "bg-linear-to-b from-stardust-gold to-stardust-amber shadow-gold-soft"
-                    : "bg-linear-to-b from-stardust-gold/62 to-[#6c5e9d]/42 group-hover:from-stardust-gold/82 group-hover:to-[#6c5e9d]/62",
+                    : "bg-linear-to-b from-stardust-gold/62 to-accent-indigo/42 group-hover:from-stardust-gold/82 group-hover:to-accent-indigo/62",
                 ].join(" ")}
                 style={{ height: `${value}%` }}
               />
@@ -319,7 +319,7 @@ function DonutChart({ intensity, mode }: { intensity: number; mode: ChartMode })
       <div className="relative h-full flex flex-col items-center justify-center gap-3">
         <div className="relative w-[120px] h-[120px]">
           <svg viewBox="0 0 150 150" aria-label="Mass split donut chart" className="w-full h-full -rotate-90">
-            <circle cx="75" cy="75" r="52" fill="none" stroke="rgb(245 246 248 / 0.08)" strokeWidth="12" />
+            <circle className="stroke-soft-white/8" cx="75" cy="75" r="52" fill="none" strokeWidth="12" />
             {segments.map((seg) => {
               const dash = (seg.value / total) * 327;
               const currentOffset = offset;
@@ -372,23 +372,23 @@ function RadarChart({ intensity, series }: { intensity: number; series: number[]
     <ChartPanel area="radar" title="Field Radar">
       <svg viewBox="0 0 160 160" className="w-full h-full" aria-label="Field radar chart">
         {[28, 48, 68].map((r) => (
-          <circle key={r} cx="75" cy="75" r={r} fill="none" stroke="rgb(245 246 248 / 0.07)" />
+          <circle key={r} className="stroke-soft-white/7" cx="75" cy="75" r={r} fill="none" />
         ))}
         {stats.map((stat, i) => {
           const angle = -Math.PI / 2 + (Math.PI * 2 * i) / stats.length;
           return (
             <g key={stat}>
               <line
+                className="stroke-soft-white/7"
                 x1="75"
                 x2={75 + Math.cos(angle) * 68}
                 y1="75"
                 y2={75 + Math.sin(angle) * 68}
-                stroke="rgb(245 246 248 / 0.07)"
               />
               <text
+                className="fill-soft-white/54"
                 x={75 + Math.cos(angle) * 80}
                 y={78 + Math.sin(angle) * 80}
-                fill="rgb(245 246 248 / 0.54)"
                 fontSize="9"
                 textAnchor="middle"
               >
@@ -397,7 +397,7 @@ function RadarChart({ intensity, series }: { intensity: number; series: number[]
             </g>
           );
         })}
-        <polygon points={points} fill="rgb(245 210 138 / 0.22)" stroke="var(--color-stardust-gold)" strokeWidth="1.4" />
+        <polygon className="fill-stardust-gold/22" points={points} stroke="var(--color-stardust-gold)" strokeWidth="1.4" />
       </svg>
     </ChartPanel>
   );
@@ -437,7 +437,7 @@ function HeatmapChart({
                 "rounded-sm transition-transform",
                 active ? "scale-110 ring-1 ring-stardust-gold/72" : "hover:scale-105",
               ].join(" ")}
-              style={{ background: `rgba(245, 210, 138, ${alpha.toFixed(2)})` }}
+              style={{ background: `color-mix(in srgb, var(--color-stardust-gold) ${(alpha * 100).toFixed(0)}%, transparent)` }}
             />
           );
         })}
@@ -513,11 +513,11 @@ function ScatterChart({ series }: { series: number[] }) {
         {[0, 1, 2].map((line) => (
           <line
             key={line}
+            className="stroke-soft-white/6"
             x1="10"
             x2="240"
             y1={24 + line * 34}
             y2={24 + line * 34}
-            stroke="rgb(245 246 248 / 0.06)"
             strokeDasharray="3 4"
           />
         ))}
@@ -531,8 +531,8 @@ function ScatterChart({ series }: { series: number[] }) {
               cx={x}
               cy={y}
               r={r}
-              fill={index === 5 ? "var(--color-stardust-gold)" : "rgb(245 246 248 / 0.72)"}
-              stroke={index === 5 ? "rgb(245 210 138 / 0.45)" : "none"}
+              fill={index === 5 ? "var(--color-stardust-gold)" : "color-mix(in srgb, var(--color-soft-white) 72%, transparent)"}
+              stroke={index === 5 ? "color-mix(in srgb, var(--color-stardust-gold) 45%, transparent)" : "none"}
               strokeWidth={index === 5 ? "4" : "0"}
             />
           );
