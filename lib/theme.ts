@@ -1,4 +1,9 @@
-export type ThemeId = "dark" | "light" | "violet" | "emerald" | "azure" | "minimal";
+export type ThemeId =
+  | "dark"
+  | "light"
+  | "violet"
+  | "emerald"
+  | "atrium";
 
 export type ThemeMeta = {
   id: ThemeId;
@@ -12,8 +17,7 @@ export const THEMES: ThemeMeta[] = [
   { id: "light", label: "浅色", swatch: "#b07d1f" },
   { id: "violet", label: "紫韵", swatch: "#b79cf5" },
   { id: "emerald", label: "翠绿", swatch: "#5fd0a6" },
-  { id: "azure", label: "商务蓝", swatch: "#2f62c4" },
-  { id: "minimal", label: "极简白", swatch: "#3e6ae1" },
+  { id: "atrium", label: "Atrium", swatch: "#0075de" },
 ];
 
 export const THEME_IDS = THEMES.map((t) => t.id);

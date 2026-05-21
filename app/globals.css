@@ -228,90 +228,45 @@
   --p-stardust-amber: #46b88c;
 }
 
-/* ---- Azure (enterprise blue-on-white) ----------------------------
-   A light theme like `light`, but cool/blue-tinted surfaces and a
-   refined corporate-blue accent for a restrained, premium feel. */
-:root[data-theme="azure"] {
-  --p-cosmic-black: #eef3fb;
-  --p-deep-space: #ffffff;
-  --p-nebula-teal: #e2ecf7;
-  --p-soft-white: #16243f;
-  --p-stardust-gold: #2f62c4;
-  --p-stardust-amber: #4f86f7;
-  --p-accent-teal: #2f8c93;
-  --p-accent-violet: #5b6fb5;
-  --p-accent-indigo: #3f5aa8;
-  --p-danger: #c0392b;
+/* ---- Atrium (Notion-style warm light + blue accent) ----------------
+   Sourced from the Atrium color spec: warm off-white surfaces, warm-grey
+   text ramp, Notion Blue accent, no gradients (flat surfaces). Like
+   `minimal`, the accent is dark so --color-ink flips to white. */
+:root[data-theme="atrium"] {
+  --p-cosmic-black: #fbfaf9;
+  --p-deep-space:   #ffffff;
+  --p-nebula-teal:  #f6f5f4;
+  --p-soft-white:   #0c0c0c;
+  --p-stardust-gold:  #0075de;
+  --p-stardust-amber: #097fe8;
+  --p-accent-teal:    #2a9d99;
+  --p-accent-violet:  #b8860b;
+  --p-accent-indigo:  #1aae39;
+  --p-danger:         #dd5b00;
 
-  --shadow-color-panel: rgb(30 58 110 / 0.12);
-  --shadow-color-card: rgb(30 58 110 / 0.09);
+  --color-ink: #ffffff;
 
-  --surface-panel: linear-gradient(180deg, rgb(255 255 255 / 0.95), rgb(248 251 255 / 0.97));
-  --surface-panel-border: rgb(30 58 110 / 0.1);
-  --surface-panel-inset: rgb(255 255 255 / 0.7);
-  --surface-card: linear-gradient(180deg, rgb(255 255 255 / 0.97), rgb(245 249 255 / 0.99));
-  --surface-card-border: rgb(30 58 110 / 0.09);
-  --pill-border: rgb(30 58 110 / 0.14);
-  --pill-surface: linear-gradient(180deg, rgb(30 58 110 / 0.04), rgb(30 58 110 / 0.01));
-  --pill-text: rgb(22 36 63 / 0.72);
-  --kicker-text: rgb(22 36 63 / 0.5);
+  --color-heat-low:  #e0eaff;
+  --color-heat-high: #0075de;
+  --color-heat-peak: #005bab;
 
-  --page-bg:
-    radial-gradient(1200px 720px at 18% 12%, rgb(47 98 196 / 0.06), transparent 60%),
-    radial-gradient(900px 700px at 84% 88%, rgb(79 134 247 / 0.07), transparent 62%),
-    linear-gradient(180deg, #f4f8fd 0%, #eaf1fb 50%, #f4f8fd 100%);
-  --board-bg:
-    radial-gradient(900px 640px at 63% 48%, rgb(47 98 196 / 0.05), transparent 62%),
-    radial-gradient(720px 620px at 74% 70%, rgb(79 134 247 / 0.06), transparent 66%),
-    #eef3fb;
-  --board-grid-h: rgb(30 58 110 / 0.05);
-  --board-grid-v: rgb(30 58 110 / 0.04);
-}
-
-/* ---- Minimal (Tesla-style white + single Electric Blue accent) ----
-   White canvas, ONE chromatic color, no gradients; depth comes from
-   hairline gray borders and opacity, not shadow. Overrides two normally
-   constant tokens on purpose: --color-ink (CTAs are blue + white, not
-   dark ink) and the heat ramp (kept blue to preserve the monochrome
-   discipline). Both are safe to override here — text-ink has no /alpha
-   usage and the heat vars resolve at runtime via color-mix/arbitrary. */
-:root[data-theme="minimal"] {
-  --p-cosmic-black: #f4f4f4;   /* Light Ash — base / translucent-overlay tone */
-  --p-deep-space:   #ffffff;   /* Pure White — solid surfaces */
-  --p-nebula-teal:  #e6ecfb;   /* faint blue chart fade-out */
-  --p-soft-white:   #171a20;   /* Carbon Dark — text; /alpha tiers ≈ Graphite/Pewter/Silver */
-  --p-stardust-gold:  #3e6ae1; /* Electric Blue — the sole chromatic accent */
-  --p-stardust-amber: #6e8fe9; /* lighter blue — keeps chart series differentiable */
-  --p-accent-teal:   #5c5e62;  /* Pewter (data series) */
-  --p-accent-violet: #8e8e8e;  /* Silver Fog (data series) */
-  --p-accent-indigo: #a8b6da;  /* pale blue (data series) */
-  --p-danger:        #c0392b;  /* restrained red — kept for trend legibility */
-
-  --color-ink: #ffffff;        /* white text on the blue CTA */
-
-  /* Blue heatmap ramp instead of the default orange→red */
-  --color-heat-low:  #d4ddf6;
-  --color-heat-high: #3e6ae1;
-  --color-heat-peak: #2a4fb0;
-
-  --shadow-color-panel: rgb(23 26 32 / 0.06);
-  --shadow-color-card:  rgb(23 26 32 / 0.04);
+  --shadow-color-panel: rgb(40 40 38 / 0.10);
+  --shadow-color-card:  rgb(40 40 38 / 0.06);
 
   --surface-panel: #ffffff;
-  --surface-panel-border: rgb(23 26 32 / 0.1);
+  --surface-panel-border: rgb(0 0 0 / 0.06);
   --surface-panel-inset: rgb(255 255 255 / 0);
   --surface-card: #ffffff;
-  --surface-card-border: rgb(23 26 32 / 0.08);
-  --pill-border: rgb(23 26 32 / 0.12);
-  --pill-surface: #f4f4f4;
-  --pill-text: rgb(23 26 32 / 0.66);
-  --kicker-text: rgb(23 26 32 / 0.5);
+  --surface-card-border: rgb(0 0 0 / 0.06);
+  --pill-border: rgb(0 0 0 / 0.1);
+  --pill-surface: rgb(0 0 0 / 0.02);
+  --pill-text: rgb(49 48 46 / 0.85);
+  --kicker-text: rgb(97 93 89 / 0.85);
 
-  /* No gradients — flat Light Ash page + faint grid */
-  --page-bg: #f4f4f4;
-  --board-bg: #f4f4f4;
-  --board-grid-h: rgb(23 26 32 / 0.04);
-  --board-grid-v: rgb(23 26 32 / 0.03);
+  --page-bg: #fbfaf9;
+  --board-bg: #fbfaf9;
+  --board-grid-h: rgb(0 0 0 / 0.04);
+  --board-grid-v: rgb(0 0 0 / 0.03);
 }
 
 /* ============================================================
