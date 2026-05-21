@@ -7,10 +7,10 @@ import type { ReactNode } from "react";
 type NavItem = { href: string; label: string };
 
 const navItems: NavItem[] = [
-  { href: "/", label: "System" },
-  { href: "/charts", label: "Charts" },
-  { href: "/forms", label: "Forms" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dev/theme", label: "Theme" },
+  { href: "/dev/charts", label: "Charts" },
+  { href: "/dev/forms", label: "Forms" },
+  { href: "/", label: "Dashboard" },
 ];
 
 export function PageShell({ children }: { children: ReactNode }) {
